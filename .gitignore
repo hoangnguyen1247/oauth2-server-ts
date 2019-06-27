@@ -1,0 +1,18 @@
+
+# IDE
+/.idea
+/.awcache
+/.vscode/*.code-workspace
+
+# misc
+npm-debug.log
+# folders
+/dist
+/node_modules
+docs/_build/
+__pycache__/
+
+# files
+.DS_Store
+*.pyc
+/aio
