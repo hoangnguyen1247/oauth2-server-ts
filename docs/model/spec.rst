@@ -52,7 +52,7 @@ This model function is **optional**. If not implemented, a default handler is us
 
 - ``authorization_code`` grant
 - ``client_credentials`` grant
-- ``refresh_token`` grant
+- ``refreshToken`` grant
 - ``password`` grant
 
 **Arguments:**
@@ -95,7 +95,7 @@ This model function is **optional**. If not implemented, a default handler is us
 **Invoked during:**
 
 - ``authorization_code`` grant
-- ``refresh_token`` grant
+- ``refreshToken`` grant
 - ``password`` grant
 
 **Arguments:**
@@ -214,17 +214,17 @@ An ``Object`` representing the access token and associated data.
 
   function getAccessToken(accessToken) {
     // imaginary DB queries
-    db.queryAccessToken({access_token: accessToken})
+    db.queryAccessToken({accessToken: accessToken})
       .then(function(token) {
         return Promise.all([
           token,
-          db.queryClient({id: token.client_id}),
-          db.queryUser({id: token.user_id})
+          db.queryClient({id: token.clientId}),
+          db.queryUser({id: token.userId})
         ]);
       })
       .spread(function(token, client, user) {
         return {
-          accessToken: token.access_token,
+          accessToken: token.accessToken,
           accessTokenExpiresAt: token.expires_at,
           scope: token.scope,
           client: client, // with 'id' property
@@ -242,11 +242,11 @@ An ``Object`` representing the access token and associated data.
 
 Invoked to retrieve an existing refresh token previously saved through :ref:`Model#saveToken() <Model#saveToken>`.
 
-This model function is **required** if the ``refresh_token`` grant is used.
+This model function is **required** if the ``refreshToken`` grant is used.
 
 **Invoked during:**
 
-- ``refresh_token`` grant
+- ``refreshToken`` grant
 
 **Arguments:**
 
@@ -288,17 +288,17 @@ An ``Object`` representing the refresh token and associated data.
 
   function getRefreshToken(refreshToken) {
     // imaginary DB queries
-    db.queryRefreshToken({refresh_token: refreshToken})
+    db.queryRefreshToken({refreshToken: refreshToken})
       .then(function(token) {
         return Promise.all([
           token,
-          db.queryClient({id: token.client_id}),
-          db.queryUser({id: token.user_id})
+          db.queryClient({id: token.clientId}),
+          db.queryUser({id: token.userId})
         ]);
       })
       .spread(function(token, client, user) {
         return {
-          refreshToken: token.refresh_token,
+          refreshToken: token.refreshToken,
           refreshTokenExpiresAt: token.expires_at,
           scope: token.scope,
           client: client, // with 'id' property
@@ -368,15 +368,15 @@ An ``Object`` representing the authorization code and associated data.
       .then(function(code) {
         return Promise.all([
           code,
-          db.queryClient({id: code.client_id}),
-          db.queryUser({id: code.user_id})
+          db.queryClient({id: code.clientId}),
+          db.queryUser({id: code.userId})
         ]);
       })
       .spread(function(code, client, user) {
         return {
           code: code.authorization_code,
           expiresAt: code.expires_at,
-          redirectUri: code.redirect_uri,
+          redirectUri: code.redirectUri,
           scope: code.scope,
           client: client, // with 'id' property
           user: user
@@ -400,7 +400,7 @@ This model function is **required** for all grant types.
 - ``authorization_code`` grant
 - ``client_credentials`` grant
 - ``implicit`` grant
-- ``refresh_token`` grant
+- ``refreshToken`` grant
 - ``password`` grant
 
 **Arguments:**
@@ -443,15 +443,15 @@ The return value (``client``) can carry additional properties that will be ignor
 
   function getClient(clientId, clientSecret) {
     // imaginary DB query
-    let params = {client_id: clientId};
+    let params = {clientId: clientId};
     if (clientSecret) {
-      params.client_secret = clientSecret;
+      params.clientSecret = clientSecret;
     }
     db.queryClient(params)
       .then(function(client) {
         return {
           id: client.id,
-          redirectUris: client.redirect_uris,
+          redirectUris: client.redirectUris,
           grants: client.grants
         };
       });
@@ -536,7 +536,7 @@ An ``Object`` representing the user, or a falsy value if the client does not hav
 
   function getUserFromClient(client) {
     // imaginary DB query
-    return db.queryUser({id: client.user_id});
+    return db.queryUser({id: client.userId});
   }
 
 --------
@@ -555,7 +555,7 @@ This model function is **required** for all grant types.
 - ``authorization_code`` grant
 - ``client_credentials`` grant
 - ``implicit`` grant
-- ``refresh_token`` grant
+- ``refreshToken`` grant
 - ``password`` grant
 
 **Arguments:**
@@ -620,30 +620,30 @@ If the ``allowExtendedTokenAttributes`` server option is enabled (see :ref:`OAut
     // imaginary DB queries
     let fns = [
       db.saveAccessToken({
-        access_token: token.accessToken,
+        accessToken: token.accessToken,
         expires_at: token.accessTokenExpiresAt,
         scope: token.scope,
-        client_id: client.id,
-        user_id: user.id
+        clientId: client.id,
+        userId: user.id
       }),
       db.saveRefreshToken({
-        refresh_token: token.refreshToken,
+        refreshToken: token.refreshToken,
         expires_at: token.refreshTokenExpiresAt,
         scope: token.scope,
-        client_id: client.id,
-        user_id: user.id
+        clientId: client.id,
+        userId: user.id
       })
     ];
     return Promise.all(fns);
       .spread(function(accessToken, refreshToken) {
         return {
-          accessToken: accessToken.access_token,
+          accessToken: accessToken.accessToken,
           accessTokenExpiresAt: accessToken.expires_at,
-          refreshToken: refreshToken.refresh_token,
+          refreshToken: refreshToken.refreshToken,
           refreshTokenExpiresAt: refreshToken.expires_at,
           scope: accessToken.scope,
-          client: {id: accessToken.client_id},
-          user: {id: accessToken.user_id}
+          client: {id: accessToken.clientId},
+          user: {id: accessToken.userId}
         };
       });
   }
@@ -722,20 +722,20 @@ An ``Object`` representing the authorization code and associated data.
     let authCode = {
       authorization_code: code.authorizationCode,
       expires_at: code.expiresAt,
-      redirect_uri: code.redirectUri,
+      redirectUri: code.redirectUri,
       scope: code.scope,
-      client_id: client.id,
-      user_id: user.id
+      clientId: client.id,
+      userId: user.id
     };
     return db.saveAuthorizationCode(authCode)
       .then(function(authorizationCode) {
         return {
           authorizationCode: authorizationCode.authorization_code,
           expiresAt: authorizationCode.expires_at,
-          redirectUri: authorizationCode.redirect_uri,
+          redirectUri: authorizationCode.redirectUri,
           scope: authorizationCode.scope,
-          client: {id: authorizationCode.client_id},
-          user: {id: authorizationCode.user_id}
+          client: {id: authorizationCode.clientId},
+          user: {id: authorizationCode.userId}
         };
       });
   }
@@ -749,11 +749,11 @@ An ``Object`` representing the authorization code and associated data.
 
 Invoked to revoke a refresh token.
 
-This model function is **required** if the ``refresh_token`` grant is used.
+This model function is **required** if the ``refreshToken`` grant is used.
 
 **Invoked during:**
 
-- ``refresh_token`` grant
+- ``refreshToken`` grant
 
 **Arguments:**
 
@@ -789,7 +789,7 @@ Return ``true`` if the revocation was successful or ``false`` if the refresh tok
 
   function revokeToken(token) {
     // imaginary DB queries
-    return db.deleteRefreshToken({refresh_token: token.refreshToken})
+    return db.deleteRefreshToken({refreshToken: token.refreshToken})
       .then(function(refreshToken) {
         return !!refreshToken;
       });

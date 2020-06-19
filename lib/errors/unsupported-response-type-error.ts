@@ -10,11 +10,11 @@ import { OAuthError } from './oauth-error';
  */
 
 export class UnsupportedResponseTypeError extends OAuthError {
-  constructor(message?: string | Error, properties?: any) {
-    super(message, {
-      code: 400,
-      name: 'unsupported_response_type',
-      ...properties,
-    });
-  }
+    constructor(message?: string | Error, properties?: any) {
+        super(message, {
+            code: 400,
+            name: 'unsupported_responseType',
+            ...properties,
+        });
+    }
 }

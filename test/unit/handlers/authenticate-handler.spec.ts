@@ -43,7 +43,7 @@ describe('AuthenticateHandler', () => {
           body: {},
           headers: {},
           method: {},
-          query: { access_token: 'foo' },
+          query: { accessToken: 'foo' },
         });
 
         sinon.stub(handler, 'getTokenFromRequestQuery');
@@ -64,7 +64,7 @@ describe('AuthenticateHandler', () => {
           model: { getAccessToken() {} },
         });
         const request = new Request({
-          body: { access_token: 'foo' },
+          body: { accessToken: 'foo' },
           headers: {},
           method: {},
           query: {},

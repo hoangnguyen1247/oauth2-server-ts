@@ -28,7 +28,7 @@ Instantiates an ``UnsupportedResponseTypeError``.
 +-----------------------------------------------+--------------+-------------------------------------------------------------+
 | [properties.code=400]                         | Object       | See :ref:`OAuthError#constructor`.                          |
 +-----------------------------------------------+--------------+-------------------------------------------------------------+
-| [properties.name='unsupported_response_type'] | String       | The error name used in responses generated from this error. |
+| [properties.name='unsupported_responseType'] | String       | The error name used in responses generated from this error. |
 +-----------------------------------------------+--------------+-------------------------------------------------------------+
 
 **Return value:**
@@ -42,7 +42,7 @@ A new instance of ``UnsupportedResponseTypeError``.
   const err = new UnsupportedResponseTypeError();
   // err.message === 'Bad Request'
   // err.code === 400
-  // err.name === 'unsupported_response_type'
+  // err.name === 'unsupported_responseType'
 
 --------
 
@@ -78,5 +78,5 @@ See :ref:`OAuthError#inner <OAuthError#inner>`.
 ``name``
 ========
 
-Typically ``'unsupported_response_type'``. See :ref:`OAuthError#name <OAuthError#name>`.
+Typically ``'unsupported_responseType'``. See :ref:`OAuthError#name <OAuthError#name>`.
 

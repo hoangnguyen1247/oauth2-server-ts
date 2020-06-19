@@ -237,7 +237,7 @@ Retrieves a new token for an authorized token request.
 +----------------------------------------------+-----------------+-------------------------------------------------------------------------------------------+
 | [options.requireClientAuthentication={}]     | Object          | Require a client secret (see remarks section). Defaults to ``true`` for all grant types.  |
 +----------------------------------------------+-----------------+-------------------------------------------------------------------------------------------+
-| [options.alwaysIssueNewRefreshToken=true]    | Boolean         | Always revoke the used refresh token and issue a new one for the ``refresh_token`` grant. |
+| [options.alwaysIssueNewRefreshToken=true]    | Boolean         | Always revoke the used refresh token and issue a new one for the ``refreshToken`` grant. |
 +----------------------------------------------+-----------------+-------------------------------------------------------------------------------------------+
 | [options.extendedGrantTypes={}]              | Object          | Additional supported grant types.                                                         |
 +----------------------------------------------+-----------------+-------------------------------------------------------------------------------------------+
@@ -260,13 +260,13 @@ The returned ``Promise`` **must** be ignored if ``callback`` is used.
 
 If ``options.allowExtendedTokenAttributes`` is ``true`` any additional properties set on the object returned from :ref:`Model#saveToken() <Model#saveToken>` are copied to the token response sent to the client.
 
-By default all grant types require the client to send it's ``client_secret`` with the token request. ``options.requireClientAuthentication`` can be used to disable this check for selected grants. If used, this server option must be an object containing properties set to ``true`` or ``false``. Possible keys for the object include all supported values for the token request's ``grant_type`` field (``authorization_code``, ``client_credentials``, ``password`` and ``refresh_token``). Grants that are not specified default to ``true`` which enables verification of the ``client_secret``.
+By default all grant types require the client to send it's ``clientSecret`` with the token request. ``options.requireClientAuthentication`` can be used to disable this check for selected grants. If used, this server option must be an object containing properties set to ``true`` or ``false``. Possible keys for the object include all supported values for the token request's ``grantType`` field (``authorization_code``, ``client_credentials``, ``password`` and ``refreshToken``). Grants that are not specified default to ``true`` which enables verification of the ``clientSecret``.
 
 ::
 
   let options = {
     // ...
-    // Allow token requests using the password grant to not include a client_secret.
+    // Allow token requests using the password grant to not include a clientSecret.
     requireClientAuthentication: {password: false}
   };
 

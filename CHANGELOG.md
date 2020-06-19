@@ -55,7 +55,7 @@
 
 - Add redis example
 - Fix docs to use new express bodyParser module
-- Fix docs for `redirect_uri`
+- Fix docs for `redirectUri`
 - Clarify docs for `clientIdRegex`
 - Fix docs for missing `req` argument in `generateToken`
 - Fix docs for `user`/`userId` `getAccessToken`
@@ -69,7 +69,7 @@
 
 ### 2.2.2
 
- - Fix bug when client has multiple redirect_uri's (#84)
+ - Fix bug when client has multiple redirectUri's (#84)
 
 ### 2.2.1
 
@@ -124,7 +124,7 @@
  - Allow access token in body when not POST (only deny GET)
 
 ### 1.4.0
- - Add support for refresh_token grant type
+ - Add support for refreshToken grant type
 
 ### 1.3.2
 - Require application/x-www-form-urlencoded when access token in body

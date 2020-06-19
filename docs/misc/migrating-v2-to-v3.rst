@@ -32,7 +32,7 @@ The following server options can be set when instantiating the OAuth service:
 
 * `addAcceptedScopesHeader`: **default true** Add the `X-Accepted-OAuth-Scopes` header with a list of scopes that will be accepted
 * `addAuthorizedScopesHeader`: **default true** Add the `X-OAuth-Scopes` header with a list of scopes that the user is authorized for
-* `allowBearerTokensInQueryString`: **default false** Determine if the bearer token can be included in the query string (i.e. `?access_token=`) for validation calls
+* `allowBearerTokensInQueryString`: **default false** Determine if the bearer token can be included in the query string (i.e. `?accessToken=`) for validation calls
 * `allowEmptyState`: **default false** If true, `state` can be empty or not passed.  If false, `state` is required.
 * `authorizationCodeLifetime`: **default 300** Default number of seconds that the authorization code is active for
 * `accessTokenLifetime`: **default 3600** Default number of seconds that an access token is valid for
