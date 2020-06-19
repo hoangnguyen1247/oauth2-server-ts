@@ -40,6 +40,10 @@
         {
             "name": "Marco Lüthy",
             "email": "marco.luethy@gmail.com"
+        },
+        {
+            "name": "Hoàng",
+            "email": "hoangnguyen1247@gmail.com"
         }
     ],
     "main": "dist/index.js",
@@ -85,6 +89,6 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/oauthjs/node-oauth2-server.git"
+        "url": "https://github.com/hoangnguyen1247/oauth2-server-ts.git"
     }
 }
