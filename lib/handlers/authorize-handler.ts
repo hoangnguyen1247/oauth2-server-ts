@@ -131,21 +131,21 @@ export class AuthorizeHandler {
    */
 
   async getClient(request: Request) {
-    const clientId = request.body.client_id || request.query.client_id;
+    const clientId = request.body.clientId || request.query.clientId;
 
     if (!clientId) {
-      throw new InvalidRequestError('Missing parameter: `client_id`');
+      throw new InvalidRequestError('Missing parameter: `clientId`');
     }
 
     if (!is.vschar(clientId)) {
-      throw new InvalidRequestError('Invalid parameter: `client_id`');
+      throw new InvalidRequestError('Invalid parameter: `clientId`');
     }
 
-    const redirectUri = request.body.redirect_uri || request.query.redirect_uri;
+    const redirectUri = request.body.redirectUri || request.query.redirectUri;
 
     if (redirectUri && !is.uri(redirectUri)) {
       throw new InvalidRequestError(
-        'Invalid request: `redirect_uri` is not a valid URI',
+        'Invalid request: `redirectUri` is not a valid URI',
       );
     }
 
@@ -161,13 +161,13 @@ export class AuthorizeHandler {
     }
 
     const responseType =
-      request.body.response_type || request.query.response_type;
+      request.body.responseType || request.query.responseType;
     const requestedGrantType =
       responseType === 'token' ? 'implicit' : 'authorization_code';
 
     if (!client.grants.includes(requestedGrantType)) {
       throw new UnauthorizedClientError(
-        'Unauthorized client: `grant_type` is invalid',
+        'Unauthorized client: `grantType` is invalid',
       );
     }
 
@@ -179,7 +179,7 @@ export class AuthorizeHandler {
 
     if (redirectUri && !client.redirectUris.includes(redirectUri)) {
       throw new InvalidClientError(
-        'Invalid client: `redirect_uri` does not match client value',
+        'Invalid client: `redirectUri` does not match client value',
       );
     }
 
@@ -267,8 +267,8 @@ export class AuthorizeHandler {
 
   getRedirectUri(request: Request, client: Client) {
     return (
-      request.body.redirect_uri ||
-      request.query.redirect_uri ||
+      request.body.redirectUri ||
+      request.query.redirectUri ||
       client.redirectUris[0]
     );
   }
@@ -279,15 +279,15 @@ export class AuthorizeHandler {
 
   getResponseType(request: Request, client: Client) {
     const responseType =
-      request.body.response_type || request.query.response_type;
+      request.body.responseType || request.query.responseType;
 
     if (!responseType) {
-      throw new InvalidRequestError('Missing parameter: `response_type`');
+      throw new InvalidRequestError('Missing parameter: `responseType`');
     }
 
     if (!hasOwnProperty(responseTypes, responseType)) {
       throw new UnsupportedResponseTypeError(
-        'Unsupported response type: `response_type` is not supported',
+        'Unsupported response type: `responseType` is not supported',
       );
     }
 
@@ -296,7 +296,7 @@ export class AuthorizeHandler {
       (!client || !client.grants.includes('implicit'))
     ) {
       throw new UnauthorizedClientError(
-        'Unauthorized client: `grant_type` is invalid',
+        'Unauthorized client: `grantType` is invalid',
       );
     }
 

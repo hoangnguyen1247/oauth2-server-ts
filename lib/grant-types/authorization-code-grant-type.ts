@@ -113,7 +113,7 @@ export class AuthorizationCodeGrantType extends AbstractGrantType {
 
     if (code.redirectUri && !is.uri(code.redirectUri)) {
       throw new InvalidGrantError(
-        'Invalid grant: `redirect_uri` is not a valid URI',
+        'Invalid grant: `redirectUri` is not a valid URI',
       );
     }
 
@@ -123,8 +123,8 @@ export class AuthorizationCodeGrantType extends AbstractGrantType {
   /**
    * Validate the redirect URI.
    *
-   * "The authorization server MUST ensure that the redirect_uri parameter is
-   * present if the redirect_uri parameter was included in the initial
+   * "The authorization server MUST ensure that the redirectUri parameter is
+   * present if the redirectUri parameter was included in the initial
    * authorization request as described in Section 4.1.1, and if included
    * ensure that their values are identical."
    *
@@ -136,17 +136,17 @@ export class AuthorizationCodeGrantType extends AbstractGrantType {
       return;
     }
 
-    const redirectUri = request.body.redirect_uri || request.query.redirect_uri;
+    const redirectUri = request.body.redirectUri || request.query.redirectUri;
 
     if (!is.uri(redirectUri)) {
       throw new InvalidRequestError(
-        'Invalid request: `redirect_uri` is not a valid URI',
+        'Invalid request: `redirectUri` is not a valid URI',
       );
     }
 
     if (redirectUri !== code.redirectUri) {
       throw new InvalidRequestError(
-        'Invalid request: `redirect_uri` is invalid',
+        'Invalid request: `redirectUri` is invalid',
       );
     }
   }

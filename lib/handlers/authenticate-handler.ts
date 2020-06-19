@@ -111,8 +111,8 @@ export class AuthenticateHandler {
 
   getTokenFromRequest(request: Request) {
     const headerToken = request.get('Authorization');
-    const queryToken = request.query.access_token;
-    const bodyToken = request.body.access_token;
+    const queryToken = request.query.accessToken;
+    const bodyToken = request.body.accessToken;
 
     if ((!!headerToken && 1) + (!!queryToken && 1) + (!!bodyToken && 1) > 1) {
       throw new InvalidRequestError(
@@ -177,7 +177,7 @@ export class AuthenticateHandler {
       );
     }
 
-    return request.query.access_token;
+    return request.query.accessToken;
   }
 
   /**
@@ -202,7 +202,7 @@ export class AuthenticateHandler {
       );
     }
 
-    return request.body.access_token;
+    return request.body.accessToken;
   }
 
   /**

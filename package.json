@@ -1,88 +1,90 @@
 {
-  "name": "oauth2-server",
-  "description": "Complete, framework-agnostic, compliant and well tested module for implementing an OAuth2 Server in node.js",
-  "version": "5.0.0-dev.0",
-  "keywords": [
-    "oauth",
-    "oauth2"
-  ],
-  "contributors": [
-    {
-      "name": "Thom Seddon",
-      "email": "thom@seddonmedia.co.uk"
+    "name": "oauth2-server-ts",
+    "description": "Complete, framework-agnostic, compliant and well tested module for implementing an OAuth2 Server in node.js",
+    "version": "1.0.5",
+    "keywords": [
+        "oauth",
+        "oauth2"
+    ],
+    "contributors": [
+        {
+            "name": "Thom Seddon",
+            "email": "thom@seddonmedia.co.uk"
+        },
+        {
+            "name": "Lars F. Karlström",
+            "email": "lars@lfk.io"
+        },
+        {
+            "name": "Rui Marinho",
+            "email": "ruipmarinho@gmail.com"
+        },
+        {
+            "name": "Tiago Ribeiro",
+            "email": "tiago.ribeiro@gmail.com"
+        },
+        {
+            "name": "Michael Salinger",
+            "email": "mjsalinger@gmail.com"
+        },
+        {
+            "name": "Nuno Sousa"
+        },
+        {
+            "name": "Max Truxa"
+        },
+        {
+            "name": "Jonathon Hill",
+            "email": "jhill9693@gmail.com"
+        },
+        {
+            "name": "Marco Lüthy",
+            "email": "marco.luethy@gmail.com"
+        }
+    ],
+    "main": "dist/index.js",
+    "dependencies": {
+        "basic-auth": "^2.0.1",
+        "crypto-js": "^4.0.0",
+        "lodash": "^4.17.11",
+        "statuses": "^1.5.0",
+        "tslib": "^1.9.3",
+        "type-is": "^1.6.18",
+        "url": "^0.11.0"
     },
-    {
-      "name": "Lars F. Karlström",
-      "email": "lars@lfk.io"
+    "devDependencies": {
+        "@types/basic-auth": "^1.1.2",
+        "@types/lodash": "^4.14.133",
+        "@types/mocha": "^5.2.7",
+        "@types/node": "^11.13.13",
+        "@types/sinon": "^7.0.12",
+        "@types/statuses": "^1.5.0",
+        "@types/type-is": "^1.6.2",
+        "mocha": "^6.1.4",
+        "npm-run-all": "^4.1.5",
+        "should": "^13.2.3",
+        "shx": "^0.3.2",
+        "sinon": "^7.3.2",
+        "ts-node": "^8.2.0",
+        "tslint": "^5.17.0",
+        "typescript": "^3.5.1"
     },
-    {
-      "name": "Rui Marinho",
-      "email": "ruipmarinho@gmail.com"
+    "license": "MIT",
+    "engines": {
+        "node": ">=8.10"
     },
-    {
-      "name": "Tiago Ribeiro",
-      "email": "tiago.ribeiro@gmail.com"
+    "scripts": {
+        "lint": "tslint -p tsconfig.build.json -c tslint.json",
+        "lint:all": "tslint -p tsconfig.json -c tslint.json",
+        "build": "npx tsc -p tsconfig.json",
+        "build:clean": "npx shx rm -rf ./dist",
+        "build:prod": "npx npm-run-all build:clean build:prod:*",
+        "build:prod:src": "npx tsc -p tsconfig.build.json",
+        "build:prod:package": "node ./scripts/build-prod.js",
+        "test": "npx mocha 'test/**/*.spec.ts' --config 'test/.mocharc.jsonc'"
     },
-    {
-      "name": "Michael Salinger",
-      "email": "mjsalinger@gmail.com"
-    },
-    {
-      "name": "Nuno Sousa"
-    },
-    {
-      "name": "Max Truxa"
-    },
-    {
-      "name": "Jonathon Hill",
-      "email": "jhill9693@gmail.com"
-    },
-    {
-      "name": "Marco Lüthy",
-      "email": "marco.luethy@gmail.com"
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/oauthjs/node-oauth2-server.git"
     }
-  ],
-  "main": "index.js",
-  "dependencies": {
-    "basic-auth": "^2.0.1",
-    "lodash": "^4.17.11",
-    "statuses": "^1.5.0",
-    "tslib": "^1.9.3",
-    "type-is": "^1.6.18"
-  },
-  "devDependencies": {
-    "@types/basic-auth": "^1.1.2",
-    "@types/lodash": "^4.14.133",
-    "@types/mocha": "^5.2.7",
-    "@types/node": "^11.13.13",
-    "@types/sinon": "^7.0.12",
-    "@types/statuses": "^1.5.0",
-    "@types/type-is": "^1.6.2",
-    "mocha": "^6.1.4",
-    "npm-run-all": "^4.1.5",
-    "should": "^13.2.3",
-    "shx": "^0.3.2",
-    "sinon": "^7.3.2",
-    "ts-node": "^8.2.0",
-    "tslint": "^5.17.0",
-    "typescript": "^3.5.1"
-  },
-  "license": "MIT",
-  "engines": {
-    "node": ">=8.10"
-  },
-  "scripts": {
-    "lint": "tslint -p tsconfig.build.json -c tslint.json",
-    "lint:all": "tslint -p tsconfig.json -c tslint.json",
-    "build": "npx tsc -p tsconfig.json",
-    "build:clean": "npx shx rm -rf ./dist",
-    "build:prod": "npx npm-run-all build:clean build:prod:*",
-    "build:prod:src": "npx tsc -p tsconfig.build.json",
-    "build:prod:package": "node ./scripts/build-prod.js",
-    "test": "npx mocha 'test/**/*.spec.ts' --config 'test/.mocharc.jsonc'"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/oauthjs/node-oauth2-server.git"
-  }
 }

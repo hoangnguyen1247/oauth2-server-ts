@@ -69,7 +69,7 @@ export class TokenResponseType {
   buildRedirectUri(redirectUri: any) {
     return this.setRedirectUriParam(
       redirectUri,
-      'access_token',
+      'accessToken',
       this.accessToken,
     );
   }

@@ -2,60 +2,60 @@ import { InvalidArgumentError } from '../errors';
 import { hasOwnProperty } from '../utils/fn';
 
 export class BearerTokenType {
-  accessToken: string;
-  accessTokenLifetime: number;
-  refreshToken: string;
-  scope: string;
-  customAttributes: any;
-  constructor(
-    accessToken: string,
-    accessTokenLifetime: number,
-    refreshToken: string,
-    scope: string,
-    customAttributes: any,
-  ) {
-    if (!accessToken) {
-      throw new InvalidArgumentError('Missing parameter: `accessToken`');
+    accessToken: string;
+    accessTokenLifetime: number;
+    refreshToken: string;
+    scope: string;
+    customAttributes: any;
+    constructor(
+        accessToken: string,
+        accessTokenLifetime: number,
+        refreshToken: string,
+        scope: string,
+        customAttributes: any,
+    ) {
+        if (!accessToken) {
+            throw new InvalidArgumentError('Missing parameter: `accessToken`');
+        }
+
+        this.accessToken = accessToken;
+        this.accessTokenLifetime = accessTokenLifetime;
+        this.refreshToken = refreshToken;
+        this.scope = scope;
+
+        if (customAttributes) {
+            this.customAttributes = customAttributes;
+        }
     }
 
-    this.accessToken = accessToken;
-    this.accessTokenLifetime = accessTokenLifetime;
-    this.refreshToken = refreshToken;
-    this.scope = scope;
+    /**
+     * Retrieve the value representation.
+     */
 
-    if (customAttributes) {
-      this.customAttributes = customAttributes;
+    valueOf() {
+        const object: any = {
+            accessToken: this.accessToken,
+            tokenType: 'Bearer',
+        };
+
+        if (this.accessTokenLifetime) {
+            object.expiresIn = this.accessTokenLifetime;
+        }
+
+        if (this.refreshToken) {
+            object.refreshToken = this.refreshToken;
+        }
+
+        if (this.scope) {
+            object.scope = this.scope;
+        }
+
+        for (const key in this.customAttributes) {
+            if (hasOwnProperty(this.customAttributes, key)) {
+                object[key] = this.customAttributes[key];
+            }
+        }
+
+        return object;
     }
-  }
-
-  /**
-   * Retrieve the value representation.
-   */
-
-  valueOf() {
-    const object: any = {
-      access_token: this.accessToken,
-      token_type: 'Bearer',
-    };
-
-    if (this.accessTokenLifetime) {
-      object.expires_in = this.accessTokenLifetime;
-    }
-
-    if (this.refreshToken) {
-      object.refresh_token = this.refreshToken;
-    }
-
-    if (this.scope) {
-      object.scope = this.scope;
-    }
-
-    for (const key in this.customAttributes) {
-      if (hasOwnProperty(this.customAttributes, key)) {
-        object[key] = this.customAttributes[key];
-      }
-    }
-
-    return object;
-  }
 }

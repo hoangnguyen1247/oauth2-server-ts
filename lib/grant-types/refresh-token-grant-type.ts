@@ -62,15 +62,15 @@ export class RefreshTokenGrantType extends AbstractGrantType {
    */
 
   async getRefreshToken(request: Request, client: Client) {
-    if (!request.body.refresh_token) {
-      throw new InvalidRequestError('Missing parameter: `refresh_token`');
+    if (!request.body.refreshToken) {
+      throw new InvalidRequestError('Missing parameter: `refreshToken`');
     }
 
-    if (!is.vschar(request.body.refresh_token)) {
-      throw new InvalidRequestError('Invalid parameter: `refresh_token`');
+    if (!is.vschar(request.body.refreshToken)) {
+      throw new InvalidRequestError('Invalid parameter: `refreshToken`');
     }
 
-    const token = await this.model.getRefreshToken(request.body.refresh_token);
+    const token = await this.model.getRefreshToken(request.body.refreshToken);
 
     if (!token) {
       throw new InvalidGrantError('Invalid grant: refresh token is invalid');

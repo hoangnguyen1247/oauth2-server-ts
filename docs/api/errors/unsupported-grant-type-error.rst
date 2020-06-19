@@ -28,7 +28,7 @@ Instantiates an ``UnsupportedGrantTypeError``.
 +--------------------------------------------+--------------+-------------------------------------------------------------+
 | [properties.code=400]                      | Object       | See :ref:`OAuthError#constructor`.                          |
 +--------------------------------------------+--------------+-------------------------------------------------------------+
-| [properties.name='unsupported_grant_type'] | String       | The error name used in responses generated from this error. |
+| [properties.name='unsupported_grantType'] | String       | The error name used in responses generated from this error. |
 +--------------------------------------------+--------------+-------------------------------------------------------------+
 
 **Return value:**
@@ -42,7 +42,7 @@ A new instance of ``UnsupportedGrantTypeError``.
   const err = new UnsupportedGrantTypeError();
   // err.message === 'Bad Request'
   // err.code === 400
-  // err.name === 'unsupported_grant_type'
+  // err.name === 'unsupported_grantType'
 
 --------
 
@@ -78,5 +78,5 @@ See :ref:`OAuthError#inner <OAuthError#inner>`.
 ``name``
 ========
 
-Typically ``'unsupported_grant_type'``. See :ref:`OAuthError#name <OAuthError#name>`.
+Typically ``'unsupported_grantType'``. See :ref:`OAuthError#name <OAuthError#name>`.
 

@@ -48,7 +48,7 @@ describe('AuthorizeHandler', () => {
         model,
       });
       const request = new Request({
-        body: { client_id: 12345, client_secret: 'secret' },
+        body: { clientId: 12345, clientSecret: 'secret' },
         headers: {},
         method: {},
         query: {},

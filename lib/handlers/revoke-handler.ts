@@ -129,19 +129,19 @@ export class RevokeHandler {
     const credentials = this.getClientCredentials(request);
 
     if (!credentials.clientId) {
-      throw new InvalidRequestError('Missing parameter: `client_id`');
+      throw new InvalidRequestError('Missing parameter: `clientId`');
     }
 
     if (!credentials.clientSecret) {
-      throw new InvalidRequestError('Missing parameter: `client_secret`');
+      throw new InvalidRequestError('Missing parameter: `clientSecret`');
     }
 
     if (!is.vschar(credentials.clientId)) {
-      throw new InvalidRequestError('Invalid parameter: `client_id`');
+      throw new InvalidRequestError('Invalid parameter: `clientId`');
     }
 
     if (!is.vschar(credentials.clientSecret)) {
-      throw new InvalidRequestError('Invalid parameter: `client_secret`');
+      throw new InvalidRequestError('Invalid parameter: `clientSecret`');
     }
     try {
       const client = await this.model.getClient(
@@ -180,7 +180,7 @@ export class RevokeHandler {
    * Get client credentials.
    *
    * The client credentials may be sent using the HTTP Basic authentication scheme or, alternatively,
-   * the `client_id` and `client_secret` can be embedded in the body.
+   * the `clientId` and `clientSecret` can be embedded in the body.
    *
    * @see https://tools.ietf.org/html/rfc6749#section-2.3.1
    */
@@ -192,10 +192,10 @@ export class RevokeHandler {
       return { clientId: credentials.name, clientSecret: credentials.pass };
     }
 
-    if (request.body.client_id && request.body.client_secret) {
+    if (request.body.clientId && request.body.clientSecret) {
       return {
-        clientId: request.body.client_id,
-        clientSecret: request.body.client_secret,
+        clientId: request.body.clientId,
+        clientSecret: request.body.clientSecret,
       };
     }
 
