@@ -368,6 +368,7 @@ describe('TokenHandler integration', () => {
                     e.should.be.an.instanceOf(ServerError);
                     e.message.should.equal('Unhandled exception');
                     e.inner.should.be.an.instanceOf(Error);
+                    e.data.should.be.an.instanceOf(Object);
                 });
         });
 
