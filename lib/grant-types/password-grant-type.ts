@@ -55,25 +55,29 @@ export class PasswordGrantType extends AbstractGrantType {
      */
 
     async getUser(request: Request) {
-        if (!request.body.username) {
-            throw new InvalidRequestError('Missing parameter: `username`');
-        }
+        if (!request.body.thirdpartyType && !request.body.thirdpartyToken) {
+            if (!request.body.username) {
+                throw new InvalidRequestError('Missing parameter: `username`');
+            }
 
-        if (!request.body.password) {
-            throw new InvalidRequestError('Missing parameter: `password`');
-        }
+            if (!request.body.password) {
+                throw new InvalidRequestError('Missing parameter: `password`');
+            }
 
-        if (!is.uchar(request.body.username)) {
-            throw new InvalidRequestError('Invalid parameter: `username`');
-        }
+            if (!is.uchar(request.body.username)) {
+                throw new InvalidRequestError('Invalid parameter: `username`');
+            }
 
-        if (!is.uchar(request.body.password)) {
-            throw new InvalidRequestError('Invalid parameter: `password`');
+            if (!is.uchar(request.body.password)) {
+                throw new InvalidRequestError('Invalid parameter: `password`');
+            }
         }
 
         const user = await this.model.getUser(
             request.body.username,
             request.body.password,
+            request.body.thirdpartyType,
+            request.body.thirdpartyToken,
         );
         if (!user) {
             throw new InvalidGrantError(
