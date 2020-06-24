@@ -5,6 +5,7 @@ export class OAuthError extends Error {
     code: any;
     status: any;
     statusCode: any;
+    data: any;
     constructor(messageOrError: string | Error, properties?: any) {
         super();
         let message =
@@ -19,6 +20,7 @@ export class OAuthError extends Error {
 
         if (error) {
             props.inner = error;
+            this.data = error["error"] || error["data"] || {};
         }
         if (isEmpty(message)) {
             message = statuses[props.code];
