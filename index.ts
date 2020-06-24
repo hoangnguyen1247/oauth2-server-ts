@@ -2,7 +2,6 @@ export * from './lib/errors';
 export * from './lib/grant-types';
 export * from './lib/handlers';
 export * from './lib/interfaces';
-export * from './lib/models';
 export * from './lib/response-types';
 export * from './lib/token-types';
 export { Request } from './lib/request';
