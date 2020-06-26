@@ -1568,6 +1568,7 @@ describe('TokenHandler integration', () => {
                 'biz',
                 undefined,
                 undefined,
+                undefined,
             );
             const response = new Response({ body: {}, headers: {} });
 
@@ -1597,6 +1598,7 @@ describe('TokenHandler integration', () => {
                 'biz',
                 undefined,
                 undefined,
+                undefined,
             );
             const response = new Response({ body: {}, headers: {} });
 
@@ -1619,6 +1621,7 @@ describe('TokenHandler integration', () => {
                 'foo',
                 'bar' as any,
                 'biz',
+                undefined,
                 undefined,
                 undefined,
             );
