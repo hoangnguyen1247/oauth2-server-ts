@@ -6,12 +6,14 @@ export class BearerTokenType {
     accessTokenLifetime: number;
     refreshToken: string;
     scope: string;
+    user: any;
     customAttributes: any;
     constructor(
         accessToken: string,
         accessTokenLifetime: number,
         refreshToken: string,
         scope: string,
+        user: any,
         customAttributes: any,
     ) {
         if (!accessToken) {
@@ -22,6 +24,7 @@ export class BearerTokenType {
         this.accessTokenLifetime = accessTokenLifetime;
         this.refreshToken = refreshToken;
         this.scope = scope;
+        this.user = user;
 
         if (customAttributes) {
             this.customAttributes = customAttributes;
@@ -48,6 +51,10 @@ export class BearerTokenType {
 
         if (this.scope) {
             object.scope = this.scope;
+        }
+
+        if (this.user) {
+            object.user = this.user;
         }
 
         for (const key in this.customAttributes) {

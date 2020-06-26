@@ -1,7 +1,7 @@
 {
     "name": "oauth2-server-ts",
     "description": "Complete, framework-agnostic, compliant and well tested module for implementing an OAuth2 Server in node.js",
-    "version": "1.1.11",
+    "version": "1.1.12",
     "keywords": [
         "oauth",
         "oauth2"

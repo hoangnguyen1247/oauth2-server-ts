@@ -287,6 +287,7 @@ export class TokenHandler {
             model.accessTokenLifetime,
             model.refreshToken,
             model.scope,
+            model.user,
             model.customAttributes,
         );
     }
