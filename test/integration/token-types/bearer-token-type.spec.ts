@@ -1,6 +1,6 @@
 import * as should from 'should';
-import { InvalidArgumentError } from '../../../lib/errors';
-import { BearerTokenType } from '../../../lib/token-types';
+import { InvalidArgumentError } from '../../../src/errors';
+import { BearerTokenType } from '../../../src/token-types';
 
 /**
  * Test `BearerTokenType` integration.

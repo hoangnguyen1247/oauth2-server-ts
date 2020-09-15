@@ -1,7 +1,7 @@
 import * as should from 'should';
 import * as sinon from 'sinon';
-import { RefreshTokenGrantType } from '../../../lib/grant-types';
-import { Request } from '../../../lib/request';
+import { RefreshTokenGrantType } from '../../../src/grant-types';
+import { Request } from '../../../src/request';
 
 /**
  * Test `RefreshTokenGrantType`.

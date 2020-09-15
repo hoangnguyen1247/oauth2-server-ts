@@ -1,7 +1,7 @@
 import * as should from 'should';
 import * as url from 'url';
-import { InvalidArgumentError } from '../../../lib/errors';
-import { TokenResponseType } from '../../../lib/response-types';
+import { InvalidArgumentError } from '../../../src/errors';
+import { TokenResponseType } from '../../../src/response-types';
 
 /**
  * Test `TokenResponseType` integration.

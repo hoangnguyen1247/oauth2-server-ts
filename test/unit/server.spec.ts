@@ -3,8 +3,8 @@ import {
     AuthenticateHandler,
     AuthorizeHandler,
     TokenHandler,
-} from '../../lib/handlers';
-import { OAuth2Server as Server } from '../../lib/server';
+} from '../../src/handlers';
+import { OAuth2Server as Server } from '../../src/server';
 
 const Authenticate: any = AuthenticateHandler;
 const Authorize: any = AuthorizeHandler;

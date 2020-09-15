@@ -1,4 +1,4 @@
-import { TokenModel } from '../../../lib/models';
+import { TokenModel } from '../../../src/models';
 
 /**
  * Test `Server`.

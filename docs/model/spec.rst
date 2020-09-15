@@ -50,8 +50,8 @@ This model function is **optional**. If not implemented, a default handler is us
 
 **Invoked during:**
 
-- ``authorization_code`` grant
-- ``client_credentials`` grant
+- ``authorizationCode`` grant
+- ``clientCredentials`` grant
 - ``refreshToken`` grant
 - ``password`` grant
 
@@ -94,7 +94,7 @@ This model function is **optional**. If not implemented, a default handler is us
 
 **Invoked during:**
 
-- ``authorization_code`` grant
+- ``authorizationCode`` grant
 - ``refreshToken`` grant
 - ``password`` grant
 
@@ -137,7 +137,7 @@ This model function is **optional**. If not implemented, a default handler is us
 
 **Invoked during:**
 
-- ``authorization_code`` grant
+- ``authorizationCode`` grant
 
 **Arguments:**
 
@@ -316,11 +316,11 @@ An ``Object`` representing the refresh token and associated data.
 
 Invoked to retrieve an existing authorization code previously saved through :ref:`Model#saveAuthorizationCode() <Model#saveAuthorizationCode>`.
 
-This model function is **required** if the ``authorization_code`` grant is used.
+This model function is **required** if the ``authorizationCode`` grant is used.
 
 **Invoked during:**
 
-- ``authorization_code`` grant
+- ``authorizationCode`` grant
 
 **Arguments:**
 
@@ -364,7 +364,7 @@ An ``Object`` representing the authorization code and associated data.
 
   function getAuthorizationCode(authorizationCode) {
     // imaginary DB queries
-    db.queryAuthorizationCode({authorization_code: authorizationCode})
+    db.queryAuthorizationCode({authorizationCode: authorizationCode})
       .then(function(code) {
         return Promise.all([
           code,
@@ -374,7 +374,7 @@ An ``Object`` representing the authorization code and associated data.
       })
       .spread(function(code, client, user) {
         return {
-          code: code.authorization_code,
+          code: code.authorizationCode,
           expiresAt: code.expires_at,
           redirectUri: code.redirectUri,
           scope: code.scope,
@@ -397,8 +397,8 @@ This model function is **required** for all grant types.
 
 **Invoked during:**
 
-- ``authorization_code`` grant
-- ``client_credentials`` grant
+- ``authorizationCode`` grant
+- ``clientCredentials`` grant
 - ``implicit`` grant
 - ``refreshToken`` grant
 - ``password`` grant
@@ -426,7 +426,7 @@ An ``Object`` representing the client and associated data, or a falsy value if n
 +-------------------------------+---------------+--------------------------------------------------------------------------------------+
 | client.id                     | String        | A unique string identifying the client.                                              |
 +-------------------------------+---------------+--------------------------------------------------------------------------------------+
-| [client.redirectUris]         | Array<String> | Redirect URIs allowed for the client. Required for the ``authorization_code`` grant. |
+| [client.redirectUris]         | Array<String> | Redirect URIs allowed for the client. Required for the ``authorizationCode`` grant. |
 +-------------------------------+---------------+--------------------------------------------------------------------------------------+
 | client.grants                 | Array<String> | Grant types allowed for the client.                                                  |
 +-------------------------------+---------------+--------------------------------------------------------------------------------------+
@@ -506,11 +506,11 @@ An ``Object`` representing the user, or a falsy value if no such user could be f
 
 Invoked to retrieve the user associated with the specified client.
 
-This model function is **required** if the ``client_credentials`` grant is used.
+This model function is **required** if the ``clientCredentials`` grant is used.
 
 **Invoked during:**
 
-- ``client_credentials`` grant
+- ``clientCredentials`` grant
 
 **Arguments:**
 
@@ -552,8 +552,8 @@ This model function is **required** for all grant types.
 
 **Invoked during:**
 
-- ``authorization_code`` grant
-- ``client_credentials`` grant
+- ``authorizationCode`` grant
+- ``clientCredentials`` grant
 - ``implicit`` grant
 - ``refreshToken`` grant
 - ``password`` grant
@@ -657,11 +657,11 @@ If the ``allowExtendedTokenAttributes`` server option is enabled (see :ref:`OAut
 
 Invoked to save an authorization code.
 
-This model function is **required** if the ``authorization_code`` grant is used.
+This model function is **required** if the ``authorizationCode`` grant is used.
 
 **Invoked during:**
 
-- ``authorization_code`` grant
+- ``authorizationCode`` grant
 
 **Arguments:**
 
@@ -720,7 +720,7 @@ An ``Object`` representing the authorization code and associated data.
   function saveAuthorizationCode(code, client, user) {
     // imaginary DB queries
     let authCode = {
-      authorization_code: code.authorizationCode,
+      authorizationCode: code.authorizationCode,
       expires_at: code.expiresAt,
       redirectUri: code.redirectUri,
       scope: code.scope,
@@ -730,7 +730,7 @@ An ``Object`` representing the authorization code and associated data.
     return db.saveAuthorizationCode(authCode)
       .then(function(authorizationCode) {
         return {
-          authorizationCode: authorizationCode.authorization_code,
+          authorizationCode: authorizationCode.authorizationCode,
           expiresAt: authorizationCode.expires_at,
           redirectUri: authorizationCode.redirectUri,
           scope: authorizationCode.scope,
@@ -804,11 +804,11 @@ Return ``true`` if the revocation was successful or ``false`` if the refresh tok
 
 Invoked to revoke an authorization code.
 
-This model function is **required** if the ``authorization_code`` grant is used.
+This model function is **required** if the ``authorizationCode`` grant is used.
 
 **Invoked during:**
 
-- ``authorization_code`` grant
+- ``authorizationCode`` grant
 
 **Arguments:**
 
@@ -846,7 +846,7 @@ Return ``true`` if the revocation was successful or ``false`` if the authorizati
 
   function revokeAuthorizationCode(code) {
     // imaginary DB queries
-    return db.deleteAuthorizationCode({authorization_code: code.authorizationCode})
+    return db.deleteAuthorizationCode({authorizationCode: code.authorizationCode})
       .then(function(authorizationCode) {
         return !!authorizationCode;
       });
@@ -865,8 +865,8 @@ This model function is **optional**. If not implemented, any scope is accepted.
 
 **Invoked during:**
 
-- ``authorization_code`` grant
-- ``client_credentials`` grant
+- ``authorizationCode`` grant
+- ``clientCredentials`` grant
 - ``implicit`` grant
 - ``password`` grant
 

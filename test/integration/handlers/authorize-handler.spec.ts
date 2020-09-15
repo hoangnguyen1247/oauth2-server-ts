@@ -8,11 +8,11 @@ import {
     InvalidScopeError,
     ServerError,
     UnauthorizedClientError,
-} from '../../../lib/errors';
-import { AuthenticateHandler, AuthorizeHandler } from '../../../lib/handlers';
-import { Request } from '../../../lib/request';
-import { Response } from '../../../lib/response';
-import { CodeResponseType } from '../../../lib/response-types';
+} from '../../../src/errors';
+import { AuthenticateHandler, AuthorizeHandler } from '../../../src/handlers';
+import { Request } from '../../../src/request';
+import { Response } from '../../../src/response';
+import { CodeResponseType } from '../../../src/response-types';
 
 /**
  * Test `AuthorizeHandler` integration.
@@ -230,7 +230,7 @@ describe('AuthorizeHandler integration', () => {
                 },
                 getClient: () => {
                     return {
-                        grants: ['authorization_code'],
+                        grants: ['authorizationCode'],
                         redirectUris: ['http://example.com/cb'],
                     };
                 },
@@ -281,7 +281,7 @@ describe('AuthorizeHandler integration', () => {
                 },
                 getClient: () => {
                     return {
-                        grants: ['authorization_code'],
+                        grants: ['authorizationCode'],
                         redirectUris: ['http://example.com/cb'],
                     };
                 },
@@ -323,7 +323,7 @@ describe('AuthorizeHandler integration', () => {
 
         it('should redirect to a successful response with `code` and `state` if successful', () => {
             const client = {
-                grants: ['authorization_code'],
+                grants: ['authorizationCode'],
                 redirectUris: ['http://example.com/cb'],
             };
             const model = {
@@ -382,7 +382,7 @@ describe('AuthorizeHandler integration', () => {
                 },
                 getClient: () => {
                     return {
-                        grants: ['authorization_code'],
+                        grants: ['authorizationCode'],
                         redirectUris: ['http://example.com/cb'],
                     };
                 },
@@ -434,7 +434,7 @@ describe('AuthorizeHandler integration', () => {
                 },
                 getClient: () => {
                     return {
-                        grants: ['authorization_code'],
+                        grants: ['authorizationCode'],
                         redirectUris: ['http://example.com/cb'],
                     };
                 },
@@ -483,7 +483,7 @@ describe('AuthorizeHandler integration', () => {
                 },
                 getClient: () => {
                     return {
-                        grants: ['authorization_code'],
+                        grants: ['authorizationCode'],
                         redirectUris: ['http://example.com/cb'],
                     };
                 },
@@ -533,7 +533,7 @@ describe('AuthorizeHandler integration', () => {
                 },
                 getClient: () => {
                     return {
-                        grants: ['authorization_code'],
+                        grants: ['authorizationCode'],
                         redirectUris: ['http://example.com/cb'],
                     };
                 },
@@ -575,7 +575,7 @@ describe('AuthorizeHandler integration', () => {
 
         it('should return the `code` if successful', () => {
             const client = {
-                grants: ['authorization_code'],
+                grants: ['authorizationCode'],
                 redirectUris: ['http://example.com/cb'],
             };
             const model = {
@@ -891,7 +891,7 @@ describe('AuthorizeHandler integration', () => {
             const model = {
                 getAccessToken() { },
                 getClient() {
-                    return { grants: ['authorization_code'] };
+                    return { grants: ['authorizationCode'] };
                 },
                 saveAuthorizationCode() { },
             };
@@ -924,7 +924,7 @@ describe('AuthorizeHandler integration', () => {
                 getAccessToken() { },
                 getClient() {
                     return {
-                        grants: ['authorization_code'],
+                        grants: ['authorizationCode'],
                         redirectUris: ['https://example.com'],
                     };
                 },
@@ -963,7 +963,7 @@ describe('AuthorizeHandler integration', () => {
                 getAccessToken() { },
                 async getClient() {
                     return {
-                        grants: ['authorization_code'],
+                        grants: ['authorizationCode'],
                         redirectUris: ['http://example.com/cb'],
                     };
                 },
@@ -991,7 +991,7 @@ describe('AuthorizeHandler integration', () => {
             getAccessToken() {},
             getClient() {
               return {
-                grants: ['authorization_code'],
+                grants: ['authorizationCode'],
                 redirectUris: ['http://example.com/cb'],
               };
             },
@@ -1017,7 +1017,7 @@ describe('AuthorizeHandler integration', () => {
             getClient(clientId, clientSecret, callback) {
               should.equal(clientSecret, null);
               callback(null, {
-                grants: ['authorization_code'],
+                grants: ['authorizationCode'],
                 redirectUris: ['http://example.com/cb'],
               });
             },
@@ -1040,7 +1040,7 @@ describe('AuthorizeHandler integration', () => {
         describe('with `clientId` in the request query', () => {
             it('should return a client', () => {
                 const client = {
-                    grants: ['authorization_code'],
+                    grants: ['authorizationCode'],
                     redirectUris: ['http://example.com/cb'],
                 };
                 const model = {

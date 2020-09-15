@@ -7,10 +7,10 @@ import {
     InvalidRequestError,
     InvalidTokenError,
     ServerError,
-} from '../../../lib/errors';
-import { RevokeHandler } from '../../../lib/handlers';
-import { Request } from '../../../lib/request';
-import { Response } from '../../../lib/response';
+} from '../../../src/errors';
+import { RevokeHandler } from '../../../src/handlers';
+import { Request } from '../../../src/request';
+import { Response } from '../../../src/response';
 
 /**
  * Test `RevokeHandler` integration.

@@ -1,7 +1,7 @@
 import * as should from 'should';
-import { InvalidArgumentError } from '../../../lib/errors';
-import { AbstractGrantType } from '../../../lib/grant-types';
-import { Request } from '../../../lib/request';
+import { InvalidArgumentError } from '../../../src/errors';
+import { AbstractGrantType } from '../../../src/grant-types';
+import { Request } from '../../../src/request';
 /**
  * Test `AbstractGrantType` integration.
  */

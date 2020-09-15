@@ -1,7 +1,7 @@
 import * as should from 'should';
-import { InvalidArgumentError, InvalidGrantError } from '../../../lib/errors';
-import { ClientCredentialsGrantType } from '../../../lib/grant-types';
-import { Request } from '../../../lib/request';
+import { InvalidArgumentError, InvalidGrantError } from '../../../src/errors';
+import { ClientCredentialsGrantType } from '../../../src/grant-types';
+import { Request } from '../../../src/request';
 
 /**
  * Test `ClientCredentialsGrantType` integration.
@@ -194,7 +194,7 @@ describe('ClientCredentialsGrantType integration', () => {
                 accessTokenLifetime: 120,
                 model,
             });
-            const request = new Request({
+            new Request({
                 body: {},
                 headers: {},
                 method: {},
@@ -224,7 +224,7 @@ describe('ClientCredentialsGrantType integration', () => {
                 accessTokenLifetime: 120,
                 model,
             });
-            const request = new Request({
+            new Request({
                 body: {},
                 headers: {},
                 method: {},
@@ -250,7 +250,7 @@ describe('ClientCredentialsGrantType integration', () => {
                 accessTokenLifetime: 120,
                 model,
             });
-            const request = new Request({
+            new Request({
                 body: {},
                 headers: {},
                 method: {},
@@ -272,7 +272,7 @@ describe('ClientCredentialsGrantType integration', () => {
                 accessTokenLifetime: 120,
                 model,
             });
-            const request = new Request({
+            new Request({
                 body: {},
                 headers: {},
                 method: {},

@@ -4,9 +4,9 @@ import {
     InvalidGrantError,
     InvalidRequestError,
     ServerError,
-} from '../../../lib/errors';
-import { RefreshTokenGrantType } from '../../../lib/grant-types';
-import { Request } from '../../../lib/request';
+} from '../../../src/errors';
+import { RefreshTokenGrantType } from '../../../src/grant-types';
+import { Request } from '../../../src/request';
 
 /**
  * Test `RefreshTokenGrantType` integration.

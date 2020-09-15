@@ -1,8 +1,8 @@
 import * as should from 'should';
 import * as sinon from 'sinon';
-import { ServerError } from '../../../lib/errors';
-import { AuthenticateHandler } from '../../../lib/handlers';
-import { Request } from '../../../lib/request';
+import { ServerError } from '../../../src/errors';
+import { AuthenticateHandler } from '../../../src/handlers';
+import { Request } from '../../../src/request';
 
 /**
  * Test `AuthenticateHandler`.

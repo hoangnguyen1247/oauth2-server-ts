@@ -1,6 +1,6 @@
 import * as should from 'should';
 import * as sinon from 'sinon';
-import { ImplicitGrantType } from '../../../lib/grant-types';
+import { ImplicitGrantType } from '../../../src/grant-types';
 /**
  * Test `ImplicitGrantType`.
  */

@@ -8,12 +8,12 @@ import {
     ServerError,
     UnauthorizedClientError,
     UnsupportedGrantTypeError,
-} from '../../../lib/errors';
-import { PasswordGrantType } from '../../../lib/grant-types';
-import { TokenHandler } from '../../../lib/handlers';
-import { Request } from '../../../lib/request';
-import { Response } from '../../../lib/response';
-import { BearerTokenType } from '../../../lib/token-types';
+} from '../../../src/errors';
+import { PasswordGrantType } from '../../../src/grant-types';
+import { TokenHandler } from '../../../src/handlers';
+import { Request } from '../../../src/request';
+import { Response } from '../../../src/response';
+import { BearerTokenType } from '../../../src/token-types';
 
 /**
  * Test `TokenHandler` integration.
@@ -1153,7 +1153,7 @@ describe('TokenHandler integration', () => {
         });
 
         it('should throw an error if `grantType` is unauthorized', async () => {
-            const client: any = { grants: ['client_credentials'] };
+            const client: any = { grants: ['clientCredentials'] };
             const model = {
                 getClient() { },
                 saveToken() { },
@@ -1211,9 +1211,9 @@ describe('TokenHandler integration', () => {
             });
         }); */
 
-        describe('with grantType `authorization_code`', () => {
+        describe('with grantType `authorizationCode`', () => {
             it('should return a token', () => {
-                const client: any = { id: 'foobar', grants: ['authorization_code'] };
+                const client: any = { id: 'foobar', grants: ['authorizationCode'] };
                 const token = {};
                 const model = {
                     getAuthorizationCode() {
@@ -1248,7 +1248,7 @@ describe('TokenHandler integration', () => {
                 const request = new Request({
                     body: {
                         code: 12345,
-                        grantType: 'authorization_code',
+                        grantType: 'authorizationCode',
                     },
                     headers: {},
                     method: {},
@@ -1264,9 +1264,9 @@ describe('TokenHandler integration', () => {
             });
         });
 
-        describe('with grantType `client_credentials`', () => {
+        describe('with grantType `clientCredentials`', () => {
             it('should return a token', () => {
-                const client: any = { grants: ['client_credentials'] };
+                const client: any = { grants: ['clientCredentials'] };
                 const token = {};
                 const model = {
                     getClient() { },
@@ -1287,7 +1287,7 @@ describe('TokenHandler integration', () => {
                 });
                 const request = new Request({
                     body: {
-                        grantType: 'client_credentials',
+                        grantType: 'clientCredentials',
                         scope: 'foo',
                     },
                     headers: {},

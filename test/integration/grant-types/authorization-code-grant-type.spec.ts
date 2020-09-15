@@ -4,9 +4,9 @@ import {
     InvalidGrantError,
     InvalidRequestError,
     ServerError,
-} from '../../../lib/errors';
-import { AuthorizationCodeGrantType } from '../../../lib/grant-types';
-import { Request } from '../../../lib/request';
+} from '../../../src/errors';
+import { AuthorizationCodeGrantType } from '../../../src/grant-types';
+import { Request } from '../../../src/request';
 
 /**
  * Test `AuthorizationCodeGrantType` integration.

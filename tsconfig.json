@@ -1,17 +1,49 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "declaration": true,
-    "removeComments": true,
-    // "emitDecoratorMetadata": true,
-    // "experimentalDecorators": true,
-    "lib": ["es2017"],
-    "target": "es2017",
-    "sourceMap": true,
-    "importHelpers": true,
-    "outDir": "./dist",
-    "baseUrl": ".",
-    "typeRoots": ["node_modules/@types"]
-  },
-  "exclude": ["node_modules", "./dist"]
+    "version": "2.4.2",
+    "compilerOptions": {
+        "target": "es2017",
+        "module": "commonjs",
+        "lib": [
+            "es6",
+            "es7"
+        ],
+        "sourceMap": true,
+        "outDir": "./lib",
+        "declaration": true,
+        "declarationMap": false,
+
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": false,
+        "noImplicitAny": false,
+        "noImplicitThis": false,
+        "strictPropertyInitialization": false,
+        "strictNullChecks": false,
+
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+
+        "moduleResolution": "node",
+
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "resolveJsonModule": true,
+
+        "typeRoots": [
+            "./node_modules/@types",
+            "./types"
+        ],
+    },
+    "include": [
+        "src",
+        "test",
+        "types",
+        "main.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "test/**",
+    ]
 }
