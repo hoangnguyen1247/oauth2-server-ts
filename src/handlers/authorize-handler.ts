@@ -163,7 +163,7 @@ export class AuthorizeHandler {
     const responseType =
       request.body.responseType || request.query.responseType;
     const requestedGrantType =
-      responseType === 'token' ? 'implicit' : 'authorization_code';
+      responseType === 'token' ? 'implicit' : 'authorizationCode';
 
     if (!client.grants.includes(requestedGrantType)) {
       throw new UnauthorizedClientError(

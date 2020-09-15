@@ -14,7 +14,7 @@
 * new: Added revoke-handler to revoke access token
 * new: Added implicit grant flow
 * new: Switch from jshint to eslin
-* fix: authorization_code grant should not be required in implicit flowt
+* fix: authorizationCode grant should not be required in implicit flowt
 
 ### 3.1.0
 * new: Added package-lock.json
@@ -104,7 +104,7 @@
  - Switch from internal router ("allow" property) to exposing explit authorisation middleware to be added to individual routes
  - Expose grant middleware to be attached to a route of your choosing
  - Switch all model variables to camelCasing
- - Add support for `authorization_code` grant type (i.e. traditional "allow", "deny" with redirects etc.)
+ - Add support for `authorizationCode` grant type (i.e. traditional "allow", "deny" with redirects etc.)
  - Some, previously wrong, error codes fixed
 
 ### 1.5.3
