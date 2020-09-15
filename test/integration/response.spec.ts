@@ -1,4 +1,4 @@
-import { Response } from '../../lib/response';
+import { Response } from '../../src/response';
 
 /**
  * Test `Response` integration.

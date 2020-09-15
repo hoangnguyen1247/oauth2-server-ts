@@ -8,11 +8,11 @@ import {
     InvalidScopeError,
     ServerError,
     UnauthorizedClientError,
-} from '../../../lib/errors';
-import { AuthenticateHandler, AuthorizeHandler } from '../../../lib/handlers';
-import { Request } from '../../../lib/request';
-import { Response } from '../../../lib/response';
-import { CodeResponseType } from '../../../lib/response-types';
+} from '../../../src/errors';
+import { AuthenticateHandler, AuthorizeHandler } from '../../../src/handlers';
+import { Request } from '../../../src/request';
+import { Response } from '../../../src/response';
+import { CodeResponseType } from '../../../src/response-types';
 
 /**
  * Test `AuthorizeHandler` integration.

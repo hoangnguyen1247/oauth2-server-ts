@@ -1,14 +1,14 @@
 import * as should from 'should';
 import * as sinon from 'sinon';
-import { InvalidArgumentError } from '../../lib/errors';
+import { InvalidArgumentError } from '../../src/errors';
 import {
     AuthenticateHandler,
     AuthorizeHandler,
     TokenHandler,
-} from '../../lib/handlers';
-import { Request } from '../../lib/request';
-import { Response } from '../../lib/response';
-import { OAuth2Server as Server } from '../../lib/server';
+} from '../../src/handlers';
+import { Request } from '../../src/request';
+import { Response } from '../../src/response';
+import { OAuth2Server as Server } from '../../src/server';
 
 /**
  * Test `Server` integration.

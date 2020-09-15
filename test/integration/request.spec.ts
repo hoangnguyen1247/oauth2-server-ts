@@ -1,6 +1,6 @@
 import * as should from 'should';
-import { InvalidArgumentError } from '../../lib/errors';
-import { Request } from '../../lib/request';
+import { InvalidArgumentError } from '../../src/errors';
+import { Request } from '../../src/request';
 
 /**
  * Test `Request` integration.

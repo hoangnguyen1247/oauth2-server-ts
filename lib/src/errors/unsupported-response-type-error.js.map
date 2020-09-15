@@ -1,0 +1,1 @@
+{"version":3,"file":"unsupported-response-type-error.js","sourceRoot":"","sources":["../../../src/errors/unsupported-response-type-error.ts"],"names":[],"mappings":";;AAAA,+CAA2C;AAE3C;;;;;;;GAOG;AAEH,MAAa,4BAA6B,SAAQ,wBAAU;IACxD,YAAY,OAAwB,EAAE,UAAgB;QAClD,KAAK,CAAC,OAAO,kBACT,IAAI,EAAE,GAAG,EACT,IAAI,EAAE,0BAA0B,IAC7B,UAAU,EACf,CAAC;IACP,CAAC;CACJ;AARD,oEAQC"}

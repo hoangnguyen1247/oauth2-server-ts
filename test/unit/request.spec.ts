@@ -1,5 +1,5 @@
 import * as should from 'should';
-import { Request } from '../../lib/request';
+import { Request } from '../../src/request';
 
 /**
  * Test `Request`.

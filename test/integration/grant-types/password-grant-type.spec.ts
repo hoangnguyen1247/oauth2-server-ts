@@ -3,9 +3,9 @@ import {
     InvalidArgumentError,
     InvalidGrantError,
     InvalidRequestError,
-} from '../../../lib/errors';
-import { PasswordGrantType } from '../../../lib/grant-types';
-import { Request } from '../../../lib/request';
+} from '../../../src/errors';
+import { PasswordGrantType } from '../../../src/grant-types';
+import { Request } from '../../../src/request';
 
 /**
  * Test `PasswordGrantType` integration.

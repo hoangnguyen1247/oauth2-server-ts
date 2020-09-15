@@ -1,7 +1,7 @@
 import * as should from 'should';
-import { InvalidArgumentError } from '../../../lib/errors';
-import { ImplicitGrantType } from '../../../lib/grant-types';
-import { Request } from '../../../lib/request';
+import { InvalidArgumentError } from '../../../src/errors';
+import { ImplicitGrantType } from '../../../src/grant-types';
+import { Request } from '../../../src/request';
 
 /**
  * Test `ImplicitGrantType` integration.

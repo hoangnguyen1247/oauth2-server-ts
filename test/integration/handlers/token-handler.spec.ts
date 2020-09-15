@@ -8,12 +8,12 @@ import {
     ServerError,
     UnauthorizedClientError,
     UnsupportedGrantTypeError,
-} from '../../../lib/errors';
-import { PasswordGrantType } from '../../../lib/grant-types';
-import { TokenHandler } from '../../../lib/handlers';
-import { Request } from '../../../lib/request';
-import { Response } from '../../../lib/response';
-import { BearerTokenType } from '../../../lib/token-types';
+} from '../../../src/errors';
+import { PasswordGrantType } from '../../../src/grant-types';
+import { TokenHandler } from '../../../src/handlers';
+import { Request } from '../../../src/request';
+import { Response } from '../../../src/response';
+import { BearerTokenType } from '../../../src/token-types';
 
 /**
  * Test `TokenHandler` integration.

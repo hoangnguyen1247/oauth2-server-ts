@@ -1,5 +1,5 @@
 import * as should from 'should';
-import * as TokenUtil from '../../../lib/utils/token-util';
+import * as TokenUtil from '../../../src/utils/token-util';
 
 /**
  * Test `TokenUtil` integration.

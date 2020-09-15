@@ -1,7 +1,7 @@
 import * as should from 'should';
 import * as sinon from 'sinon';
-import { RevokeHandler } from '../../../lib/handlers';
-import { Request } from '../../../lib/request';
+import { RevokeHandler } from '../../../src/handlers';
+import { Request } from '../../../src/request';
 
 /**
  * Test `RevokeHandler`.
