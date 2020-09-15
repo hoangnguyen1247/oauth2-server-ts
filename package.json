@@ -57,7 +57,7 @@
         "lint:all": "tslint -p tsconfig.json -c tslint.json",
         "type-check": "npx tsc -p tsconfig.json --noEmit",
         "build": "npx tsc -p tsconfig.json",
-        "build:clean": "npx shx rm -rf ./dist",
+        "build:clean": "npx shx rm -rf ./lib",
         "build:prod": "npx npm-run-all build:clean build:prod:*",
         "build:prod:src": "npx tsc -p tsconfig.build.json",
         "build:prod:package": "node ./scripts/build-prod.js",
