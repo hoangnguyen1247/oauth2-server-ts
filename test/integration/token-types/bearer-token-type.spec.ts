@@ -16,6 +16,7 @@ describe('BearerTokenType integration', () => {
                     undefined,
                     undefined,
                     undefined,
+                    undefined,
                 );
 
                 should.fail('should.fail', '');
@@ -32,6 +33,7 @@ describe('BearerTokenType integration', () => {
                 undefined,
                 undefined,
                 undefined,
+                undefined,
             );
 
             responseType.accessToken.should.equal('foo');
@@ -41,6 +43,7 @@ describe('BearerTokenType integration', () => {
             const responseType = new BearerTokenType(
                 'foo',
                 'bar' as any,
+                undefined,
                 undefined,
                 undefined,
                 undefined,
@@ -56,6 +59,7 @@ describe('BearerTokenType integration', () => {
                 'biz',
                 undefined,
                 undefined,
+                undefined,
             );
 
             responseType.refreshToken.should.equal('biz');
@@ -67,6 +71,7 @@ describe('BearerTokenType integration', () => {
             const responseType = new BearerTokenType(
                 'foo',
                 'bar' as any,
+                undefined,
                 undefined,
                 undefined,
                 undefined,
@@ -87,6 +92,7 @@ describe('BearerTokenType integration', () => {
                 undefined,
                 undefined,
                 undefined,
+                undefined,
             );
             const value = responseType.valueOf();
 
@@ -101,6 +107,7 @@ describe('BearerTokenType integration', () => {
                 'foo',
                 'bar' as any,
                 'biz',
+                undefined,
                 undefined,
                 undefined,
             );
@@ -119,6 +126,7 @@ describe('BearerTokenType integration', () => {
                 'foo',
                 'bar' as any,
                 'biz',
+                undefined,
                 undefined,
                 undefined,
             );
