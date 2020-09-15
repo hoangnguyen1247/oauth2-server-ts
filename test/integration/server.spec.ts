@@ -122,7 +122,7 @@ describe('Server integration', () => {
                 },
                 async getClient() {
                     return {
-                        grants: ['authorization_code'],
+                        grants: ['authorizationCode'],
                         redirectUris: ['http://example.com/cb'],
                     };
                 },
@@ -166,7 +166,7 @@ describe('Server integration', () => {
                 },
                 getClient() {
                     return {
-                        grants: ['authorization_code'],
+                        grants: ['authorizationCode'],
                         redirectUris: ['http://example.com/cb'],
                     };
                 },
@@ -205,7 +205,7 @@ describe('Server integration', () => {
             },
             getClient() {
               return {
-                grants: ['authorization_code'],
+                grants: ['authorizationCode'],
                 redirectUris: ['http://example.com/cb'],
               };
             },

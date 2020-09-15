@@ -1211,9 +1211,9 @@ describe('TokenHandler integration', () => {
             });
         }); */
 
-        describe('with grantType `authorization_code`', () => {
+        describe('with grantType `authorizationCode`', () => {
             it('should return a token', () => {
-                const client: any = { id: 'foobar', grants: ['authorization_code'] };
+                const client: any = { id: 'foobar', grants: ['authorizationCode'] };
                 const token = {};
                 const model = {
                     getAuthorizationCode() {
@@ -1248,7 +1248,7 @@ describe('TokenHandler integration', () => {
                 const request = new Request({
                     body: {
                         code: 12345,
-                        grantType: 'authorization_code',
+                        grantType: 'authorizationCode',
                     },
                     headers: {},
                     method: {},

@@ -37,7 +37,7 @@ describe('AuthorizeHandler', () => {
         getAccessToken() {},
         getClient: sinon.stub().returns(
           Promise.resolve({
-            grants: ['authorization_code'],
+            grants: ['authorizationCode'],
             redirectUris: ['http://example.com/cb'],
           }),
         ),

@@ -1,1 +1,0 @@
-{"version":3,"file":"unauthorized-client-error.js","sourceRoot":"","sources":["../../../src/errors/unauthorized-client-error.ts"],"names":[],"mappings":";;AAAA,+CAA2C;AAE3C;;;;;;GAMG;AAEH,MAAa,uBAAwB,SAAQ,wBAAU;IACnD,YACI,OAAwB,EACxB,UAAgD;QAEhD,KAAK,CAAC,OAAO,kBAAI,IAAI,EAAE,GAAG,EAAE,IAAI,EAAE,qBAAqB,IAAK,UAAU,EAAG,CAAC;IAC9E,CAAC;CACJ;AAPD,0DAOC"}
