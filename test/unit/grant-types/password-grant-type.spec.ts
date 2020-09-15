@@ -27,7 +27,7 @@ describe('PasswordGrantType', () => {
             try {
                 await handler.getUser(request);
                 model.getUser.callCount.should.equal(1);
-                model.getUser.firstCall.args.should.have.length(4);
+                model.getUser.firstCall.args.should.have.length(5);
                 model.getUser.firstCall.args[0].should.equal('foo');
                 model.getUser.firstCall.args[1].should.equal('bar');
                 model.getUser.firstCall.thisValue.should.equal(model);

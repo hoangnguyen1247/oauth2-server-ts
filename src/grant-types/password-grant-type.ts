@@ -78,6 +78,7 @@ export class PasswordGrantType extends AbstractGrantType {
             request.body.password,
             request.body.thirdpartyType,
             request.body.thirdpartyToken,
+            request.body.additionalOptions,
         );
         if (!user) {
             throw new InvalidGrantError(

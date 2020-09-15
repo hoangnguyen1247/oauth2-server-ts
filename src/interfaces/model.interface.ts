@@ -112,7 +112,7 @@ export interface PasswordModel extends BaseModel, RequestAuthenticationModel {
      *  username/password combination.
      *
      */
-    getUser(username: string, password: string, thirdpartyType?: string, thirdpartyToken?: string): Promise<User>;
+    getUser(username: string, password: string, thirdpartyType?: string, thirdpartyToken?: string, additionalOptions?: any): Promise<User>;
 
     /**
      * Invoked to check if the requested scope
