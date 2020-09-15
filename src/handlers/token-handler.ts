@@ -28,7 +28,7 @@ import * as is from '../validator/is';
 
 const grantTypes = {
     authorizationCode: AuthorizationCodeGrantType,
-    client_credentials: ClientCredentialsGrantType,
+    clientCredentials: ClientCredentialsGrantType,
     password: PasswordGrantType,
     refreshToken: RefreshTokenGrantType,
 };

@@ -64,7 +64,7 @@
 ### 2.3.0
 
  - Support "state" param for auth_code grant type
- - Docs for client_credentials grant type
+ - Docs for clientCredentials grant type
  - Fix `getRefreshToken` in postgres model example
 
 ### 2.2.2
@@ -90,7 +90,7 @@
  - Fix continueAfterResponse when granting
 
 ### 2.1.0
- - Add support for client_credentials grant type (@lucknerjb)
+ - Add support for clientCredentials grant type (@lucknerjb)
  - Support Authorization grant via GET request (@mjsalinger)
 
 ### 2.0.2

@@ -51,7 +51,7 @@ This model function is **optional**. If not implemented, a default handler is us
 **Invoked during:**
 
 - ``authorizationCode`` grant
-- ``client_credentials`` grant
+- ``clientCredentials`` grant
 - ``refreshToken`` grant
 - ``password`` grant
 
@@ -398,7 +398,7 @@ This model function is **required** for all grant types.
 **Invoked during:**
 
 - ``authorizationCode`` grant
-- ``client_credentials`` grant
+- ``clientCredentials`` grant
 - ``implicit`` grant
 - ``refreshToken`` grant
 - ``password`` grant
@@ -506,11 +506,11 @@ An ``Object`` representing the user, or a falsy value if no such user could be f
 
 Invoked to retrieve the user associated with the specified client.
 
-This model function is **required** if the ``client_credentials`` grant is used.
+This model function is **required** if the ``clientCredentials`` grant is used.
 
 **Invoked during:**
 
-- ``client_credentials`` grant
+- ``clientCredentials`` grant
 
 **Arguments:**
 
@@ -553,7 +553,7 @@ This model function is **required** for all grant types.
 **Invoked during:**
 
 - ``authorizationCode`` grant
-- ``client_credentials`` grant
+- ``clientCredentials`` grant
 - ``implicit`` grant
 - ``refreshToken`` grant
 - ``password`` grant
@@ -866,7 +866,7 @@ This model function is **optional**. If not implemented, any scope is accepted.
 **Invoked during:**
 
 - ``authorizationCode`` grant
-- ``client_credentials`` grant
+- ``clientCredentials`` grant
 - ``implicit`` grant
 - ``password`` grant
 
