@@ -1,1 +1,0 @@
-{"version":3,"file":"unsupported-grant-type-error.js","sourceRoot":"","sources":["../../src/errors/unsupported-grant-type-error.ts"],"names":[],"mappings":";;AAAA,+CAA2C;AAE3C;;;;;;GAMG;AAEH,MAAa,yBAA0B,SAAQ,wBAAU;IACrD,YAAY,OAAwB,EAAE,UAAgB;QAClD,KAAK,CAAC,OAAO,kBACT,IAAI,EAAE,GAAG,EACT,IAAI,EAAE,uBAAuB,IAC1B,UAAU,EACf,CAAC;IACP,CAAC;CACJ;AARD,8DAQC"}
