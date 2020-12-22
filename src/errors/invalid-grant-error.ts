@@ -1,4 +1,4 @@
-import { OAuthError } from './oauth-error';
+import { OAuthError } from "./oauth-error";
 
 /**
  * Constructor.
@@ -12,6 +12,6 @@ import { OAuthError } from './oauth-error';
 
 export class InvalidGrantError extends OAuthError {
     constructor(message?: string | Error, properties?: any) {
-        super(message, { code: 400, name: 'invalid_grant', ...properties });
+        super(message, { code: 400, name: "invalid_grant", ...properties });
     }
 }

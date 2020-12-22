@@ -1,41 +1,41 @@
-import * as should from 'should';
-import { InvalidArgumentError } from '../../../src/errors';
-import { ImplicitGrantType } from '../../../src/grant-types';
-import { Request } from '../../../src/request';
+import * as should from "should";
+import { InvalidArgumentError } from "../../../src/errors";
+import { ImplicitGrantType } from "../../../src/grant-types";
+import { Request } from "../../../src/request";
 
 /**
  * Test `ImplicitGrantType` integration.
  */
 
-describe('ImplicitGrantType integration', () => {
-    describe('constructor()', () => {
-        it('should throw an error if `model` is missing', () => {
+describe("ImplicitGrantType integration", () => {
+    describe("constructor()", () => {
+        it("should throw an error if `model` is missing", () => {
             try {
                 new ImplicitGrantType({ accessTokenLifetime: 3600 });
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidArgumentError);
-                e.message.should.equal('Missing parameter: `model`');
+                e.message.should.equal("Missing parameter: `model`");
             }
         });
 
-        it('should throw an error if the model does not implement `saveToken()`', () => {
+        it("should throw an error if the model does not implement `saveToken()`", () => {
             try {
                 const model = {};
 
                 new ImplicitGrantType({ model, accessTokenLifetime: 3600 });
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidArgumentError);
                 e.message.should.equal(
-                    'Invalid argument: model does not implement `saveToken()`',
+                    "Invalid argument: model does not implement `saveToken()`",
                 );
             }
         });
 
-        it('should throw an error if the `user` parameter is missing', () => {
+        it("should throw an error if the `user` parameter is missing", () => {
             try {
                 const model = {
                     saveToken() { },
@@ -43,16 +43,16 @@ describe('ImplicitGrantType integration', () => {
 
                 new ImplicitGrantType({ model, accessTokenLifetime: 3600 });
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidArgumentError);
-                e.message.should.equal('Missing parameter: `user`');
+                e.message.should.equal("Missing parameter: `user`");
             }
         });
     });
 
-    describe('handle()', () => {
-        it('should throw an error if `request` is missing', async () => {
+    describe("handle()", () => {
+        it("should throw an error if `request` is missing", async () => {
             const model = {
                 saveToken() { },
             };
@@ -64,14 +64,14 @@ describe('ImplicitGrantType integration', () => {
 
             try {
                 await grantType.handle();
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidArgumentError);
-                e.message.should.equal('Missing parameter: `request`');
+                e.message.should.equal("Missing parameter: `request`");
             }
         });
 
-        it('should throw an error if `client` is missing', async () => {
+        it("should throw an error if `client` is missing", async () => {
             const model = {
                 saveToken() { },
             };
@@ -91,19 +91,19 @@ describe('ImplicitGrantType integration', () => {
                 await grantType.handle(request, undefined);
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidArgumentError);
-                e.message.should.equal('Missing parameter: `client`');
+                e.message.should.equal("Missing parameter: `client`");
             }
         });
 
-        it('should return a token', () => {
-            const client = { id: 'foobar' };
-            const token = { accessToken: 'foobar-token' };
+        it("should return a token", () => {
+            const client = { id: "foobar" };
+            const token = { accessToken: "foobar-token" };
             const model = {
                 saveToken() {
                     return token;
                 },
                 validateScope() {
-                    return 'foo';
+                    return "foo";
                 },
             };
             const grantType: any = new ImplicitGrantType({
@@ -126,8 +126,8 @@ describe('ImplicitGrantType integration', () => {
                 .catch(should.fail);
         });
 
-        it('should support promises', () => {
-            const client = { id: 'foobar' };
+        it("should support promises", () => {
+            const client = { id: "foobar" };
             const model = {
                 saveToken() { },
             };
@@ -146,8 +146,8 @@ describe('ImplicitGrantType integration', () => {
             grantType.handle(request, client).should.be.an.instanceOf(Promise);
         });
 
-        it('should support non-promises', () => {
-            const client = { id: 'foobar' };
+        it("should support non-promises", () => {
+            const client = { id: "foobar" };
             const model = {
                 saveToken() { },
             };
@@ -193,15 +193,15 @@ describe('ImplicitGrantType integration', () => {
         // });
     });
 
-    describe('saveToken()', () => {
-        it('should save the token', () => {
+    describe("saveToken()", () => {
+        it("should save the token", () => {
             const token = {};
             const model = {
                 saveToken() {
                     return token;
                 },
                 validateScope() {
-                    return 'foo';
+                    return "foo";
                 },
             };
             const grantType: any = new ImplicitGrantType({
@@ -218,7 +218,7 @@ describe('ImplicitGrantType integration', () => {
                 .catch(should.fail);
         });
 
-        it('should support promises', () => {
+        it("should support promises", () => {
             const token = {};
             const model = {
                 saveToken() {
@@ -234,7 +234,7 @@ describe('ImplicitGrantType integration', () => {
             grantType.saveToken(token).should.be.an.instanceOf(Promise);
         });
 
-        it('should support non-promises', () => {
+        it("should support non-promises", () => {
             const token = {};
             const model = {
                 saveToken() {

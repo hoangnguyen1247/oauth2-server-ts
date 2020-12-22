@@ -53,8 +53,8 @@
         }
     ],
     "scripts": {
-        "lint": "tslint -p tsconfig.build.json -c tslint.json",
-        "lint:all": "tslint -p tsconfig.json -c tslint.json",
+        "format": "eslint . --ext ts --fix",
+        "lint": "eslint . --ext ts",
         "type-check": "npx tsc -p tsconfig.json --noEmit",
         "build": "npx tsc -p tsconfig.json",
         "build:clean": "npx shx rm -rf ./lib",
@@ -80,6 +80,9 @@
         "@types/sinon": "^7.0.12",
         "@types/statuses": "^1.5.0",
         "@types/type-is": "^1.6.2",
+        "@typescript-eslint/eslint-plugin": "^4.11.0",
+        "@typescript-eslint/parser": "^4.11.0",
+        "eslint": "^7.16.0",
         "husky": "^4.3.0",
         "mocha": "^6.1.4",
         "npm-run-all": "^4.1.5",
@@ -87,7 +90,6 @@
         "shx": "^0.3.2",
         "sinon": "^7.3.2",
         "ts-node": "^8.2.0",
-        "tslint": "^5.17.0",
         "typescript": "^3.5.1"
     },
     "engines": {
@@ -95,7 +97,7 @@
     },
     "husky": {
         "hooks": {
-            "pre-commit": "npm run type-check"
+            "pre-commit": "npm run lint && npm run type-check"
         }
     }
 }

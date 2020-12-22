@@ -1,5 +1,5 @@
-import { createHash, randomBytes } from 'crypto';
-import { promisify } from 'util';
+import { createHash, randomBytes } from "crypto";
+import { promisify } from "util";
 const randomBytesPromise = promisify(randomBytes);
 
 /**
@@ -10,7 +10,7 @@ export const GenerateRandomToken = async () => {
     const bytesSize = 256;
     const buffer = await randomBytesPromise(bytesSize);
 
-    return createHash('sha1')
+    return createHash("sha1")
         .update(buffer)
-        .digest('hex');
+        .digest("hex");
 };

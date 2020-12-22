@@ -1,4 +1,4 @@
-import auth from 'basic-auth';
+import auth from "basic-auth";
 import {
     InvalidArgumentError,
     InvalidClientError,
@@ -7,20 +7,20 @@ import {
     ServerError,
     UnauthorizedClientError,
     UnsupportedGrantTypeError,
-} from '../errors';
+} from "../errors";
 import {
     AuthorizationCodeGrantType,
     ClientCredentialsGrantType,
     PasswordGrantType,
     RefreshTokenGrantType,
-} from '../grant-types';
-import { Client, Model } from '../interfaces';
-import { TokenModel } from '../models';
-import { Request } from '../request';
-import { Response } from '../response';
-import { BearerTokenType } from '../token-types';
-import { hasOwnProperty } from '../utils/fn';
-import * as is from '../validator/is';
+} from "../grant-types";
+import { Client, Model } from "../interfaces";
+import { TokenModel } from "../models";
+import { Request } from "../request";
+import { Response } from "../response";
+import { BearerTokenType } from "../token-types";
+import { hasOwnProperty } from "../utils/fn";
+import * as is from "../validator/is";
 
 /**
  * Grant types.
@@ -43,23 +43,23 @@ export class TokenHandler {
     constructor(options: any = {}) {
         if (!options.accessTokenLifetime) {
             throw new InvalidArgumentError(
-                'Missing parameter: `accessTokenLifetime`',
+                "Missing parameter: `accessTokenLifetime`",
             );
         }
 
         if (!options.model) {
-            throw new InvalidArgumentError('Missing parameter: `model`');
+            throw new InvalidArgumentError("Missing parameter: `model`");
         }
 
         if (!options.refreshTokenLifetime) {
             throw new InvalidArgumentError(
-                'Missing parameter: `refreshTokenLifetime`',
+                "Missing parameter: `refreshTokenLifetime`",
             );
         }
 
         if (!options.model.getClient) {
             throw new InvalidArgumentError(
-                'Invalid argument: model does not implement `getClient()`',
+                "Invalid argument: model does not implement `getClient()`",
             );
         }
 
@@ -81,23 +81,23 @@ export class TokenHandler {
     async handle(request: Request, response: Response) {
         if (!(request instanceof Request)) {
             throw new InvalidArgumentError(
-                'Invalid argument: `request` must be an instance of Request',
+                "Invalid argument: `request` must be an instance of Request",
             );
         }
 
         if (!(response instanceof Response)) {
             throw new InvalidArgumentError(
-                'Invalid argument: `response` must be an instance of Response',
+                "Invalid argument: `response` must be an instance of Response",
             );
         }
 
-        if (request.method !== 'POST') {
-            throw new InvalidRequestError('Invalid request: method must be POST');
+        if (request.method !== "POST") {
+            throw new InvalidRequestError("Invalid request: method must be POST");
         }
 
-        if (!request.is('application/x-www-form-urlencoded')) {
+        if (!request.is("application/x-www-form-urlencoded")) {
             throw new InvalidRequestError(
-                'Invalid request: content must be application/x-www-form-urlencoded',
+                "Invalid request: content must be application/x-www-form-urlencoded",
             );
         }
 
@@ -116,7 +116,7 @@ export class TokenHandler {
             return data;
         } catch (e) {
             if (!(e instanceof OAuthError)) {
-                e = new ServerError(e);
+                e = new ServerError(e); // eslint-disable-line no-ex-assign
             }
             this.updateErrorResponse(response, e);
             throw e;
@@ -132,22 +132,22 @@ export class TokenHandler {
         const grantType = request.body.grantType;
 
         if (!credentials.clientId) {
-            throw new InvalidRequestError('Missing parameter: `clientId`');
+            throw new InvalidRequestError("Missing parameter: `clientId`");
         }
 
         if (
             this.isClientAuthenticationRequired(grantType) &&
             !credentials.clientSecret
         ) {
-            throw new InvalidRequestError('Missing parameter: `clientSecret`');
+            throw new InvalidRequestError("Missing parameter: `clientSecret`");
         }
 
         if (!is.vschar(credentials.clientId)) {
-            throw new InvalidRequestError('Invalid parameter: `clientId`');
+            throw new InvalidRequestError("Invalid parameter: `clientId`");
         }
 
         if (credentials.clientSecret && !is.vschar(credentials.clientSecret)) {
-            throw new InvalidRequestError('Invalid parameter: `clientSecret`');
+            throw new InvalidRequestError("Invalid parameter: `clientSecret`");
         }
         try {
             const client = await this.model.getClient(
@@ -155,15 +155,15 @@ export class TokenHandler {
                 credentials.clientSecret,
             );
             if (!client) {
-                throw new InvalidClientError('Invalid client: client is invalid');
+                throw new InvalidClientError("Invalid client: client is invalid");
             }
 
             if (!client.grants) {
-                throw new ServerError('Server error: missing client `grants`');
+                throw new ServerError("Server error: missing client `grants`");
             }
 
             if (!(client.grants instanceof Array)) {
-                throw new ServerError('Server error: `grants` must be an array');
+                throw new ServerError("Server error: `grants` must be an array");
             }
 
             return client;
@@ -172,8 +172,8 @@ export class TokenHandler {
             // attempted to authenticate via the "Authorization" request header.
             //
             // @see https://tools.ietf.org/html/rfc6749#section-5.2.
-            if (e instanceof InvalidClientError && request.get('authorization')) {
-                response.set('WWW-Authenticate', 'Basic realm="Service"');
+            if (e instanceof InvalidClientError && request.get("authorization")) {
+                response.set("WWW-Authenticate", "Basic realm=\"Service\"");
 
                 throw new InvalidClientError(e, { code: 401 });
             }
@@ -216,7 +216,7 @@ export class TokenHandler {
         }
 
         throw new InvalidClientError(
-            'Invalid client: cannot retrieve client credentials',
+            "Invalid client: cannot retrieve client credentials",
         );
     }
 
@@ -228,22 +228,22 @@ export class TokenHandler {
         const grantType = request.body.grantType;
 
         if (!grantType) {
-            throw new InvalidRequestError('Missing parameter: `grantType`');
+            throw new InvalidRequestError("Missing parameter: `grantType`");
         }
 
         if (!is.nchar(grantType) && !is.uri(grantType)) {
-            throw new InvalidRequestError('Invalid parameter: `grantType`');
+            throw new InvalidRequestError("Invalid parameter: `grantType`");
         }
 
         if (!hasOwnProperty(this.grantTypes, grantType)) {
             throw new UnsupportedGrantTypeError(
-                'Unsupported grant type: `grantType` is invalid',
+                "Unsupported grant type: `grantType` is invalid",
             );
         }
 
         if (!client.grants.includes(grantType)) {
             throw new UnauthorizedClientError(
-                'Unauthorized client: `grantType` is invalid',
+                "Unauthorized client: `grantType` is invalid",
             );
         }
 
@@ -299,8 +299,8 @@ export class TokenHandler {
     updateSuccessResponse(response: Response, tokenType: BearerTokenType) {
         response.body = tokenType.valueOf();
 
-        response.set('Cache-Control', 'no-store');
-        response.set('Pragma', 'no-cache');
+        response.set("Cache-Control", "no-store");
+        response.set("Pragma", "no-cache");
     }
 
     /**
@@ -321,7 +321,7 @@ export class TokenHandler {
      */
     isClientAuthenticationRequired(grantType: string) {
         if (Object.keys(this.requireClientAuthentication).length > 0) {
-            return typeof this.requireClientAuthentication[grantType] !== 'undefined'
+            return typeof this.requireClientAuthentication[grantType] !== "undefined"
                 ? this.requireClientAuthentication[grantType]
                 : true;
         }

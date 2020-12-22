@@ -1,16 +1,16 @@
-import { MS_IN_S } from '../constants';
-import { InvalidArgumentError } from '../errors';
-import { Client, Token, User } from '../interfaces';
-import { hasOwnProperty } from '../utils/fn';
+import { MS_IN_S } from "../constants";
+import { InvalidArgumentError } from "../errors";
+import { Client, Token, User } from "../interfaces";
+import { hasOwnProperty } from "../utils/fn";
 
 const modelAttributes = [
-    'accessToken',
-    'accessTokenExpiresAt',
-    'client',
-    'refreshToken',
-    'refreshTokenExpiresAt',
-    'scope',
-    'user',
+    "accessToken",
+    "accessTokenExpiresAt",
+    "client",
+    "refreshToken",
+    "refreshTokenExpiresAt",
+    "scope",
+    "user",
 ];
 
 export class TokenModel implements Token {
@@ -21,19 +21,19 @@ export class TokenModel implements Token {
     scope?: string;
     client: Client;
     user: User;
-    customAttributes: {};
+    customAttributes: {}; // eslint-disable-line @typescript-eslint/ban-types
     accessTokenLifetime: number;
     constructor(data: any = {}, options: any = {}) {
         if (!data.accessToken) {
-            throw new InvalidArgumentError('Missing parameter: `accessToken`');
+            throw new InvalidArgumentError("Missing parameter: `accessToken`");
         }
 
         if (!data.client) {
-            throw new InvalidArgumentError('Missing parameter: `client`');
+            throw new InvalidArgumentError("Missing parameter: `client`");
         }
 
         if (!data.user) {
-            throw new InvalidArgumentError('Missing parameter: `user`');
+            throw new InvalidArgumentError("Missing parameter: `user`");
         }
 
         if (
@@ -41,7 +41,7 @@ export class TokenModel implements Token {
             !(data.accessTokenExpiresAt instanceof Date)
         ) {
             throw new InvalidArgumentError(
-                'Invalid parameter: `accessTokenExpiresAt`',
+                "Invalid parameter: `accessTokenExpiresAt`",
             );
         }
 
@@ -50,7 +50,7 @@ export class TokenModel implements Token {
             !(data.refreshTokenExpiresAt instanceof Date)
         ) {
             throw new InvalidArgumentError(
-                'Invalid parameter: `refreshTokenExpiresAt`',
+                "Invalid parameter: `refreshTokenExpiresAt`",
             );
         }
 

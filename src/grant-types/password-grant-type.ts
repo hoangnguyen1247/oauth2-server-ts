@@ -1,30 +1,30 @@
-import { AbstractGrantType } from '.';
+import { AbstractGrantType } from ".";
 import {
     InvalidArgumentError,
     InvalidGrantError,
     InvalidRequestError,
-} from '../errors';
-import { Client, Token, User } from '../interfaces';
-import { Request } from '../request';
-import * as is from '../validator/is';
+} from "../errors";
+import { Client, Token, User } from "../interfaces";
+import { Request } from "../request";
+import * as is from "../validator/is";
 
 export class PasswordGrantType extends AbstractGrantType {
     constructor(options: any = {}) {
         super(options);
 
         if (!options.model) {
-            throw new InvalidArgumentError('Missing parameter: `model`');
+            throw new InvalidArgumentError("Missing parameter: `model`");
         }
 
         if (!options.model.getUser) {
             throw new InvalidArgumentError(
-                'Invalid argument: model does not implement `getUser()`',
+                "Invalid argument: model does not implement `getUser()`",
             );
         }
 
         if (!options.model.saveToken) {
             throw new InvalidArgumentError(
-                'Invalid argument: model does not implement `saveToken()`',
+                "Invalid argument: model does not implement `saveToken()`",
             );
         }
     }
@@ -37,11 +37,11 @@ export class PasswordGrantType extends AbstractGrantType {
 
     async handle(request, client) {
         if (!request) {
-            throw new InvalidArgumentError('Missing parameter: `request`');
+            throw new InvalidArgumentError("Missing parameter: `request`");
         }
 
         if (!client) {
-            throw new InvalidArgumentError('Missing parameter: `client`');
+            throw new InvalidArgumentError("Missing parameter: `client`");
         }
 
         const scope = this.getScope(request);
@@ -57,19 +57,19 @@ export class PasswordGrantType extends AbstractGrantType {
     async getUser(request: Request) {
         if (!request.body.thirdpartyType && !request.body.thirdpartyToken) {
             if (!request.body.username) {
-                throw new InvalidRequestError('Missing parameter: `username`');
+                throw new InvalidRequestError("Missing parameter: `username`");
             }
 
             if (!request.body.password) {
-                throw new InvalidRequestError('Missing parameter: `password`');
+                throw new InvalidRequestError("Missing parameter: `password`");
             }
 
             if (!is.uchar(request.body.username)) {
-                throw new InvalidRequestError('Invalid parameter: `username`');
+                throw new InvalidRequestError("Invalid parameter: `username`");
             }
 
             if (!is.uchar(request.body.password)) {
-                throw new InvalidRequestError('Invalid parameter: `password`');
+                throw new InvalidRequestError("Invalid parameter: `password`");
             }
         }
 
@@ -82,7 +82,7 @@ export class PasswordGrantType extends AbstractGrantType {
         );
         if (!user) {
             throw new InvalidGrantError(
-                'Invalid grant: user credentials are invalid',
+                "Invalid grant: user credentials are invalid",
             );
         }
 

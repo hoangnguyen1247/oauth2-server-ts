@@ -1,5 +1,5 @@
-import * as should from 'should';
-import * as util from 'util';
+import * as should from "should";
+import * as util from "util";
 import {
     AccessDeniedError,
     InvalidArgumentError,
@@ -7,42 +7,42 @@ import {
     InvalidRequestError,
     InvalidTokenError,
     ServerError,
-} from '../../../src/errors';
-import { RevokeHandler } from '../../../src/handlers';
-import { Request } from '../../../src/request';
-import { Response } from '../../../src/response';
+} from "../../../src/errors";
+import { RevokeHandler } from "../../../src/handlers";
+import { Request } from "../../../src/request";
+import { Response } from "../../../src/response";
 
 /**
  * Test `RevokeHandler` integration.
  */
 
-describe('RevokeHandler integration', () => {
-    describe('constructor()', () => {
-        it('should throw an error if `options.model` is missing', () => {
+describe("RevokeHandler integration", () => {
+    describe("constructor()", () => {
+        it("should throw an error if `options.model` is missing", () => {
             try {
                 new RevokeHandler({});
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidArgumentError);
-                e.message.should.equal('Missing parameter: `model`');
+                e.message.should.equal("Missing parameter: `model`");
             }
         });
 
-        it('should throw an error if the model does not implement `getClient()`', () => {
+        it("should throw an error if the model does not implement `getClient()`", () => {
             try {
                 new RevokeHandler({ model: {} });
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidArgumentError);
                 e.message.should.equal(
-                    'Invalid argument: model does not implement `getClient()`',
+                    "Invalid argument: model does not implement `getClient()`",
                 );
             }
         });
 
-        it('should set the `model`', () => {
+        it("should set the `model`", () => {
             const model = {
                 getClient() { },
                 revokeToken() { },
@@ -55,8 +55,8 @@ describe('RevokeHandler integration', () => {
         });
     });
 
-    describe('handle()', () => {
-        it('should throw an error if `request` is missing', async () => {
+    describe("handle()", () => {
+        it("should throw an error if `request` is missing", async () => {
             const model = {
                 getClient() { },
                 revokeToken() { },
@@ -68,16 +68,16 @@ describe('RevokeHandler integration', () => {
             try {
                 await handler.handle();
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidArgumentError);
                 e.message.should.equal(
-                    'Invalid argument: `request` must be an instance of Request',
+                    "Invalid argument: `request` must be an instance of Request",
                 );
             }
         });
 
-        it('should throw an error if `response` is missing', async () => {
+        it("should throw an error if `response` is missing", async () => {
             const model = {
                 getClient() { },
                 revokeToken() { },
@@ -95,16 +95,16 @@ describe('RevokeHandler integration', () => {
             try {
                 await handler.handle(request);
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidArgumentError);
                 e.message.should.equal(
-                    'Invalid argument: `response` must be an instance of Response',
+                    "Invalid argument: `response` must be an instance of Response",
                 );
             }
         });
 
-        it('should throw an error if the method is not `POST`', () => {
+        it("should throw an error if the method is not `POST`", () => {
             const model = {
                 getClient() { },
                 revokeToken() { },
@@ -115,7 +115,7 @@ describe('RevokeHandler integration', () => {
             const request = new Request({
                 body: {},
                 headers: {},
-                method: 'GET',
+                method: "GET",
                 query: {},
             });
             const response = new Response({ body: {}, headers: {} });
@@ -125,11 +125,11 @@ describe('RevokeHandler integration', () => {
                 .then(should.fail)
                 .catch(e => {
                     e.should.be.an.instanceOf(InvalidRequestError);
-                    e.message.should.equal('Invalid request: method must be POST');
+                    e.message.should.equal("Invalid request: method must be POST");
                 });
         });
 
-        it('should throw an error if the media type is not `application/x-www-form-urlencoded`', () => {
+        it("should throw an error if the media type is not `application/x-www-form-urlencoded`", () => {
             const model = {
                 getClient() { },
                 revokeToken() { },
@@ -140,7 +140,7 @@ describe('RevokeHandler integration', () => {
             const request = new Request({
                 body: {},
                 headers: {},
-                method: 'POST',
+                method: "POST",
                 query: {},
             });
             const response = new Response({ body: {}, headers: {} });
@@ -151,12 +151,12 @@ describe('RevokeHandler integration', () => {
                 .catch(e => {
                     e.should.be.an.instanceOf(InvalidRequestError);
                     e.message.should.equal(
-                        'Invalid request: content must be application/x-www-form-urlencoded',
+                        "Invalid request: content must be application/x-www-form-urlencoded",
                     );
                 });
         });
 
-        it('should throw the error if an oauth error is thrown', () => {
+        it("should throw the error if an oauth error is thrown", () => {
             const model = {
                 getClient() { },
                 revokeToken() { },
@@ -165,12 +165,12 @@ describe('RevokeHandler integration', () => {
             };
             const handler: any = new RevokeHandler({ model });
             const request = new Request({
-                body: { token: 'hash' },
+                body: { token: "hash" },
                 headers: {
-                    'content-type': 'application/x-www-form-urlencoded',
-                    'transfer-encoding': 'chunked',
+                    "content-type": "application/x-www-form-urlencoded",
+                    "transfer-encoding": "chunked",
                 },
-                method: 'POST',
+                method: "POST",
                 query: {},
             });
             const response = new Response({ body: {}, headers: {} });
@@ -181,15 +181,15 @@ describe('RevokeHandler integration', () => {
                 .catch(e => {
                     e.should.be.an.instanceOf(InvalidClientError);
                     e.message.should.equal(
-                        'Invalid client: cannot retrieve client credentials',
+                        "Invalid client: cannot retrieve client credentials",
                     );
                 });
         });
 
-        it('should throw the error if an oauth error is thrown', () => {
+        it("should throw the error if an oauth error is thrown", () => {
             const model = {
                 getClient() {
-                    return { grants: ['password'] };
+                    return { grants: ["password"] };
                 },
                 revokeToken() { },
                 getRefreshToken() { },
@@ -197,12 +197,12 @@ describe('RevokeHandler integration', () => {
             };
             const handler: any = new RevokeHandler({ model });
             const request = new Request({
-                body: { clientId: 12345, clientSecret: 'secret' },
+                body: { clientId: 12345, clientSecret: "secret" },
                 headers: {
-                    'content-type': 'application/x-www-form-urlencoded',
-                    'transfer-encoding': 'chunked',
+                    "content-type": "application/x-www-form-urlencoded",
+                    "transfer-encoding": "chunked",
                 },
-                method: 'POST',
+                method: "POST",
                 query: {},
             });
             const response = new Response({ body: {}, headers: {} });
@@ -212,14 +212,14 @@ describe('RevokeHandler integration', () => {
                 .then(should.fail)
                 .catch(e => {
                     e.should.be.an.instanceOf(InvalidRequestError);
-                    e.message.should.equal('Missing parameter: `token`');
+                    e.message.should.equal("Missing parameter: `token`");
                 });
         });
 
-        it('should throw a server error if a non-oauth error is thrown', () => {
+        it("should throw a server error if a non-oauth error is thrown", () => {
             const model = {
                 getClient() {
-                    throw new Error('Unhandled exception');
+                    throw new Error("Unhandled exception");
                 },
                 revokeToken() { },
                 getRefreshToken() { },
@@ -229,14 +229,14 @@ describe('RevokeHandler integration', () => {
             const request = new Request({
                 body: {
                     clientId: 12345,
-                    clientSecret: 'secret',
-                    token: 'hash',
+                    clientSecret: "secret",
+                    token: "hash",
                 },
                 headers: {
-                    'content-type': 'application/x-www-form-urlencoded',
-                    'transfer-encoding': 'chunked',
+                    "content-type": "application/x-www-form-urlencoded",
+                    "transfer-encoding": "chunked",
                 },
-                method: 'POST',
+                method: "POST",
                 query: {},
             });
             const response = new Response({ body: {}, headers: {} });
@@ -246,15 +246,15 @@ describe('RevokeHandler integration', () => {
                 .then(should.fail)
                 .catch(e => {
                     e.should.be.an.instanceOf(ServerError);
-                    e.message.should.equal('Unhandled exception');
+                    e.message.should.equal("Unhandled exception");
                     e.inner.should.be.an.instanceOf(Error);
                 });
         });
 
-        it('should update the response if an error is thrown', () => {
+        it("should update the response if an error is thrown", () => {
             const model = {
                 getClient() {
-                    throw new Error('Unhandled exception');
+                    throw new Error("Unhandled exception");
                 },
                 revokeToken() { },
                 getRefreshToken() { },
@@ -264,16 +264,16 @@ describe('RevokeHandler integration', () => {
             const request = new Request({
                 body: {
                     clientId: 12345,
-                    clientSecret: 'secret',
-                    grantType: 'password',
-                    password: 'bar',
-                    username: 'foo',
+                    clientSecret: "secret",
+                    grantType: "password",
+                    password: "bar",
+                    username: "foo",
                 },
                 headers: {
-                    'content-type': 'application/x-www-form-urlencoded',
-                    'transfer-encoding': 'chunked',
+                    "content-type": "application/x-www-form-urlencoded",
+                    "transfer-encoding": "chunked",
                 },
-                method: 'POST',
+                method: "POST",
                 query: {},
             });
             const response = new Response({ body: {}, headers: {} });
@@ -283,21 +283,21 @@ describe('RevokeHandler integration', () => {
                 .then(should.fail)
                 .catch(() => {
                     response.body.should.eql({
-                        error: 'server_error',
-                        error_description: 'Unhandled exception',
+                        error: "server_error",
+                        error_description: "Unhandled exception",
                     });
                     response.status.should.equal(500);
                 });
         });
 
-        it('should not update the response if an invalid token error is thrown', () => {
+        it("should not update the response if an invalid token error is thrown", () => {
             const token = {
-                refreshToken: 'hash',
+                refreshToken: "hash",
                 client: {},
                 user: {},
-                refreshTokenExpiresAt: new Date('2015-01-01'),
+                refreshTokenExpiresAt: new Date("2015-01-01"),
             };
-            const client = { grants: ['password'] };
+            const client = { grants: ["password"] };
             const model = {
                 getClient() {
                     return client;
@@ -312,14 +312,14 @@ describe('RevokeHandler integration', () => {
             const request = new Request({
                 body: {
                     clientId: 12345,
-                    clientSecret: 'secret',
-                    token: 'hash',
+                    clientSecret: "secret",
+                    token: "hash",
                 },
                 headers: {
-                    'content-type': 'application/x-www-form-urlencoded',
-                    'transfer-encoding': 'chunked',
+                    "content-type": "application/x-www-form-urlencoded",
+                    "transfer-encoding": "chunked",
                 },
-                method: 'POST',
+                method: "POST",
                 query: {},
             });
             const response = new Response({ body: {}, headers: {} });
@@ -335,14 +335,14 @@ describe('RevokeHandler integration', () => {
                 });
         });
 
-        it('should return an empty object if successful', () => {
+        it("should return an empty object if successful", () => {
             const token = {
-                refreshToken: 'hash',
+                refreshToken: "hash",
                 client: {},
                 user: {},
                 refreshTokenExpiresAt: new Date(Date.now() * 2),
             };
-            const client = { grants: ['password'] };
+            const client = { grants: ["password"] };
             const model = {
                 getClient() {
                     return client;
@@ -359,14 +359,14 @@ describe('RevokeHandler integration', () => {
             const request = new Request({
                 body: {
                     clientId: 12345,
-                    clientSecret: 'secret',
-                    token: 'hash',
+                    clientSecret: "secret",
+                    token: "hash",
                 },
                 headers: {
-                    'content-type': 'application/x-www-form-urlencoded',
-                    'transfer-encoding': 'chunked',
+                    "content-type": "application/x-www-form-urlencoded",
+                    "transfer-encoding": "chunked",
                 },
-                method: 'POST',
+                method: "POST",
                 query: {},
             });
             const response = new Response({ body: {}, headers: {} });
@@ -380,8 +380,8 @@ describe('RevokeHandler integration', () => {
         });
     });
 
-    describe('getClient()', () => {
-        it('should throw an error if `clientId` is invalid', async () => {
+    describe("getClient()", () => {
+        it("should throw an error if `clientId` is invalid", async () => {
             const model = {
                 getClient() { },
                 revokeToken() { },
@@ -390,7 +390,7 @@ describe('RevokeHandler integration', () => {
             };
             const handler: any = new RevokeHandler({ model });
             const request = new Request({
-                body: { clientId: 'øå€£‰', clientSecret: 'foo' },
+                body: { clientId: "øå€£‰", clientSecret: "foo" },
                 headers: {},
                 method: {},
                 query: {},
@@ -399,14 +399,14 @@ describe('RevokeHandler integration', () => {
             try {
                 await handler.getClient(request);
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidRequestError);
-                e.message.should.equal('Invalid parameter: `clientId`');
+                e.message.should.equal("Invalid parameter: `clientId`");
             }
         });
 
-        it('should throw an error if `clientId` is invalid', async () => {
+        it("should throw an error if `clientId` is invalid", async () => {
             const model = {
                 getClient() { },
                 revokeToken() { },
@@ -415,7 +415,7 @@ describe('RevokeHandler integration', () => {
             };
             const handler: any = new RevokeHandler({ model });
             const request = new Request({
-                body: { clientId: 'foo', clientSecret: 'øå€£‰' },
+                body: { clientId: "foo", clientSecret: "øå€£‰" },
                 headers: {},
                 method: {},
                 query: {},
@@ -424,14 +424,14 @@ describe('RevokeHandler integration', () => {
             try {
                 await handler.getClient(request);
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidRequestError);
-                e.message.should.equal('Invalid parameter: `clientSecret`');
+                e.message.should.equal("Invalid parameter: `clientSecret`");
             }
         });
 
-        it('should throw an error if `client` is missing', () => {
+        it("should throw an error if `client` is missing", () => {
             const model = {
                 getClient() { },
                 revokeToken() { },
@@ -440,7 +440,7 @@ describe('RevokeHandler integration', () => {
             };
             const handler: any = new RevokeHandler({ model });
             const request = new Request({
-                body: { clientId: 12345, clientSecret: 'secret' },
+                body: { clientId: 12345, clientSecret: "secret" },
                 headers: {},
                 method: {},
                 query: {},
@@ -451,11 +451,11 @@ describe('RevokeHandler integration', () => {
                 .then(should.fail)
                 .catch(e => {
                     e.should.be.an.instanceOf(InvalidClientError);
-                    e.message.should.equal('Invalid client: client is invalid');
+                    e.message.should.equal("Invalid client: client is invalid");
                 });
         });
 
-        it('should throw an error if `client.grants` is missing', () => {
+        it("should throw an error if `client.grants` is missing", () => {
             const model = {
                 getClient() {
                     return {};
@@ -466,7 +466,7 @@ describe('RevokeHandler integration', () => {
             };
             const handler: any = new RevokeHandler({ model });
             const request = new Request({
-                body: { clientId: 12345, clientSecret: 'secret' },
+                body: { clientId: 12345, clientSecret: "secret" },
                 headers: {},
                 method: {},
                 query: {},
@@ -477,11 +477,11 @@ describe('RevokeHandler integration', () => {
                 .then(should.fail)
                 .catch(e => {
                     e.should.be.an.instanceOf(ServerError);
-                    e.message.should.equal('Server error: missing client `grants`');
+                    e.message.should.equal("Server error: missing client `grants`");
                 });
         });
 
-        it('should throw a 401 error if the client is invalid and the request contains an authorization header', () => {
+        it("should throw a 401 error if the client is invalid and the request contains an authorization header", () => {
             const model = {
                 getClient() { },
                 revokeToken() { },
@@ -493,8 +493,8 @@ describe('RevokeHandler integration', () => {
                 body: {},
                 headers: {
                     authorization: util.format(
-                        'Basic %s',
-                        Buffer.from('foo:bar').toString('base64'),
+                        "Basic %s",
+                        Buffer.from("foo:bar").toString("base64"),
                     ),
                 },
                 method: {},
@@ -508,15 +508,15 @@ describe('RevokeHandler integration', () => {
                 .catch(e => {
                     e.should.be.an.instanceOf(InvalidClientError);
                     e.code.should.equal(401);
-                    e.message.should.equal('Invalid client: client is invalid');
+                    e.message.should.equal("Invalid client: client is invalid");
 
                     response
-                        .get('WWW-Authenticate')
-                        .should.equal('Basic realm="Service"');
+                        .get("WWW-Authenticate")
+                        .should.equal("Basic realm=\"Service\"");
                 });
         });
 
-        it('should return a client', () => {
+        it("should return a client", () => {
             const client = { id: 12345, grants: [] };
             const model = {
                 getClient() {
@@ -528,7 +528,7 @@ describe('RevokeHandler integration', () => {
             };
             const handler: any = new RevokeHandler({ model });
             const request = new Request({
-                body: { clientId: 12345, clientSecret: 'secret' },
+                body: { clientId: 12345, clientSecret: "secret" },
                 headers: {},
                 method: {},
                 query: {},
@@ -542,7 +542,7 @@ describe('RevokeHandler integration', () => {
                 .catch(should.fail);
         });
 
-        it('should support promises', () => {
+        it("should support promises", () => {
             const model = {
                 getClient() {
                     return Promise.resolve({ grants: [] });
@@ -553,7 +553,7 @@ describe('RevokeHandler integration', () => {
             };
             const handler: any = new RevokeHandler({ model });
             const request = new Request({
-                body: { clientId: 12345, clientSecret: 'secret' },
+                body: { clientId: 12345, clientSecret: "secret" },
                 headers: {},
                 method: {},
                 query: {},
@@ -582,7 +582,7 @@ describe('RevokeHandler integration', () => {
         //   handler.getClient(request).should.be.an.instanceOf(Promise);
         // });
 
-        it('should support non-promises', () => {
+        it("should support non-promises", () => {
             const model = {
                 getClient() {
                     return { grants: [] };
@@ -593,7 +593,7 @@ describe('RevokeHandler integration', () => {
             };
             const handler: any = new RevokeHandler({ model });
             const request = new Request({
-                body: { clientId: 12345, clientSecret: 'secret' },
+                body: { clientId: 12345, clientSecret: "secret" },
                 headers: {},
                 method: {},
                 query: {},
@@ -603,8 +603,8 @@ describe('RevokeHandler integration', () => {
         });
     });
 
-    describe('getClientCredentials()', () => {
-        it('should throw an error if `clientId` is missing', () => {
+    describe("getClientCredentials()", () => {
+        it("should throw an error if `clientId` is missing", () => {
             const model = {
                 getClient() { },
                 revokeToken() { },
@@ -613,7 +613,7 @@ describe('RevokeHandler integration', () => {
             };
             const handler: any = new RevokeHandler({ model });
             const request = new Request({
-                body: { clientSecret: 'foo' },
+                body: { clientSecret: "foo" },
                 headers: {},
                 method: {},
                 query: {},
@@ -622,16 +622,16 @@ describe('RevokeHandler integration', () => {
             try {
                 handler.getClientCredentials(request);
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidClientError);
                 e.message.should.equal(
-                    'Invalid client: cannot retrieve client credentials',
+                    "Invalid client: cannot retrieve client credentials",
                 );
             }
         });
 
-        it('should throw an error if `clientSecret` is missing', () => {
+        it("should throw an error if `clientSecret` is missing", () => {
             const model = {
                 getClient() { },
                 revokeToken() { },
@@ -640,7 +640,7 @@ describe('RevokeHandler integration', () => {
             };
             const handler: any = new RevokeHandler({ model });
             const request = new Request({
-                body: { clientId: 'foo' },
+                body: { clientId: "foo" },
                 headers: {},
                 method: {},
                 query: {},
@@ -649,17 +649,17 @@ describe('RevokeHandler integration', () => {
             try {
                 handler.getClientCredentials(request);
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidClientError);
                 e.message.should.equal(
-                    'Invalid client: cannot retrieve client credentials',
+                    "Invalid client: cannot retrieve client credentials",
                 );
             }
         });
 
-        describe('with `clientId` and `clientSecret` in the request header as basic auth', () => {
-            it('should return a client', () => {
+        describe("with `clientId` and `clientSecret` in the request header as basic auth", () => {
+            it("should return a client", () => {
                 const model = {
                     getClient() { },
                     revokeToken() { },
@@ -671,8 +671,8 @@ describe('RevokeHandler integration', () => {
                     body: {},
                     headers: {
                         authorization: util.format(
-                            'Basic %s',
-                            Buffer.from('foo:bar').toString('base64'),
+                            "Basic %s",
+                            Buffer.from("foo:bar").toString("base64"),
                         ),
                     },
                     method: {},
@@ -680,12 +680,12 @@ describe('RevokeHandler integration', () => {
                 });
                 const credentials = handler.getClientCredentials(request);
 
-                credentials.should.eql({ clientId: 'foo', clientSecret: 'bar' });
+                credentials.should.eql({ clientId: "foo", clientSecret: "bar" });
             });
         });
 
-        describe('with `clientId` and `clientSecret` in the request body', () => {
-            it('should return a client', () => {
+        describe("with `clientId` and `clientSecret` in the request body", () => {
+            it("should return a client", () => {
                 const model = {
                     getClient() { },
                     revokeToken() { },
@@ -694,20 +694,20 @@ describe('RevokeHandler integration', () => {
                 };
                 const handler: any = new RevokeHandler({ model });
                 const request = new Request({
-                    body: { clientId: 'foo', clientSecret: 'bar' },
+                    body: { clientId: "foo", clientSecret: "bar" },
                     headers: {},
                     method: {},
                     query: {},
                 });
                 const credentials = handler.getClientCredentials(request);
 
-                credentials.should.eql({ clientId: 'foo', clientSecret: 'bar' });
+                credentials.should.eql({ clientId: "foo", clientSecret: "bar" });
             });
         });
     });
 
-    describe('handleRevokeToken()', () => {
-        it('should throw an error if `token` is missing', () => {
+    describe("handleRevokeToken()", () => {
+        it("should throw an error if `token` is missing", () => {
             const model = {
                 getClient() { },
                 revokeToken() { },
@@ -727,14 +727,14 @@ describe('RevokeHandler integration', () => {
                 .then(should.fail)
                 .catch(e => {
                     e.should.be.an.instanceOf(InvalidRequestError);
-                    e.message.should.equal('Missing parameter: `token`');
+                    e.message.should.equal("Missing parameter: `token`");
                 });
         });
 
-        it('should return a token', () => {
-            const client = { id: 12345, grants: ['password'] };
+        it("should return a token", () => {
+            const client = { id: 12345, grants: ["password"] };
             const token = {
-                accessToken: 'hash',
+                accessToken: "hash",
                 client: { id: 12345 },
                 accessTokenExpiresAt: new Date(Date.now() * 2),
                 user: {},
@@ -751,7 +751,7 @@ describe('RevokeHandler integration', () => {
             };
             const handler: any = new RevokeHandler({ model });
             const request = new Request({
-                body: { token: 'hash' },
+                body: { token: "hash" },
                 headers: {},
                 method: {},
                 query: {},
@@ -765,10 +765,10 @@ describe('RevokeHandler integration', () => {
                 .catch(should.fail);
         });
 
-        it('should return a token', () => {
-            const client = { id: 12345, grants: ['password'] };
+        it("should return a token", () => {
+            const client = { id: 12345, grants: ["password"] };
             const token = {
-                refreshToken: 'hash',
+                refreshToken: "hash",
                 client: { id: 12345 },
                 refreshTokenExpiresAt: new Date(Date.now() * 2),
                 user: {},
@@ -785,7 +785,7 @@ describe('RevokeHandler integration', () => {
             };
             const handler: any = new RevokeHandler({ model });
             const request = new Request({
-                body: { token: 'hash' },
+                body: { token: "hash" },
                 headers: {},
                 method: {},
                 query: {},
@@ -800,8 +800,8 @@ describe('RevokeHandler integration', () => {
         });
     });
 
-    describe('getRefreshToken()', () => {
-        it('should throw an error if the `refreshToken` is invalid', () => {
+    describe("getRefreshToken()", () => {
+        it("should throw an error if the `refreshToken` is invalid", () => {
             const client = {};
             const model = {
                 getClient() { },
@@ -812,19 +812,19 @@ describe('RevokeHandler integration', () => {
             const handler: any = new RevokeHandler({ model });
 
             return handler
-                .getRefreshToken('hash', client)
+                .getRefreshToken("hash", client)
                 .then(should.fail)
                 .catch(e => {
                     e.should.be.an.instanceOf(InvalidTokenError);
-                    e.message.should.equal('Invalid token: refresh token is invalid');
+                    e.message.should.equal("Invalid token: refresh token is invalid");
                 });
         });
 
-        it('should throw an error if the `clientId` does not match', () => {
-            const client = { id: 'foo' };
+        it("should throw an error if the `clientId` does not match", () => {
+            const client = { id: "foo" };
             const token = {
-                refreshToken: 'hash',
-                client: { id: 'baz' },
+                refreshToken: "hash",
+                client: { id: "baz" },
                 user: {},
                 refreshTokenExpiresAt: new Date(Date.now() * 2),
             };
@@ -839,19 +839,19 @@ describe('RevokeHandler integration', () => {
             const handler: any = new RevokeHandler({ model });
 
             return handler
-                .getRefreshToken('hash', client)
+                .getRefreshToken("hash", client)
                 .then(should.fail)
                 .catch(e => {
                     e.should.be.an.instanceOf(InvalidClientError);
-                    e.message.should.equal('Invalid client: client is invalid');
+                    e.message.should.equal("Invalid client: client is invalid");
                 });
         });
 
-        it('should return a token', () => {
-            const client = { id: 'foo' };
+        it("should return a token", () => {
+            const client = { id: "foo" };
             const token = {
-                refreshToken: 'hash',
-                client: { id: 'foo' },
+                refreshToken: "hash",
+                client: { id: "foo" },
                 user: {},
                 refreshTokenExpiresAt: new Date(Date.now() * 2),
             };
@@ -866,7 +866,7 @@ describe('RevokeHandler integration', () => {
             const handler: any = new RevokeHandler({ model });
 
             return handler
-                .getRefreshToken('hash', client)
+                .getRefreshToken("hash", client)
                 .then(Token => {
                     should.exist(Token);
                 })
@@ -900,8 +900,8 @@ describe('RevokeHandler integration', () => {
         // });
     });
 
-    describe('getAccessToken()', () => {
-        it('should throw an error if the `accessToken` is invalid', () => {
+    describe("getAccessToken()", () => {
+        it("should throw an error if the `accessToken` is invalid", () => {
             const client = {};
             const model = {
                 getClient() { },
@@ -912,19 +912,19 @@ describe('RevokeHandler integration', () => {
             const handler: any = new RevokeHandler({ model });
 
             return handler
-                .getAccessToken('hash', client)
+                .getAccessToken("hash", client)
                 .then(should.fail)
                 .catch(e => {
                     e.should.be.an.instanceOf(InvalidTokenError);
-                    e.message.should.equal('Invalid token: access token is invalid');
+                    e.message.should.equal("Invalid token: access token is invalid");
                 });
         });
 
-        it('should throw an error if the `clientId` does not match', () => {
-            const client = { id: 'foo' };
+        it("should throw an error if the `clientId` does not match", () => {
+            const client = { id: "foo" };
             const token = {
-                accessToken: 'hash',
-                client: { id: 'baz' },
+                accessToken: "hash",
+                client: { id: "baz" },
                 user: {},
                 accessTokenExpiresAt: new Date(Date.now() * 2),
             };
@@ -939,19 +939,19 @@ describe('RevokeHandler integration', () => {
             const handler: any = new RevokeHandler({ model });
 
             return handler
-                .getAccessToken('hash', client)
+                .getAccessToken("hash", client)
                 .then(should.fail)
                 .catch(e => {
                     e.should.be.an.instanceOf(InvalidClientError);
-                    e.message.should.equal('Invalid client: client is invalid');
+                    e.message.should.equal("Invalid client: client is invalid");
                 });
         });
 
-        it('should return a token', () => {
-            const client = { id: 'foo' };
+        it("should return a token", () => {
+            const client = { id: "foo" };
             const token = {
-                accessToken: 'hash',
-                client: { id: 'foo' },
+                accessToken: "hash",
+                client: { id: "foo" },
                 user: {},
                 accessTokenExpiresAt: new Date(Date.now() * 2),
             };
@@ -966,7 +966,7 @@ describe('RevokeHandler integration', () => {
             const handler: any = new RevokeHandler({ model });
 
             return handler
-                .getAccessToken('hash', client)
+                .getAccessToken("hash", client)
                 .then(Token => {
                     should.exist(Token);
                 })
@@ -1000,9 +1000,9 @@ describe('RevokeHandler integration', () => {
         // });
     });
 
-    describe('revokeToken()', () => {
-        it('should throw an error if the `refreshToken` is invalid', () => {
-            const token = 'hash';
+    describe("revokeToken()", () => {
+        it("should throw an error if the `refreshToken` is invalid", () => {
+            const token = "hash";
             const client = {};
             const model = {
                 getClient() { },
@@ -1021,7 +1021,7 @@ describe('RevokeHandler integration', () => {
                 .then(should.fail)
                 .catch(e => {
                     e.should.be.an.instanceOf(InvalidTokenError);
-                    e.message.should.equal('Invalid token: token is invalid');
+                    e.message.should.equal("Invalid token: token is invalid");
                 });
         });
 
@@ -1050,8 +1050,8 @@ describe('RevokeHandler integration', () => {
         // });
     });
 
-    describe('getTokenFromRequest()', () => {
-        it('should throw an error if `accessToken` is missing', () => {
+    describe("getTokenFromRequest()", () => {
+        it("should throw an error if `accessToken` is missing", () => {
             const model = {
                 getClient() { },
                 revokeToken() { },
@@ -1069,17 +1069,17 @@ describe('RevokeHandler integration', () => {
             try {
                 handler.getTokenFromRequest(request);
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidRequestError);
-                e.message.should.equal('Missing parameter: `token`');
+                e.message.should.equal("Missing parameter: `token`");
             }
         });
     });
 
-    describe('updateErrorResponse()', () => {
-        it('should set the `body`', () => {
-            const error = new AccessDeniedError('Cannot request a revoke');
+    describe("updateErrorResponse()", () => {
+        it("should set the `body`", () => {
+            const error = new AccessDeniedError("Cannot request a revoke");
             const model = {
                 getClient() { },
                 revokeToken() { },
@@ -1091,12 +1091,12 @@ describe('RevokeHandler integration', () => {
 
             handler.updateErrorResponse(response, error);
 
-            response.body.error.should.equal('access_denied');
-            response.body.error_description.should.equal('Cannot request a revoke');
+            response.body.error.should.equal("access_denied");
+            response.body.error_description.should.equal("Cannot request a revoke");
         });
 
-        it('should set the `status`', () => {
-            const error = new AccessDeniedError('Cannot request a revoke');
+        it("should set the `status`", () => {
+            const error = new AccessDeniedError("Cannot request a revoke");
             const model = {
                 getClient() { },
                 revokeToken() { },

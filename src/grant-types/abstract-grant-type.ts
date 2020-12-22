@@ -1,9 +1,9 @@
-import { MS_IN_S } from '../constants';
-import { InvalidArgumentError, InvalidScopeError } from '../errors';
-import { Client, Model, User } from '../interfaces';
-import { Request } from '../request';
-import * as tokenUtil from '../utils/token-util';
-import * as is from '../validator/is';
+import { MS_IN_S } from "../constants";
+import { InvalidArgumentError, InvalidScopeError } from "../errors";
+import { Client, Model, User } from "../interfaces";
+import { Request } from "../request";
+import * as tokenUtil from "../utils/token-util";
+import * as is from "../validator/is";
 
 export class AbstractGrantType {
     accessTokenLifetime: number;
@@ -14,12 +14,12 @@ export class AbstractGrantType {
     constructor(options: any = {}) {
         if (!options.accessTokenLifetime) {
             throw new InvalidArgumentError(
-                'Missing parameter: `accessTokenLifetime`',
+                "Missing parameter: `accessTokenLifetime`",
             );
         }
 
         if (!options.model) {
-            throw new InvalidArgumentError('Missing parameter: `model`');
+            throw new InvalidArgumentError("Missing parameter: `model`");
         }
 
         this.accessTokenLifetime = options.accessTokenLifetime;
@@ -78,7 +78,7 @@ export class AbstractGrantType {
 
     getScope(request: Request) {
         if (!is.nqschar(request.body.scope)) {
-            throw new InvalidArgumentError('Invalid parameter: `scope`');
+            throw new InvalidArgumentError("Invalid parameter: `scope`");
         }
 
         return request.body.scope;
@@ -96,7 +96,7 @@ export class AbstractGrantType {
             );
             if (!validatedScope) {
                 throw new InvalidScopeError(
-                    'Invalid scope: Requested scope is invalid',
+                    "Invalid scope: Requested scope is invalid",
                 );
             }
 

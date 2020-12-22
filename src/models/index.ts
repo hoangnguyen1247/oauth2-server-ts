@@ -1,1 +1,1 @@
-export { TokenModel } from './token-model';
+export { TokenModel } from "./token-model";

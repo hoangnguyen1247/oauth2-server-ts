@@ -1,4 +1,4 @@
-import auth from 'basic-auth';
+import auth from "basic-auth";
 import {
     InvalidArgumentError,
     InvalidClientError,
@@ -6,41 +6,41 @@ import {
     InvalidTokenError,
     OAuthError,
     ServerError,
-} from '../errors';
-import { Client, Model } from '../interfaces';
-import { Request } from '../request';
-import { Response } from '../response';
-import { oneSuccess } from '../utils/fn';
-import * as is from '../validator/is';
+} from "../errors";
+import { Client, Model } from "../interfaces";
+import { Request } from "../request";
+import { Response } from "../response";
+import { oneSuccess } from "../utils/fn";
+import * as is from "../validator/is";
 
 export class RevokeHandler {
     model: Model;
     constructor(options: any = {}) {
         if (!options.model) {
-            throw new InvalidArgumentError('Missing parameter: `model`');
+            throw new InvalidArgumentError("Missing parameter: `model`");
         }
 
         if (!options.model.getClient) {
             throw new InvalidArgumentError(
-                'Invalid argument: model does not implement `getClient()`',
+                "Invalid argument: model does not implement `getClient()`",
             );
         }
 
         if (!options.model.getRefreshToken) {
             throw new InvalidArgumentError(
-                'Invalid argument: model does not implement `getRefreshToken()`',
+                "Invalid argument: model does not implement `getRefreshToken()`",
             );
         }
 
         if (!options.model.getAccessToken) {
             throw new InvalidArgumentError(
-                'Invalid argument: model does not implement `getAccessToken()`',
+                "Invalid argument: model does not implement `getAccessToken()`",
             );
         }
 
         if (!options.model.revokeToken) {
             throw new InvalidArgumentError(
-                'Invalid argument: model does not implement `revokeToken()`',
+                "Invalid argument: model does not implement `revokeToken()`",
             );
         }
 
@@ -54,23 +54,23 @@ export class RevokeHandler {
     async handle(request: Request, response: Response) {
         if (!(request instanceof Request)) {
             throw new InvalidArgumentError(
-                'Invalid argument: `request` must be an instance of Request',
+                "Invalid argument: `request` must be an instance of Request",
             );
         }
 
         if (!(response instanceof Response)) {
             throw new InvalidArgumentError(
-                'Invalid argument: `response` must be an instance of Response',
+                "Invalid argument: `response` must be an instance of Response",
             );
         }
 
-        if (request.method !== 'POST') {
-            throw new InvalidRequestError('Invalid request: method must be POST');
+        if (request.method !== "POST") {
+            throw new InvalidRequestError("Invalid request: method must be POST");
         }
 
-        if (!request.is('application/x-www-form-urlencoded')) {
+        if (!request.is("application/x-www-form-urlencoded")) {
             throw new InvalidRequestError(
-                'Invalid request: content must be application/x-www-form-urlencoded',
+                "Invalid request: content must be application/x-www-form-urlencoded",
             );
         }
         try {
@@ -108,6 +108,7 @@ export class RevokeHandler {
      */
 
     async handleRevokeToken(request: Request, client: Client) {
+        // eslint-disable-next-line no-useless-catch
         try {
             let token = await this.getTokenFromRequest(request);
             token = await oneSuccess([
@@ -129,19 +130,19 @@ export class RevokeHandler {
         const credentials = this.getClientCredentials(request);
 
         if (!credentials.clientId) {
-            throw new InvalidRequestError('Missing parameter: `clientId`');
+            throw new InvalidRequestError("Missing parameter: `clientId`");
         }
 
         if (!credentials.clientSecret) {
-            throw new InvalidRequestError('Missing parameter: `clientSecret`');
+            throw new InvalidRequestError("Missing parameter: `clientSecret`");
         }
 
         if (!is.vschar(credentials.clientId)) {
-            throw new InvalidRequestError('Invalid parameter: `clientId`');
+            throw new InvalidRequestError("Invalid parameter: `clientId`");
         }
 
         if (!is.vschar(credentials.clientSecret)) {
-            throw new InvalidRequestError('Invalid parameter: `clientSecret`');
+            throw new InvalidRequestError("Invalid parameter: `clientSecret`");
         }
         try {
             const client = await this.model.getClient(
@@ -149,15 +150,15 @@ export class RevokeHandler {
                 credentials.clientSecret,
             );
             if (!client) {
-                throw new InvalidClientError('Invalid client: client is invalid');
+                throw new InvalidClientError("Invalid client: client is invalid");
             }
 
             if (!client.grants) {
-                throw new ServerError('Server error: missing client `grants`');
+                throw new ServerError("Server error: missing client `grants`");
             }
 
             if (!(client.grants instanceof Array)) {
-                throw new ServerError('Server error: `grants` must be an array');
+                throw new ServerError("Server error: `grants` must be an array");
             }
 
             return client;
@@ -166,8 +167,8 @@ export class RevokeHandler {
             // attempted to authenticate via the "Authorization" request header.
             //
             // @see https://tools.ietf.org/html/rfc6749#section-5.2.
-            if (e instanceof InvalidClientError && request.get('authorization')) {
-                response.set('WWW-Authenticate', 'Basic realm="Service"');
+            if (e instanceof InvalidClientError && request.get("authorization")) {
+                response.set("WWW-Authenticate", "Basic realm=\"Service\"");
 
                 throw new InvalidClientError(e, { code: 401 });
             }
@@ -200,7 +201,7 @@ export class RevokeHandler {
         }
 
         throw new InvalidClientError(
-            'Invalid client: cannot retrieve client credentials',
+            "Invalid client: cannot retrieve client credentials",
         );
     }
 
@@ -214,7 +215,7 @@ export class RevokeHandler {
         const bodyToken = request.body.token;
 
         if (!bodyToken) {
-            throw new InvalidRequestError('Missing parameter: `token`');
+            throw new InvalidRequestError("Missing parameter: `token`");
         }
 
         return bodyToken;
@@ -227,23 +228,23 @@ export class RevokeHandler {
     async getRefreshToken(token, client: Client) {
         const refreshToken = await this.model.getRefreshToken(token);
         if (!refreshToken) {
-            throw new InvalidTokenError('Invalid token: refresh token is invalid');
+            throw new InvalidTokenError("Invalid token: refresh token is invalid");
         }
 
         if (!refreshToken.client) {
             throw new ServerError(
-                'Server error: `getRefreshToken()` did not return a `client` object',
+                "Server error: `getRefreshToken()` did not return a `client` object",
             );
         }
 
         if (!refreshToken.user) {
             throw new ServerError(
-                'Server error: `getRefreshToken()` did not return a `user` object',
+                "Server error: `getRefreshToken()` did not return a `user` object",
             );
         }
 
         if (refreshToken.client.id !== client.id) {
-            throw new InvalidClientError('Invalid client: client is invalid');
+            throw new InvalidClientError("Invalid client: client is invalid");
         }
 
         if (
@@ -251,7 +252,7 @@ export class RevokeHandler {
             !(refreshToken.refreshTokenExpiresAt instanceof Date)
         ) {
             throw new ServerError(
-                'Server error: `refreshTokenExpiresAt` must be a Date instance',
+                "Server error: `refreshTokenExpiresAt` must be a Date instance",
             );
         }
 
@@ -259,7 +260,7 @@ export class RevokeHandler {
             refreshToken.refreshTokenExpiresAt &&
             refreshToken.refreshTokenExpiresAt < new Date()
         ) {
-            throw new InvalidTokenError('Invalid token: refresh token has expired');
+            throw new InvalidTokenError("Invalid token: refresh token has expired");
         }
 
         return refreshToken;
@@ -272,37 +273,37 @@ export class RevokeHandler {
     async getAccessToken(token: string, client: Client) {
         const accessToken = await this.model.getAccessToken(token);
         if (!accessToken) {
-            throw new InvalidTokenError('Invalid token: access token is invalid');
+            throw new InvalidTokenError("Invalid token: access token is invalid");
         }
 
         if (!accessToken.client) {
             throw new ServerError(
-                'Server error: `getAccessToken()` did not return a `client` object',
+                "Server error: `getAccessToken()` did not return a `client` object",
             );
         }
 
         if (!accessToken.user) {
             throw new ServerError(
-                'Server error: `getAccessToken()` did not return a `user` object',
+                "Server error: `getAccessToken()` did not return a `user` object",
             );
         }
 
         if (accessToken.client.id !== client.id) {
-            throw new InvalidClientError('Invalid client: client is invalid');
+            throw new InvalidClientError("Invalid client: client is invalid");
         }
 
         if (
             accessToken.accessTokenExpiresAt &&
             !(accessToken.accessTokenExpiresAt instanceof Date)
         ) {
-            throw new ServerError('Server error: `expires` must be a Date instance');
+            throw new ServerError("Server error: `expires` must be a Date instance");
         }
 
         if (
             accessToken.accessTokenExpiresAt &&
             accessToken.accessTokenExpiresAt < new Date()
         ) {
-            throw new InvalidTokenError('Invalid token: access token has expired.');
+            throw new InvalidTokenError("Invalid token: access token has expired.");
         }
 
         return accessToken;
@@ -317,7 +318,7 @@ export class RevokeHandler {
     async revokeToken(token: any) {
         const revokedToken = await this.model.revokeToken(token);
         if (!revokedToken) {
-            throw new InvalidTokenError('Invalid token: token is invalid');
+            throw new InvalidTokenError("Invalid token: token is invalid");
         }
 
         return revokedToken;

@@ -1,7 +1,7 @@
-import { InvalidArgumentError } from '../errors';
-import { ImplicitGrantType } from '../grant-types';
-import { Client, Model, User } from '../interfaces';
-import { Request } from '../request';
+import { InvalidArgumentError } from "../errors";
+import { ImplicitGrantType } from "../grant-types";
+import { Client, Model, User } from "../interfaces";
+import { Request } from "../request";
 
 export class TokenResponseType {
     accessToken: string;
@@ -10,7 +10,7 @@ export class TokenResponseType {
     constructor(options: any = {}) {
         if (!options.accessTokenLifetime) {
             throw new InvalidArgumentError(
-                'Missing parameter: `accessTokenLifetime`',
+                "Missing parameter: `accessTokenLifetime`",
             );
         }
 
@@ -31,11 +31,11 @@ export class TokenResponseType {
         scope: string,
     ) {
         if (!request) {
-            throw new InvalidArgumentError('Missing parameter: `request`');
+            throw new InvalidArgumentError("Missing parameter: `request`");
         }
 
         if (!client) {
-            throw new InvalidArgumentError('Missing parameter: `client`');
+            throw new InvalidArgumentError("Missing parameter: `client`");
         }
 
         const accessTokenLifetime = this.getAccessTokenLifetime(client);
@@ -69,7 +69,7 @@ export class TokenResponseType {
     buildRedirectUri(redirectUri: any) {
         return this.setRedirectUriParam(
             redirectUri,
-            'accessToken',
+            "accessToken",
             this.accessToken,
         );
     }
@@ -80,17 +80,17 @@ export class TokenResponseType {
 
     setRedirectUriParam(redirectUri: any, key: string, value: any) {
         if (!redirectUri) {
-            throw new InvalidArgumentError('Missing parameter: `redirectUri`');
+            throw new InvalidArgumentError("Missing parameter: `redirectUri`");
         }
 
         if (!key) {
-            throw new InvalidArgumentError('Missing parameter: `key`');
+            throw new InvalidArgumentError("Missing parameter: `key`");
         }
 
-        redirectUri.hash = redirectUri.hash || '';
+        redirectUri.hash = redirectUri.hash || "";
         redirectUri.hash += `${
-            redirectUri.hash ? '&' : ''
-            }${key}=${encodeURIComponent(value)}`;
+            redirectUri.hash ? "&" : ""
+        }${key}=${encodeURIComponent(value)}`;
 
         return redirectUri;
     }

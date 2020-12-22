@@ -1,4 +1,4 @@
-import { OAuthError } from './oauth-error';
+import { OAuthError } from "./oauth-error";
 
 /**
  * Constructor.
@@ -13,7 +13,7 @@ export class UnsupportedResponseTypeError extends OAuthError {
     constructor(message?: string | Error, properties?: any) {
         super(message, {
             code: 400,
-            name: 'unsupported_responseType',
+            name: "unsupported_responseType",
             ...properties,
         });
     }

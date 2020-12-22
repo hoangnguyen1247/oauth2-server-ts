@@ -1,37 +1,37 @@
-import { AbstractGrantType } from '.';
+import { AbstractGrantType } from ".";
 import {
     InvalidArgumentError,
     InvalidGrantError,
     InvalidRequestError,
     ServerError,
-} from '../errors';
-import { Client, RefreshToken, User } from '../interfaces';
-import { Request } from '../request';
-import * as is from '../validator/is';
+} from "../errors";
+import { Client, RefreshToken, User } from "../interfaces";
+import { Request } from "../request";
+import * as is from "../validator/is";
 
 export class RefreshTokenGrantType extends AbstractGrantType {
     constructor(options: any = {}) {
         super(options);
 
         if (!options.model) {
-            throw new InvalidArgumentError('Missing parameter: `model`');
+            throw new InvalidArgumentError("Missing parameter: `model`");
         }
 
         if (!options.model.getRefreshToken) {
             throw new InvalidArgumentError(
-                'Invalid argument: model does not implement `getRefreshToken()`',
+                "Invalid argument: model does not implement `getRefreshToken()`",
             );
         }
 
         if (!options.model.revokeToken) {
             throw new InvalidArgumentError(
-                'Invalid argument: model does not implement `revokeToken()`',
+                "Invalid argument: model does not implement `revokeToken()`",
             );
         }
 
         if (!options.model.saveToken) {
             throw new InvalidArgumentError(
-                'Invalid argument: model does not implement `saveToken()`',
+                "Invalid argument: model does not implement `saveToken()`",
             );
         }
     }
@@ -44,11 +44,11 @@ export class RefreshTokenGrantType extends AbstractGrantType {
 
     async handle(request: Request, client: Client) {
         if (!request) {
-            throw new InvalidArgumentError('Missing parameter: `request`');
+            throw new InvalidArgumentError("Missing parameter: `request`");
         }
 
         if (!client) {
-            throw new InvalidArgumentError('Missing parameter: `client`');
+            throw new InvalidArgumentError("Missing parameter: `client`");
         }
 
         const token = await this.getRefreshToken(request, client);
@@ -63,33 +63,33 @@ export class RefreshTokenGrantType extends AbstractGrantType {
 
     async getRefreshToken(request: Request, client: Client) {
         if (!request.body.refreshToken) {
-            throw new InvalidRequestError('Missing parameter: `refreshToken`');
+            throw new InvalidRequestError("Missing parameter: `refreshToken`");
         }
 
         if (!is.vschar(request.body.refreshToken)) {
-            throw new InvalidRequestError('Invalid parameter: `refreshToken`');
+            throw new InvalidRequestError("Invalid parameter: `refreshToken`");
         }
 
         const token = await this.model.getRefreshToken(request.body.refreshToken);
 
         if (!token) {
-            throw new InvalidGrantError('Invalid grant: refresh token is invalid');
+            throw new InvalidGrantError("Invalid grant: refresh token is invalid");
         }
 
         if (!token.client) {
             throw new ServerError(
-                'Server error: `getRefreshToken()` did not return a `client` object',
+                "Server error: `getRefreshToken()` did not return a `client` object",
             );
         }
 
         if (!token.user) {
             throw new ServerError(
-                'Server error: `getRefreshToken()` did not return a `user` object',
+                "Server error: `getRefreshToken()` did not return a `user` object",
             );
         }
 
         if (token.client.id !== client.id) {
-            throw new InvalidGrantError('Invalid grant: refresh token is invalid');
+            throw new InvalidGrantError("Invalid grant: refresh token is invalid");
         }
 
         if (
@@ -97,7 +97,7 @@ export class RefreshTokenGrantType extends AbstractGrantType {
             !(token.refreshTokenExpiresAt instanceof Date)
         ) {
             throw new ServerError(
-                'Server error: `refreshTokenExpiresAt` must be a Date instance',
+                "Server error: `refreshTokenExpiresAt` must be a Date instance",
             );
         }
 
@@ -105,7 +105,7 @@ export class RefreshTokenGrantType extends AbstractGrantType {
             token.refreshTokenExpiresAt &&
             token.refreshTokenExpiresAt < new Date()
         ) {
-            throw new InvalidGrantError('Invalid grant: refresh token has expired');
+            throw new InvalidGrantError("Invalid grant: refresh token has expired");
         }
 
         return token;
@@ -124,7 +124,7 @@ export class RefreshTokenGrantType extends AbstractGrantType {
 
         const status = await this.model.revokeToken(token);
         if (!status) {
-            throw new InvalidGrantError('Invalid grant: refresh token is invalid');
+            throw new InvalidGrantError("Invalid grant: refresh token is invalid");
         }
 
         return token;

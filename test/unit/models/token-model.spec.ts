@@ -1,19 +1,19 @@
-import { TokenModel } from '../../../src/models';
+import { TokenModel } from "../../../src/models";
 
 /**
  * Test `Server`.
  */
 
-describe('Model', () => {
-    describe('constructor()', () => {
-        it('should calculate `accessTokenLifetime` if `accessTokenExpiresAt` is set', () => {
+describe("Model", () => {
+    describe("constructor()", () => {
+        it("should calculate `accessTokenLifetime` if `accessTokenExpiresAt` is set", () => {
             const atExpiresAt = new Date();
             atExpiresAt.setHours(new Date().getHours() + 1);
 
             const data = {
-                accessToken: 'foo',
-                client: 'bar',
-                user: 'tar',
+                accessToken: "foo",
+                client: "bar",
+                user: "tar",
                 accessTokenExpiresAt: atExpiresAt,
             };
 

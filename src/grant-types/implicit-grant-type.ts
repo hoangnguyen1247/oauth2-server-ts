@@ -1,7 +1,7 @@
-import { AbstractGrantType } from '.';
-import { InvalidArgumentError } from '../errors';
-import { Client, Token, User } from '../interfaces';
-import { Request } from '../request';
+import { AbstractGrantType } from ".";
+import { InvalidArgumentError } from "../errors";
+import { Client, Token, User } from "../interfaces";
+import { Request } from "../request";
 
 export class ImplicitGrantType extends AbstractGrantType {
     scope: string;
@@ -10,17 +10,17 @@ export class ImplicitGrantType extends AbstractGrantType {
         super(options);
 
         if (!options.model) {
-            throw new InvalidArgumentError('Missing parameter: `model`');
+            throw new InvalidArgumentError("Missing parameter: `model`");
         }
 
         if (!options.model.saveToken) {
             throw new InvalidArgumentError(
-                'Invalid argument: model does not implement `saveToken()`',
+                "Invalid argument: model does not implement `saveToken()`",
             );
         }
 
         if (!options.user) {
-            throw new InvalidArgumentError('Missing parameter: `user`');
+            throw new InvalidArgumentError("Missing parameter: `user`");
         }
 
         this.scope = options.scope;
@@ -33,11 +33,11 @@ export class ImplicitGrantType extends AbstractGrantType {
 
     async handle(request: Request, client: Client) {
         if (!request) {
-            throw new InvalidArgumentError('Missing parameter: `request`');
+            throw new InvalidArgumentError("Missing parameter: `request`");
         }
 
         if (!client) {
-            throw new InvalidArgumentError('Missing parameter: `client`');
+            throw new InvalidArgumentError("Missing parameter: `client`");
         }
 
         return this.saveToken(this.user, client, this.scope);

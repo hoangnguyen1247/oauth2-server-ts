@@ -1,29 +1,29 @@
-import * as should from 'should';
-import * as sinon from 'sinon';
-import * as url from 'url';
-import { InvalidArgumentError } from '../../../src/errors';
-import { CodeResponseType } from '../../../src/response-types';
+import * as should from "should";
+import * as sinon from "sinon";
+import * as url from "url";
+import { InvalidArgumentError } from "../../../src/errors";
+import { CodeResponseType } from "../../../src/response-types";
 
 /**
  * Test `CodeResponseType` integration.
  */
 
-describe('CodeResponseType integration', () => {
-    describe('constructor()', () => {
-        it('should throw an error if `options.authorizationCodeLifetime` is missing', () => {
+describe("CodeResponseType integration", () => {
+    describe("constructor()", () => {
+        it("should throw an error if `options.authorizationCodeLifetime` is missing", () => {
             try {
                 new CodeResponseType();
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidArgumentError);
                 e.message.should.equal(
-                    'Missing parameter: `authorizationCodeLifetime`',
+                    "Missing parameter: `authorizationCodeLifetime`",
                 );
             }
         });
 
-        it('should set the `code`', () => {
+        it("should set the `code`", () => {
             const model = {
                 saveAuthorizationCode: () => { },
             };
@@ -36,20 +36,20 @@ describe('CodeResponseType integration', () => {
         });
     });
 
-    it('should throw an error if the model does not implement `saveAuthorizationCode()`', () => {
+    it("should throw an error if the model does not implement `saveAuthorizationCode()`", () => {
         try {
             new CodeResponseType({ authorizationCodeLifetime: 120, model: {} });
 
-            should.fail('should.fail', '');
+            should.fail("should.fail", "");
         } catch (e) {
             e.should.be.an.instanceOf(InvalidArgumentError);
             e.message.should.equal(
-                'Invalid argument: model does not implement `saveAuthorizationCode()`',
+                "Invalid argument: model does not implement `saveAuthorizationCode()`",
             );
         }
     });
 
-    it('should set the `authorizationCodeLifetime`', () => {
+    it("should set the `authorizationCodeLifetime`", () => {
         const model = {
             saveAuthorizationCode: () => { },
         };
@@ -61,8 +61,8 @@ describe('CodeResponseType integration', () => {
         handler.authorizationCodeLifetime.should.equal(120);
     });
 
-    describe('buildRedirectUri()', () => {
-        it('should throw an error if the `redirectUri` is missing', () => {
+    describe("buildRedirectUri()", () => {
+        it("should throw an error if the `redirectUri` is missing", () => {
             const model = {
                 saveAuthorizationCode: () => { },
             };
@@ -74,14 +74,14 @@ describe('CodeResponseType integration', () => {
             try {
                 responseType.buildRedirectUri(undefined);
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidArgumentError);
-                e.message.should.equal('Missing parameter: `redirectUri`');
+                e.message.should.equal("Missing parameter: `redirectUri`");
             }
         });
 
-        it('should return the new redirect uri and set the `code` and `state` in the query', () => {
+        it("should return the new redirect uri and set the `code` and `state` in the query", () => {
             const model = {
                 saveAuthorizationCode: () => { },
             };
@@ -89,15 +89,15 @@ describe('CodeResponseType integration', () => {
                 authorizationCodeLifetime: 120,
                 model,
             });
-            responseType.code = 'foo';
+            responseType.code = "foo";
             const redirectUri = responseType.buildRedirectUri(
-                url.parse('http://example.com/cb'),
+                url.parse("http://example.com/cb"),
             );
 
-            url.format(redirectUri).should.equal('http://example.com/cb?code=foo');
+            url.format(redirectUri).should.equal("http://example.com/cb?code=foo");
         });
 
-        it('should return the new redirect uri and append the `code` and `state` in the query', () => {
+        it("should return the new redirect uri and append the `code` and `state` in the query", () => {
             const model = {
                 saveAuthorizationCode: () => { },
             };
@@ -105,18 +105,18 @@ describe('CodeResponseType integration', () => {
                 authorizationCodeLifetime: 120,
                 model,
             });
-            responseType.code = 'foo';
+            responseType.code = "foo";
             const redirectUri = responseType.buildRedirectUri(
-                url.parse('http://example.com/cb?foo=bar', true),
+                url.parse("http://example.com/cb?foo=bar", true),
             );
 
             url
                 .format(redirectUri)
-                .should.equal('http://example.com/cb?foo=bar&code=foo');
+                .should.equal("http://example.com/cb?foo=bar&code=foo");
         });
     });
 
-    it('should set the `model`', () => {
+    it("should set the `model`", () => {
         const model = {
             saveAuthorizationCode: () => { },
         };
@@ -128,8 +128,8 @@ describe('CodeResponseType integration', () => {
         handler.model.should.equal(model);
     });
 
-    describe('generateAuthorizationCode()', () => {
-        it('should return an auth code', () => {
+    describe("generateAuthorizationCode()", () => {
+        it("should return an auth code", () => {
             const model = {
                 getAccessToken: () => { },
                 getClient: () => { },
@@ -146,11 +146,11 @@ describe('CodeResponseType integration', () => {
                     data.should.be.a.sha1();
                 })
                 .catch(() => {
-                    should.fail('should.fail', '');
+                    should.fail("should.fail", "");
                 });
         });
 
-        it('should support promises', () => {
+        it("should support promises", () => {
             const model = {
                 generateAuthorizationCode: () => {
                     return Promise.resolve({});
@@ -189,8 +189,8 @@ describe('CodeResponseType integration', () => {
         // });
     });
 
-    describe('getAuthorizationCodeExpiresAt()', () => {
-        it('should return a date', () => {
+    describe("getAuthorizationCodeExpiresAt()", () => {
+        it("should return a date", () => {
             const model = {
                 getAccessToken: () => { },
                 getClient: () => { },
@@ -205,8 +205,8 @@ describe('CodeResponseType integration', () => {
         });
     });
 
-    describe('saveAuthorizationCode()', () => {
-        it('should return an auth code', () => {
+    describe("saveAuthorizationCode()", () => {
+        it("should return an auth code", () => {
             const authorizationCode = {};
             const model = {
                 getAccessToken: () => { },
@@ -221,16 +221,16 @@ describe('CodeResponseType integration', () => {
             });
 
             return handler
-                .saveAuthorizationCode('foo', 'bar', 'biz', 'baz')
+                .saveAuthorizationCode("foo", "bar", "biz", "baz")
                 .then(data => {
                     data.should.equal(authorizationCode);
                 })
                 .catch(() => {
-                    should.fail('should.fail', '');
+                    should.fail("should.fail", "");
                 });
         });
 
-        it('should support promises when calling `model.saveAuthorizationCode()`', () => {
+        it("should support promises when calling `model.saveAuthorizationCode()`", () => {
             const model = {
                 getAccessToken: () => { },
                 getClient: () => { },
@@ -244,7 +244,7 @@ describe('CodeResponseType integration', () => {
             });
 
             handler
-                .saveAuthorizationCode('foo', 'bar', 'biz', 'baz', undefined, undefined)
+                .saveAuthorizationCode("foo", "bar", "biz", "baz", undefined, undefined)
                 .should.be.an.instanceOf(Promise);
         });
 
@@ -274,8 +274,8 @@ describe('CodeResponseType integration', () => {
         // });
     });
 
-    describe('saveAuthorizationCode()', () => {
-        it('should call `model.saveAuthorizationCode()`', () => {
+    describe("saveAuthorizationCode()", () => {
+        it("should call `model.saveAuthorizationCode()`", () => {
             const model = {
                 getAccessToken: () => { },
                 getClient: () => { },
@@ -288,33 +288,33 @@ describe('CodeResponseType integration', () => {
 
             return handler
                 .saveAuthorizationCode(
-                    'foo',
-                    'bar' as any,
-                    'qux',
-                    'biz' as any,
-                    'baz',
-                    'boz' as any,
+                    "foo",
+                    "bar" as any,
+                    "qux",
+                    "biz" as any,
+                    "baz",
+                    "boz" as any,
                 )
                 .then(() => {
                     model.saveAuthorizationCode.callCount.should.equal(1);
                     model.saveAuthorizationCode.firstCall.args.should.have.length(3);
                     model.saveAuthorizationCode.firstCall.args[0].should.eql({
-                        authorizationCode: 'foo',
-                        expiresAt: 'bar',
-                        redirectUri: 'baz',
-                        scope: 'qux',
+                        authorizationCode: "foo",
+                        expiresAt: "bar",
+                        redirectUri: "baz",
+                        scope: "qux",
                     });
-                    model.saveAuthorizationCode.firstCall.args[1].should.equal('biz');
-                    model.saveAuthorizationCode.firstCall.args[2].should.equal('boz');
+                    model.saveAuthorizationCode.firstCall.args[1].should.equal("biz");
+                    model.saveAuthorizationCode.firstCall.args[2].should.equal("boz");
                 })
                 .catch(() => {
-                    should.fail('should.fail', '');
+                    should.fail("should.fail", "");
                 });
         });
     });
 
-    describe('generateAuthorizationCode()', () => {
-        it('should call `model.generateAuthorizationCode()`', () => {
+    describe("generateAuthorizationCode()", () => {
+        it("should call `model.generateAuthorizationCode()`", () => {
             const model = {
                 generateAuthorizationCode: sinon.stub().returns({}),
                 getAccessToken: () => { },
@@ -332,7 +332,7 @@ describe('CodeResponseType integration', () => {
                     model.generateAuthorizationCode.callCount.should.equal(1);
                 })
                 .catch(() => {
-                    should.fail('should.fail', '');
+                    should.fail("should.fail", "");
                 });
         });
     });

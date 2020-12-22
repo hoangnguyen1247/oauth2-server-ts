@@ -1,4 +1,4 @@
-import { OAuthError } from './oauth-error';
+import { OAuthError } from "./oauth-error";
 
 /**
  * Constructor.
@@ -12,7 +12,7 @@ export class UnsupportedGrantTypeError extends OAuthError {
     constructor(message?: string | Error, properties?: any) {
         super(message, {
             code: 400,
-            name: 'unsupported_grantType',
+            name: "unsupported_grantType",
             ...properties,
         });
     }

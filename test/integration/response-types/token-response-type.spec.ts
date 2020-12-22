@@ -1,26 +1,26 @@
-import * as should from 'should';
-import * as url from 'url';
-import { InvalidArgumentError } from '../../../src/errors';
-import { TokenResponseType } from '../../../src/response-types';
+import * as should from "should";
+import * as url from "url";
+import { InvalidArgumentError } from "../../../src/errors";
+import { TokenResponseType } from "../../../src/response-types";
 
 /**
  * Test `TokenResponseType` integration.
  */
 
-describe('TokenResponseType integration', () => {
-    describe('constructor()', () => {
-        it('should throw an error if `options.accessTokenLifetime` is missing', () => {
+describe("TokenResponseType integration", () => {
+    describe("constructor()", () => {
+        it("should throw an error if `options.accessTokenLifetime` is missing", () => {
             try {
                 new TokenResponseType();
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidArgumentError);
-                e.message.should.equal('Missing parameter: `accessTokenLifetime`');
+                e.message.should.equal("Missing parameter: `accessTokenLifetime`");
             }
         });
 
-        it('should set `accessTokenLifetime`', () => {
+        it("should set `accessTokenLifetime`", () => {
             const responseType = new TokenResponseType({
                 accessTokenLifetime: 120,
                 model: {},
@@ -29,7 +29,7 @@ describe('TokenResponseType integration', () => {
             responseType.accessTokenLifetime.should.equal(120);
         });
 
-        it('should set the `model`', () => {
+        it("should set the `model`", () => {
             const model = {
                 foobar() { },
             };
@@ -42,8 +42,8 @@ describe('TokenResponseType integration', () => {
         });
     });
 
-    describe('buildRedirectUri()', () => {
-        it('should throw an error if the `redirectUri` is missing', () => {
+    describe("buildRedirectUri()", () => {
+        it("should throw an error if the `redirectUri` is missing", () => {
             const responseType = new TokenResponseType({
                 accessTokenLifetime: 120,
                 model: {},
@@ -52,44 +52,44 @@ describe('TokenResponseType integration', () => {
             try {
                 responseType.buildRedirectUri(undefined);
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidArgumentError);
-                e.message.should.equal('Missing parameter: `redirectUri`');
+                e.message.should.equal("Missing parameter: `redirectUri`");
             }
         });
 
-        it('should return the new redirect uri and set `accessToken` and `state` in the query', () => {
+        it("should return the new redirect uri and set `accessToken` and `state` in the query", () => {
             const responseType = new TokenResponseType({
                 accessTokenLifetime: 120,
                 model: {},
             });
 
-            responseType.accessToken = 'foobar-token';
+            responseType.accessToken = "foobar-token";
             const redirectUri = responseType.buildRedirectUri(
-                url.parse('http://example.com/cb'),
+                url.parse("http://example.com/cb"),
             );
 
             url
                 .format(redirectUri)
-                .should.equal('http://example.com/cb#accessToken=foobar-token');
+                .should.equal("http://example.com/cb#accessToken=foobar-token");
         });
 
-        it('should return the new redirect uri and append `accessToken` and `state` in the query', () => {
+        it("should return the new redirect uri and append `accessToken` and `state` in the query", () => {
             const responseType = new TokenResponseType({
                 accessTokenLifetime: 120,
                 model: {},
             });
 
-            responseType.accessToken = 'foobar-token';
+            responseType.accessToken = "foobar-token";
             const redirectUri = responseType.buildRedirectUri(
-                url.parse('http://example.com/cb?foo=bar', true),
+                url.parse("http://example.com/cb?foo=bar", true),
             );
 
             url
                 .format(redirectUri)
                 .should.equal(
-                    'http://example.com/cb?foo=bar#accessToken=foobar-token',
+                    "http://example.com/cb?foo=bar#accessToken=foobar-token",
                 );
         });
     });

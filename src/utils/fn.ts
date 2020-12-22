@@ -13,8 +13,8 @@ export const hasOwnProperty = (o: any, k: string) =>
     Object.prototype.hasOwnProperty.call(o, k);
 
 export class AggregateError extends Array implements Error {
-    name = 'AggregateError';
+    name = "AggregateError";
     get message() {
-        return this.map(e => e.message).join('\n');
+        return this.map(e => e.message).join("\n");
     }
 }

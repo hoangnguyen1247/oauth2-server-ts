@@ -1,5 +1,5 @@
-import { AuthorizationCode, Client, RefreshToken, Token, User } from '.';
-import { Request } from '../request';
+import { AuthorizationCode, Client, RefreshToken, Token, User } from ".";
+import { Request } from "../request";
 
 export interface BaseModel {
     request: Request;

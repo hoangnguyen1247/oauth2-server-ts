@@ -1,4 +1,4 @@
-import { hasOwnProperty } from './utils/fn';
+import { hasOwnProperty } from "./utils/fn";
 
 export class Response {
     body: any;
@@ -37,7 +37,7 @@ export class Response {
      */
 
     redirect(url: string) {
-        this.set('Location', url);
+        this.set("Location", url);
         this.status = 302;
     }
 

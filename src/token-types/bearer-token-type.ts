@@ -1,5 +1,5 @@
-import { InvalidArgumentError } from '../errors';
-import { hasOwnProperty } from '../utils/fn';
+import { InvalidArgumentError } from "../errors";
+import { hasOwnProperty } from "../utils/fn";
 
 export class BearerTokenType {
     accessToken: string;
@@ -17,7 +17,7 @@ export class BearerTokenType {
         customAttributes: any,
     ) {
         if (!accessToken) {
-            throw new InvalidArgumentError('Missing parameter: `accessToken`');
+            throw new InvalidArgumentError("Missing parameter: `accessToken`");
         }
 
         this.accessToken = accessToken;
@@ -38,7 +38,7 @@ export class BearerTokenType {
     valueOf() {
         const object: any = {
             accessToken: this.accessToken,
-            tokenType: 'Bearer',
+            tokenType: "Bearer",
         };
 
         if (this.accessTokenLifetime) {

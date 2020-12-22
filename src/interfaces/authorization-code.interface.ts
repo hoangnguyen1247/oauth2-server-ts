@@ -1,4 +1,4 @@
-import { Client, User } from '.';
+import { Client, User } from ".";
 
 /**
  * An interface representing the authorization code and associated data.

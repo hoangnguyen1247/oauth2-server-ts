@@ -6,10 +6,10 @@ import {
     OAuthError,
     ServerError,
     UnauthorizedRequestError,
-} from '../errors';
-import { Model, Token } from '../interfaces';
-import { Request } from '../request';
-import { Response } from '../response';
+} from "../errors";
+import { Model, Token } from "../interfaces";
+import { Request } from "../request";
+import { Response } from "../response";
 
 export class AuthenticateHandler {
     addAcceptedScopesHeader: any;
@@ -19,30 +19,30 @@ export class AuthenticateHandler {
     scope: any;
     constructor(options: any = {}) {
         if (!options.model) {
-            throw new InvalidArgumentError('Missing parameter: `model`');
+            throw new InvalidArgumentError("Missing parameter: `model`");
         }
 
         if (!options.model.getAccessToken) {
             throw new InvalidArgumentError(
-                'Invalid argument: model does not implement `getAccessToken()`',
+                "Invalid argument: model does not implement `getAccessToken()`",
             );
         }
 
         if (options.scope && options.addAcceptedScopesHeader === undefined) {
             throw new InvalidArgumentError(
-                'Missing parameter: `addAcceptedScopesHeader`',
+                "Missing parameter: `addAcceptedScopesHeader`",
             );
         }
 
         if (options.scope && options.addAuthorizedScopesHeader === undefined) {
             throw new InvalidArgumentError(
-                'Missing parameter: `addAuthorizedScopesHeader`',
+                "Missing parameter: `addAuthorizedScopesHeader`",
             );
         }
 
         if (options.scope && !options.model.verifyScope) {
             throw new InvalidArgumentError(
-                'Invalid argument: model does not implement `verifyScope()`',
+                "Invalid argument: model does not implement `verifyScope()`",
             );
         }
 
@@ -61,13 +61,13 @@ export class AuthenticateHandler {
     async handle(request: Request, response: Response) {
         if (!(request instanceof Request)) {
             throw new InvalidArgumentError(
-                'Invalid argument: `request` must be an instance of Request',
+                "Invalid argument: `request` must be an instance of Request",
             );
         }
 
         if (!(response instanceof Response)) {
             throw new InvalidArgumentError(
-                'Invalid argument: `response` must be an instance of Response',
+                "Invalid argument: `response` must be an instance of Response",
             );
         }
 
@@ -90,7 +90,7 @@ export class AuthenticateHandler {
             //
             // @see https://tools.ietf.org/html/rfc6750#section-3.1
             if (e instanceof UnauthorizedRequestError) {
-                response.set('WWW-Authenticate', 'Bearer realm="Service"');
+                response.set("WWW-Authenticate", "Bearer realm=\"Service\"");
             }
 
             if (!(e instanceof OAuthError)) {
@@ -110,13 +110,13 @@ export class AuthenticateHandler {
      */
 
     getTokenFromRequest(request: Request) {
-        const headerToken = request.get('Authorization');
+        const headerToken = request.get("Authorization");
         const queryToken = request.query.accessToken;
         const bodyToken = request.body.accessToken;
 
         if ((!!headerToken && 1) + (!!queryToken && 1) + (!!bodyToken && 1) > 1) {
             throw new InvalidRequestError(
-                'Invalid request: only one authentication method is allowed',
+                "Invalid request: only one authentication method is allowed",
             );
         }
 
@@ -133,7 +133,7 @@ export class AuthenticateHandler {
         }
 
         throw new UnauthorizedRequestError(
-            'Unauthorized request: no authentication given',
+            "Unauthorized request: no authentication given",
         );
     }
 
@@ -144,12 +144,12 @@ export class AuthenticateHandler {
      */
 
     getTokenFromRequestHeader(request: Request) {
-        const token = request.get('Authorization');
+        const token = request.get("Authorization");
         const matches = token.match(/Bearer\s(\S+)/);
 
         if (!matches) {
             throw new InvalidRequestError(
-                'Invalid request: malformed authorization header',
+                "Invalid request: malformed authorization header",
             );
         }
 
@@ -173,7 +173,7 @@ export class AuthenticateHandler {
     getTokenFromRequestQuery(request: Request) {
         if (!this.allowBearerTokensInQueryString) {
             throw new InvalidRequestError(
-                'Invalid request: do not send bearer tokens in query URLs',
+                "Invalid request: do not send bearer tokens in query URLs",
             );
         }
 
@@ -190,15 +190,15 @@ export class AuthenticateHandler {
      */
 
     getTokenFromRequestBody(request: Request) {
-        if (request.method === 'GET') {
+        if (request.method === "GET") {
             throw new InvalidRequestError(
-                'Invalid request: token may not be passed in the body when using the GET verb',
+                "Invalid request: token may not be passed in the body when using the GET verb",
             );
         }
 
-        if (!request.is('application/x-www-form-urlencoded')) {
+        if (!request.is("application/x-www-form-urlencoded")) {
             throw new InvalidRequestError(
-                'Invalid request: content must be application/x-www-form-urlencoded',
+                "Invalid request: content must be application/x-www-form-urlencoded",
             );
         }
 
@@ -212,12 +212,12 @@ export class AuthenticateHandler {
     async getAccessToken(token: string) {
         const accessToken = await this.model.getAccessToken(token);
         if (!accessToken) {
-            throw new InvalidTokenError('Invalid token: access token is invalid');
+            throw new InvalidTokenError("Invalid token: access token is invalid");
         }
 
         if (!accessToken.user) {
             throw new ServerError(
-                'Server error: `getAccessToken()` did not return a `user` object',
+                "Server error: `getAccessToken()` did not return a `user` object",
             );
         }
 
@@ -231,12 +231,12 @@ export class AuthenticateHandler {
     validateAccessToken(accessToken: Token) {
         if (!(accessToken.accessTokenExpiresAt instanceof Date)) {
             throw new ServerError(
-                'Server error: `accessTokenExpiresAt` must be a Date instance',
+                "Server error: `accessTokenExpiresAt` must be a Date instance",
             );
         }
 
         if (accessToken.accessTokenExpiresAt < new Date()) {
-            throw new InvalidTokenError('Invalid token: access token has expired');
+            throw new InvalidTokenError("Invalid token: access token has expired");
         }
 
         return accessToken;
@@ -250,7 +250,7 @@ export class AuthenticateHandler {
         const scope = await this.model.verifyScope(accessToken, this.scope);
         if (!scope) {
             throw new InsufficientScopeError(
-                'Insufficient scope: authorized scope is insufficient',
+                "Insufficient scope: authorized scope is insufficient",
             );
         }
 
@@ -263,11 +263,11 @@ export class AuthenticateHandler {
 
     updateResponse(response: Response, accessToken: Token) {
         if (this.scope && this.addAcceptedScopesHeader) {
-            response.set('X-Accepted-OAuth-Scopes', this.scope);
+            response.set("X-Accepted-OAuth-Scopes", this.scope);
         }
 
         if (this.scope && this.addAuthorizedScopesHeader) {
-            response.set('X-OAuth-Scopes', accessToken.scope);
+            response.set("X-OAuth-Scopes", accessToken.scope);
         }
     }
 }

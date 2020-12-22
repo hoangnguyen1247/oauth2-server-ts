@@ -1,5 +1,5 @@
-import * as should from 'should';
-import { Request } from '../../src/request';
+import * as should from "should";
+import { Request } from "../../src/request";
 
 /**
  * Test `Request`.
@@ -8,20 +8,20 @@ import { Request } from '../../src/request';
 function generateBaseRequest() {
     return {
         query: {
-            foo: 'bar',
+            foo: "bar",
         } as any,
-        method: 'GET',
+        method: "GET",
         headers: {
-            bar: 'foo',
+            bar: "foo",
         } as any,
         body: {
-            foobar: 'barfoo',
+            foobar: "barfoo",
         } as any,
     } as any;
 }
 
-describe('Request', () => {
-    it('should instantiate with a basic request', () => {
+describe("Request", () => {
+    it("should instantiate with a basic request", () => {
         const originalRequest = generateBaseRequest();
 
         const request = new Request(originalRequest);
@@ -31,7 +31,7 @@ describe('Request', () => {
         request.body.should.eql(originalRequest.body);
     });
 
-    it('should allow a request to be passed without a body', () => {
+    it("should allow a request to be passed without a body", () => {
         const originalRequest = generateBaseRequest();
         delete originalRequest.body;
 
@@ -42,55 +42,55 @@ describe('Request', () => {
         request.body.should.eql({});
     });
 
-    it('should throw if headers are not passed to the constructor', () => {
+    it("should throw if headers are not passed to the constructor", () => {
         const originalRequest = generateBaseRequest();
         delete originalRequest.headers;
 
         (() => {
             new Request(originalRequest);
-        }).should.throw('Missing parameter: `headers`');
+        }).should.throw("Missing parameter: `headers`");
     });
 
-    it('should throw if query string isnt passed to the constructor', () => {
+    it("should throw if query string isnt passed to the constructor", () => {
         const originalRequest = generateBaseRequest();
         delete originalRequest.query;
 
         (() => {
             new Request(originalRequest);
-        }).should.throw('Missing parameter: `query`');
+        }).should.throw("Missing parameter: `query`");
     });
 
-    it('should throw if method isnt passed to the constructor', () => {
+    it("should throw if method isnt passed to the constructor", () => {
         const originalRequest = generateBaseRequest();
         delete originalRequest.method;
 
         (() => {
             new Request(originalRequest);
-        }).should.throw('Missing parameter: `method`');
+        }).should.throw("Missing parameter: `method`");
     });
 
-    it('should convert all header keys to lowercase', () => {
+    it("should convert all header keys to lowercase", () => {
         const originalRequest = generateBaseRequest();
         originalRequest.headers = {
-            Foo: 'bar',
-            BAR: 'foo',
+            Foo: "bar",
+            BAR: "foo",
         } as any;
 
         const request = new Request(originalRequest);
-        request.headers.foo.should.eql('bar');
-        request.headers.bar.should.eql('foo');
+        request.headers.foo.should.eql("bar");
+        request.headers.bar.should.eql("foo");
         should.not.exist(request.headers.Foo);
         should.not.exist(request.headers.BAR);
     });
 
-    it('should include additional properties passed in the request', () => {
+    it("should include additional properties passed in the request", () => {
         const originalRequest = generateBaseRequest();
         originalRequest.custom = {
-            newFoo: 'newBar',
+            newFoo: "newBar",
         };
 
         originalRequest.custom2 = {
-            newBar: 'newFoo',
+            newBar: "newFoo",
         };
 
         const request: any = new Request(originalRequest);
@@ -102,14 +102,14 @@ describe('Request', () => {
         request.custom2.should.eql(originalRequest.custom2);
     });
 
-    it('should include additional properties passed in the request', () => {
+    it("should include additional properties passed in the request", () => {
         const originalRequest = generateBaseRequest();
         originalRequest.custom = {
-            newFoo: 'newBar',
+            newFoo: "newBar",
         };
 
         originalRequest.custom2 = {
-            newBar: 'newFoo',
+            newBar: "newFoo",
         };
 
         const request: any = new Request(originalRequest);
@@ -121,50 +121,50 @@ describe('Request', () => {
         request.custom2.should.eql(originalRequest.custom2);
     });
 
-    it('should allow getting of headers using `request.get`', () => {
+    it("should allow getting of headers using `request.get`", () => {
         const originalRequest = generateBaseRequest();
 
         const request = new Request(originalRequest);
-        request.get('bar').should.eql(originalRequest.headers.bar);
+        request.get("bar").should.eql(originalRequest.headers.bar);
     });
 
-    it('should allow getting of headers using `request.get`', () => {
+    it("should allow getting of headers using `request.get`", () => {
         const originalRequest = generateBaseRequest();
 
         const request = new Request(originalRequest);
-        request.get('bar').should.eql(originalRequest.headers.bar);
+        request.get("bar").should.eql(originalRequest.headers.bar);
     });
 
-    it('should allow getting of headers using `request.get`', () => {
+    it("should allow getting of headers using `request.get`", () => {
         const originalRequest = generateBaseRequest();
 
         const request = new Request(originalRequest);
-        request.get('bar').should.eql(originalRequest.headers.bar);
+        request.get("bar").should.eql(originalRequest.headers.bar);
     });
 
-    it('should validate the content-type', () => {
+    it("should validate the content-type", () => {
         const originalRequest = generateBaseRequest();
-        originalRequest.headers['content-type'] =
-            'application/x-www-form-urlencoded';
-        originalRequest.headers['content-length'] = JSON.stringify(
+        originalRequest.headers["content-type"] =
+            "application/x-www-form-urlencoded";
+        originalRequest.headers["content-length"] = JSON.stringify(
             originalRequest.body,
         ).length;
 
         const request = new Request(originalRequest);
         request
-            .is('application/x-www-form-urlencoded')
-            .should.eql('application/x-www-form-urlencoded');
+            .is("application/x-www-form-urlencoded")
+            .should.eql("application/x-www-form-urlencoded");
     });
 
-    it('should return false if the content-type is invalid', () => {
+    it("should return false if the content-type is invalid", () => {
         const originalRequest = generateBaseRequest();
-        originalRequest.headers['content-type'] =
-            'application/x-www-form-urlencoded';
-        originalRequest.headers['content-length'] = JSON.stringify(
+        originalRequest.headers["content-type"] =
+            "application/x-www-form-urlencoded";
+        originalRequest.headers["content-length"] = JSON.stringify(
             originalRequest.body,
         ).length;
 
         const request = new Request(originalRequest);
-        request.is('application/json').should.be.false();
+        request.is("application/json").should.be.false();
     });
 });

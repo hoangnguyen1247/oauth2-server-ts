@@ -1,4 +1,4 @@
-import { OAuthError } from './oauth-error';
+import { OAuthError } from "./oauth-error";
 
 /**
  * Constructor.
@@ -13,6 +13,6 @@ export class UnauthorizedClientError extends OAuthError {
         message?: string | Error,
         properties?: { code?: number; message?: string },
     ) {
-        super(message, { code: 400, name: 'unauthorized_client', ...properties });
+        super(message, { code: 400, name: "unauthorized_client", ...properties });
     }
 }

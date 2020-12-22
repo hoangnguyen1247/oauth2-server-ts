@@ -6,7 +6,7 @@ const Rules = {
     NCHAR: /^[\u002D|\u002E|\u005F|\w]+$/,
     NQCHAR: /^[\u0021|\u0023-\u005B|\u005D-\u007E]+$/,
     NQSCHAR: /^[\u0020-\u0021|\u0023-\u005B|\u005D-\u007E]+$/,
-    UNICODECHARNOCRLF: /^[\u0009|\u0020-\u007E|\u0080-\uD7FF|\uE000-\uFFFD|\u10000-\u10FFFF]+$/,
+    UNICODECHARNOCRLF: /^[\u0009|\u0020-\u007E|\u0080-\uD7FF|\uE000-\uFFFD|\u10000-\u10FFFF]+$/, // eslint-disable-line no-control-regex
     URI: /^[a-zA-Z][a-zA-Z0-9+.-]+:/,
     VSCHAR: /^[\u0020-\u007E]+$/,
 };

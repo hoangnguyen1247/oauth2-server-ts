@@ -1,5 +1,5 @@
-import * as should from 'should';
-import * as url from 'url';
+import * as should from "should";
+import * as url from "url";
 import {
     AccessDeniedError,
     InvalidArgumentError,
@@ -8,18 +8,18 @@ import {
     InvalidScopeError,
     ServerError,
     UnauthorizedClientError,
-} from '../../../src/errors';
-import { AuthenticateHandler, AuthorizeHandler } from '../../../src/handlers';
-import { Request } from '../../../src/request';
-import { Response } from '../../../src/response';
-import { CodeResponseType } from '../../../src/response-types';
+} from "../../../src/errors";
+import { AuthenticateHandler, AuthorizeHandler } from "../../../src/handlers";
+import { Request } from "../../../src/request";
+import { Response } from "../../../src/response";
+import { CodeResponseType } from "../../../src/response-types";
 
 /**
  * Test `AuthorizeHandler` integration.
  */
 
-describe('AuthorizeHandler integration', () => {
-    describe('constructor()', () => {
+describe("AuthorizeHandler integration", () => {
+    describe("constructor()", () => {
         // Move to Code Response Type
         // it('should throw an error if `options.authorizationCodeLifetime` is missing', () => {
         //   try {
@@ -34,26 +34,26 @@ describe('AuthorizeHandler integration', () => {
         //   }
         // });
 
-        it('should throw an error if `options.model` is missing', () => {
+        it("should throw an error if `options.model` is missing", () => {
             try {
                 new AuthorizeHandler({ authorizationCodeLifetime: 120 });
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidArgumentError);
-                e.message.should.equal('Missing parameter: `model`');
+                e.message.should.equal("Missing parameter: `model`");
             }
         });
 
-        it('should throw an error if the model does not implement `getClient()`', () => {
+        it("should throw an error if the model does not implement `getClient()`", () => {
             try {
                 new AuthorizeHandler({ authorizationCodeLifetime: 120, model: {} });
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidArgumentError);
                 e.message.should.equal(
-                    'Invalid argument: model does not implement `getClient()`',
+                    "Invalid argument: model does not implement `getClient()`",
                 );
             }
         });
@@ -75,7 +75,7 @@ describe('AuthorizeHandler integration', () => {
         //   }
         // });
 
-        it('should throw an error if the model does not implement `getAccessToken()`', () => {
+        it("should throw an error if the model does not implement `getAccessToken()`", () => {
             const model = {
                 getClient: () => { },
                 saveAuthorizationCode: () => { },
@@ -84,11 +84,11 @@ describe('AuthorizeHandler integration', () => {
             try {
                 new AuthorizeHandler({ authorizationCodeLifetime: 120, model });
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidArgumentError);
                 e.message.should.equal(
-                    'Invalid argument: model does not implement `getAccessToken()`',
+                    "Invalid argument: model does not implement `getAccessToken()`",
                 );
             }
         });
@@ -107,7 +107,7 @@ describe('AuthorizeHandler integration', () => {
         //   handler.authorizationCodeLifetime.should.equal(120);
         // });
 
-        it('should set the `authenticateHandler`', () => {
+        it("should set the `authenticateHandler`", () => {
             const model = {
                 getAccessToken: () => { },
                 getClient: () => { },
@@ -121,7 +121,7 @@ describe('AuthorizeHandler integration', () => {
             handler.authenticateHandler.should.be.an.instanceOf(AuthenticateHandler);
         });
 
-        it('should set the `model`', () => {
+        it("should set the `model`", () => {
             const model = {
                 getAccessToken: () => { },
                 getClient: () => { },
@@ -136,8 +136,8 @@ describe('AuthorizeHandler integration', () => {
         });
     });
 
-    describe('handle()', () => {
-        it('should throw an error if `request` is missing', async () => {
+    describe("handle()", () => {
+        it("should throw an error if `request` is missing", async () => {
             const model = {
                 getAccessToken: () => { },
                 getClient: () => { },
@@ -151,16 +151,16 @@ describe('AuthorizeHandler integration', () => {
             try {
                 await handler.handle(undefined, undefined);
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidArgumentError);
                 e.message.should.equal(
-                    'Invalid argument: `request` must be an instance of Request',
+                    "Invalid argument: `request` must be an instance of Request",
                 );
             }
         });
 
-        it('should throw an error if `response` is missing', async () => {
+        it("should throw an error if `response` is missing", async () => {
             const model = {
                 getAccessToken: () => { },
                 getClient: () => { },
@@ -180,16 +180,16 @@ describe('AuthorizeHandler integration', () => {
             try {
                 await handler.handle(request, undefined);
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidArgumentError);
                 e.message.should.equal(
-                    'Invalid argument: `response` must be an instance of Response',
+                    "Invalid argument: `response` must be an instance of Response",
                 );
             }
         });
 
-        it('should throw an error if `allowed` is `false`', () => {
+        it("should throw an error if `allowed` is `false`", () => {
             const model = {
                 getAccessToken: () => { },
                 getClient: () => { },
@@ -203,24 +203,24 @@ describe('AuthorizeHandler integration', () => {
                 body: {},
                 headers: {},
                 method: {},
-                query: { allowed: 'false' },
+                query: { allowed: "false" },
             });
             const response = new Response({ body: {}, headers: {} });
 
             return handler
                 .handle(request, response)
                 .then(() => {
-                    should.fail('should.fail', '');
+                    should.fail("should.fail", "");
                 })
                 .catch(e => {
                     e.should.be.an.instanceOf(AccessDeniedError);
                     e.message.should.equal(
-                        'Access denied: user denied access to application',
+                        "Access denied: user denied access to application",
                     );
                 });
         });
 
-        it('should redirect to an error response if a non-oauth error is thrown', () => {
+        it("should redirect to an error response if a non-oauth error is thrown", () => {
             const model = {
                 getAccessToken: () => {
                     return {
@@ -230,12 +230,12 @@ describe('AuthorizeHandler integration', () => {
                 },
                 getClient: () => {
                     return {
-                        grants: ['authorizationCode'],
-                        redirectUris: ['http://example.com/cb'],
+                        grants: ["authorizationCode"],
+                        redirectUris: ["http://example.com/cb"],
                     };
                 },
                 saveAuthorizationCode: () => {
-                    throw new Error('Unhandled exception');
+                    throw new Error("Unhandled exception");
                 },
             };
             const handler = new AuthorizeHandler({
@@ -245,14 +245,14 @@ describe('AuthorizeHandler integration', () => {
             const request = new Request({
                 body: {
                     clientId: 12345,
-                    responseType: 'code',
+                    responseType: "code",
                 },
                 headers: {
-                    Authorization: 'Bearer foo',
+                    Authorization: "Bearer foo",
                 },
                 method: {},
                 query: {
-                    state: 'foobar',
+                    state: "foobar",
                 },
             });
             const response = new Response({ body: {}, headers: {} });
@@ -260,18 +260,18 @@ describe('AuthorizeHandler integration', () => {
             return handler
                 .handle(request, response)
                 .then(() => {
-                    should.fail('should.fail', '');
+                    should.fail("should.fail", "");
                 })
                 .catch(() => {
                     response
-                        .get('location')
+                        .get("location")
                         .should.equal(
-                            'http://example.com/cb?error=server_error&error_description=Unhandled%20exception&state=foobar',
+                            "http://example.com/cb?error=server_error&error_description=Unhandled%20exception&state=foobar",
                         );
                 });
         });
 
-        it('should redirect to an error response if an oauth error is thrown', () => {
+        it("should redirect to an error response if an oauth error is thrown", () => {
             const model = {
                 getAccessToken: () => {
                     return {
@@ -281,12 +281,12 @@ describe('AuthorizeHandler integration', () => {
                 },
                 getClient: () => {
                     return {
-                        grants: ['authorizationCode'],
-                        redirectUris: ['http://example.com/cb'],
+                        grants: ["authorizationCode"],
+                        redirectUris: ["http://example.com/cb"],
                     };
                 },
                 saveAuthorizationCode: () => {
-                    throw new AccessDeniedError('Cannot request this auth code');
+                    throw new AccessDeniedError("Cannot request this auth code");
                 },
             };
             const handler = new AuthorizeHandler({
@@ -296,14 +296,14 @@ describe('AuthorizeHandler integration', () => {
             const request = new Request({
                 body: {
                     clientId: 12345,
-                    responseType: 'code',
+                    responseType: "code",
                 },
                 headers: {
-                    Authorization: 'Bearer foo',
+                    Authorization: "Bearer foo",
                 },
                 method: {},
                 query: {
-                    state: 'foobar',
+                    state: "foobar",
                 },
             });
             const response = new Response({ body: {}, headers: {} });
@@ -311,20 +311,20 @@ describe('AuthorizeHandler integration', () => {
             return handler
                 .handle(request, response)
                 .then(() => {
-                    should.fail('should.fail', '');
+                    should.fail("should.fail", "");
                 })
                 .catch(() => {
-                    response.get('location').should.equal(
+                    response.get("location").should.equal(
                         // tslint:disable-next-line:max-line-length
-                        'http://example.com/cb?error=access_denied&error_description=Cannot%20request%20this%20auth%20code&state=foobar',
+                        "http://example.com/cb?error=access_denied&error_description=Cannot%20request%20this%20auth%20code&state=foobar",
                     );
                 });
         });
 
-        it('should redirect to a successful response with `code` and `state` if successful', () => {
+        it("should redirect to a successful response with `code` and `state` if successful", () => {
             const client = {
-                grants: ['authorizationCode'],
-                redirectUris: ['http://example.com/cb'],
+                grants: ["authorizationCode"],
+                redirectUris: ["http://example.com/cb"],
             };
             const model = {
                 getAccessToken: () => {
@@ -348,14 +348,14 @@ describe('AuthorizeHandler integration', () => {
             const request = new Request({
                 body: {
                     clientId: 12345,
-                    responseType: 'code',
+                    responseType: "code",
                 },
                 headers: {
-                    Authorization: 'Bearer foo',
+                    Authorization: "Bearer foo",
                 },
                 method: {},
                 query: {
-                    state: 'foobar',
+                    state: "foobar",
                 },
             });
             const response = new Response({ body: {}, headers: {} });
@@ -364,15 +364,15 @@ describe('AuthorizeHandler integration', () => {
                 .handle(request, response)
                 .then(() => {
                     response
-                        .get('location')
-                        .should.equal('http://example.com/cb?code=12345&state=foobar');
+                        .get("location")
+                        .should.equal("http://example.com/cb?code=12345&state=foobar");
                 })
                 .catch(() => {
-                    should.fail('should.fail', '');
+                    should.fail("should.fail", "");
                 });
         });
 
-        it('should redirect to an error response if `scope` is invalid', () => {
+        it("should redirect to an error response if `scope` is invalid", () => {
             const model = {
                 getAccessToken: () => {
                     return {
@@ -382,8 +382,8 @@ describe('AuthorizeHandler integration', () => {
                 },
                 getClient: () => {
                     return {
-                        grants: ['authorizationCode'],
-                        redirectUris: ['http://example.com/cb'],
+                        grants: ["authorizationCode"],
+                        redirectUris: ["http://example.com/cb"],
                     };
                 },
                 saveAuthorizationCode: () => {
@@ -397,15 +397,15 @@ describe('AuthorizeHandler integration', () => {
             const request = new Request({
                 body: {
                     clientId: 12345,
-                    responseType: 'code',
+                    responseType: "code",
                 },
                 headers: {
-                    Authorization: 'Bearer foo',
+                    Authorization: "Bearer foo",
                 },
                 method: {},
                 query: {
                     scope: [],
-                    state: 'foobar',
+                    state: "foobar",
                 },
             });
             const response = new Response({ body: {}, headers: {} });
@@ -413,18 +413,18 @@ describe('AuthorizeHandler integration', () => {
             return handler
                 .handle(request, response)
                 .then(() => {
-                    should.fail('should.fail', '');
+                    should.fail("should.fail", "");
                 })
                 .catch(() => {
                     response
-                        .get('location')
+                        .get("location")
                         .should.equal(
-                            'http://example.com/cb?error=invalid_scope&error_description=Invalid%20parameter%3A%20%60scope%60',
+                            "http://example.com/cb?error=invalid_scope&error_description=Invalid%20parameter%3A%20%60scope%60",
                         );
                 });
         });
 
-        it('should redirect to an error response if `state` is missing', () => {
+        it("should redirect to an error response if `state` is missing", () => {
             const model = {
                 getAccessToken: () => {
                     return {
@@ -434,12 +434,12 @@ describe('AuthorizeHandler integration', () => {
                 },
                 getClient: () => {
                     return {
-                        grants: ['authorizationCode'],
-                        redirectUris: ['http://example.com/cb'],
+                        grants: ["authorizationCode"],
+                        redirectUris: ["http://example.com/cb"],
                     };
                 },
                 saveAuthorizationCode: () => {
-                    throw new AccessDeniedError('Cannot request this auth code');
+                    throw new AccessDeniedError("Cannot request this auth code");
                 },
             };
             const handler = new AuthorizeHandler({
@@ -449,10 +449,10 @@ describe('AuthorizeHandler integration', () => {
             const request = new Request({
                 body: {
                     clientId: 12345,
-                    responseType: 'code',
+                    responseType: "code",
                 },
                 headers: {
-                    Authorization: 'Bearer foo',
+                    Authorization: "Bearer foo",
                 },
                 method: {},
                 query: {},
@@ -462,18 +462,18 @@ describe('AuthorizeHandler integration', () => {
             return handler
                 .handle(request, response)
                 .then(() => {
-                    should.fail('should.fail', '');
+                    should.fail("should.fail", "");
                 })
                 .catch(() => {
                     response
-                        .get('location')
+                        .get("location")
                         .should.equal(
-                            'http://example.com/cb?error=invalid_request&error_description=Missing%20parameter%3A%20%60state%60',
+                            "http://example.com/cb?error=invalid_request&error_description=Missing%20parameter%3A%20%60state%60",
                         );
                 });
         });
 
-        it('should redirect to an error response if `responseType` is invalid', () => {
+        it("should redirect to an error response if `responseType` is invalid", () => {
             const model = {
                 getAccessToken: () => {
                     return {
@@ -483,8 +483,8 @@ describe('AuthorizeHandler integration', () => {
                 },
                 getClient: () => {
                     return {
-                        grants: ['authorizationCode'],
-                        redirectUris: ['http://example.com/cb'],
+                        grants: ["authorizationCode"],
+                        redirectUris: ["http://example.com/cb"],
                     };
                 },
                 saveAuthorizationCode: () => {
@@ -498,14 +498,14 @@ describe('AuthorizeHandler integration', () => {
             const request = new Request({
                 body: {
                     clientId: 12345,
-                    responseType: 'test',
+                    responseType: "test",
                 },
                 headers: {
-                    Authorization: 'Bearer foo',
+                    Authorization: "Bearer foo",
                 },
                 method: {},
                 query: {
-                    state: 'foobar',
+                    state: "foobar",
                 },
             });
             const response = new Response({ body: {}, headers: {} });
@@ -513,17 +513,17 @@ describe('AuthorizeHandler integration', () => {
             return handler
                 .handle(request, response)
                 .then(() => {
-                    should.fail('should.fail', '');
+                    should.fail("should.fail", "");
                 })
                 .catch(() => {
-                    response.get('location').should.equal(
+                    response.get("location").should.equal(
                         // tslint:disable-next-line:max-line-length
-                        'http://example.com/cb?error=unsupported_responseType&error_description=Unsupported%20response%20type%3A%20%60responseType%60%20is%20not%20supported&state=foobar',
+                        "http://example.com/cb?error=unsupported_responseType&error_description=Unsupported%20response%20type%3A%20%60responseType%60%20is%20not%20supported&state=foobar",
                     );
                 });
         });
 
-        it('should fail on invalid `responseType` before calling model.saveAuthorizationCode()', () => {
+        it("should fail on invalid `responseType` before calling model.saveAuthorizationCode()", () => {
             const model = {
                 getAccessToken: () => {
                     return {
@@ -533,12 +533,12 @@ describe('AuthorizeHandler integration', () => {
                 },
                 getClient: () => {
                     return {
-                        grants: ['authorizationCode'],
-                        redirectUris: ['http://example.com/cb'],
+                        grants: ["authorizationCode"],
+                        redirectUris: ["http://example.com/cb"],
                     };
                 },
                 saveAuthorizationCode: () => {
-                    throw new Error('must not be reached');
+                    throw new Error("must not be reached");
                 },
             };
             const handler = new AuthorizeHandler({
@@ -548,14 +548,14 @@ describe('AuthorizeHandler integration', () => {
             const request = new Request({
                 body: {
                     clientId: 12345,
-                    responseType: 'test',
+                    responseType: "test",
                 },
                 headers: {
-                    Authorization: 'Bearer foo',
+                    Authorization: "Bearer foo",
                 },
                 method: {},
                 query: {
-                    state: 'foobar',
+                    state: "foobar",
                 },
             });
             const response = new Response({ body: {}, headers: {} });
@@ -563,20 +563,20 @@ describe('AuthorizeHandler integration', () => {
             return handler
                 .handle(request, response)
                 .then(() => {
-                    should.fail('should.fail', '');
+                    should.fail("should.fail", "");
                 })
                 .catch(() => {
-                    response.get('location').should.equal(
+                    response.get("location").should.equal(
                         // tslint:disable-next-line:max-line-length
-                        'http://example.com/cb?error=unsupported_responseType&error_description=Unsupported%20response%20type%3A%20%60responseType%60%20is%20not%20supported&state=foobar',
+                        "http://example.com/cb?error=unsupported_responseType&error_description=Unsupported%20response%20type%3A%20%60responseType%60%20is%20not%20supported&state=foobar",
                     );
                 });
         });
 
-        it('should return the `code` if successful', () => {
+        it("should return the `code` if successful", () => {
             const client = {
-                grants: ['authorizationCode'],
-                redirectUris: ['http://example.com/cb'],
+                grants: ["authorizationCode"],
+                redirectUris: ["http://example.com/cb"],
             };
             const model = {
                 getAccessToken: () => {
@@ -600,14 +600,14 @@ describe('AuthorizeHandler integration', () => {
             const request = new Request({
                 body: {
                     clientId: 12345,
-                    responseType: 'code',
+                    responseType: "code",
                 },
                 headers: {
-                    Authorization: 'Bearer foo',
+                    Authorization: "Bearer foo",
                 },
                 method: {},
                 query: {
-                    state: 'foobar',
+                    state: "foobar",
                 },
             });
             const response = new Response({ body: {}, headers: {} });
@@ -621,7 +621,7 @@ describe('AuthorizeHandler integration', () => {
                     });
                 })
                 .catch(() => {
-                    should.fail('should.fail', '');
+                    should.fail("should.fail", "");
                 });
         });
     });
@@ -707,8 +707,8 @@ describe('AuthorizeHandler integration', () => {
     //   });
     // });
 
-    describe('getClient()', () => {
-        it('should throw an error if `clientId` is missing', async () => {
+    describe("getClient()", () => {
+        it("should throw an error if `clientId` is missing", async () => {
             const model = {
                 getAccessToken() { },
                 getClient() { },
@@ -719,7 +719,7 @@ describe('AuthorizeHandler integration', () => {
                 model,
             });
             const request = new Request({
-                body: { responseType: 'code' },
+                body: { responseType: "code" },
                 headers: {},
                 method: {},
                 query: {},
@@ -728,14 +728,14 @@ describe('AuthorizeHandler integration', () => {
             try {
                 await handler.getClient(request);
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidRequestError);
-                e.message.should.equal('Missing parameter: `clientId`');
+                e.message.should.equal("Missing parameter: `clientId`");
             }
         });
 
-        it('should throw an error if `clientId` is invalid', async () => {
+        it("should throw an error if `clientId` is invalid", async () => {
             const model = {
                 getAccessToken() { },
                 getClient() { },
@@ -746,7 +746,7 @@ describe('AuthorizeHandler integration', () => {
                 model,
             });
             const request = new Request({
-                body: { clientId: 'øå€£‰', responseType: 'code' },
+                body: { clientId: "øå€£‰", responseType: "code" },
                 headers: {},
                 method: {},
                 query: {},
@@ -755,14 +755,14 @@ describe('AuthorizeHandler integration', () => {
             try {
                 await handler.getClient(request);
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidRequestError);
-                e.message.should.equal('Invalid parameter: `clientId`');
+                e.message.should.equal("Invalid parameter: `clientId`");
             }
         });
 
-        it('should throw an error if `client.redirectUri` is invalid', async () => {
+        it("should throw an error if `client.redirectUri` is invalid", async () => {
             const model = {
                 getAccessToken() { },
                 getClient() { },
@@ -775,8 +775,8 @@ describe('AuthorizeHandler integration', () => {
             const request = new Request({
                 body: {
                     clientId: 12345,
-                    responseType: 'code',
-                    redirectUri: 'foobar',
+                    responseType: "code",
+                    redirectUri: "foobar",
                 },
                 headers: {},
                 method: {},
@@ -786,16 +786,16 @@ describe('AuthorizeHandler integration', () => {
             try {
                 await handler.getClient(request);
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidRequestError);
                 e.message.should.equal(
-                    'Invalid request: `redirectUri` is not a valid URI',
+                    "Invalid request: `redirectUri` is not a valid URI",
                 );
             }
         });
 
-        it('should throw an error if `client` is missing', () => {
+        it("should throw an error if `client` is missing", () => {
             const model = {
                 getAccessToken() { },
                 getClient() { },
@@ -806,7 +806,7 @@ describe('AuthorizeHandler integration', () => {
                 model,
             });
             const request = new Request({
-                body: { clientId: 12345, responseType: 'code' },
+                body: { clientId: 12345, responseType: "code" },
                 headers: {},
                 method: {},
                 query: {},
@@ -815,17 +815,17 @@ describe('AuthorizeHandler integration', () => {
             return handler
                 .getClient(request)
                 .then(() => {
-                    should.fail('should.fail', '');
+                    should.fail("should.fail", "");
                 })
                 .catch(e => {
                     e.should.be.an.instanceOf(InvalidClientError);
                     e.message.should.equal(
-                        'Invalid client: client credentials are invalid',
+                        "Invalid client: client credentials are invalid",
                     );
                 });
         });
 
-        it('should throw an error if `client.grants` is missing', () => {
+        it("should throw an error if `client.grants` is missing", () => {
             const model = {
                 getAccessToken() { },
                 getClient() {
@@ -838,7 +838,7 @@ describe('AuthorizeHandler integration', () => {
                 model,
             });
             const request = new Request({
-                body: { clientId: 12345, responseType: 'code' },
+                body: { clientId: 12345, responseType: "code" },
                 headers: {},
                 method: {},
                 query: {},
@@ -847,15 +847,15 @@ describe('AuthorizeHandler integration', () => {
             return handler
                 .getClient(request)
                 .then(() => {
-                    should.fail('should.fail', '');
+                    should.fail("should.fail", "");
                 })
                 .catch(e => {
                     e.should.be.an.instanceOf(InvalidClientError);
-                    e.message.should.equal('Invalid client: missing client `grants`');
+                    e.message.should.equal("Invalid client: missing client `grants`");
                 });
         });
 
-        it('should throw an error if `client` is unauthorized', () => {
+        it("should throw an error if `client` is unauthorized", () => {
             const model = {
                 getAccessToken() { },
                 getClient() {
@@ -868,7 +868,7 @@ describe('AuthorizeHandler integration', () => {
                 model,
             });
             const request = new Request({
-                body: { clientId: 12345, responseType: 'code' },
+                body: { clientId: 12345, responseType: "code" },
                 headers: {},
                 method: {},
                 query: {},
@@ -877,21 +877,21 @@ describe('AuthorizeHandler integration', () => {
             return handler
                 .getClient(request)
                 .then(() => {
-                    should.fail('should.fail', '');
+                    should.fail("should.fail", "");
                 })
                 .catch(e => {
                     e.should.be.an.instanceOf(UnauthorizedClientError);
                     e.message.should.equal(
-                        'Unauthorized client: `grantType` is invalid',
+                        "Unauthorized client: `grantType` is invalid",
                     );
                 });
         });
 
-        it('should throw an error if `client.redirectUri` is missing', () => {
+        it("should throw an error if `client.redirectUri` is missing", () => {
             const model = {
                 getAccessToken() { },
                 getClient() {
-                    return { grants: ['authorizationCode'] };
+                    return { grants: ["authorizationCode"] };
                 },
                 saveAuthorizationCode() { },
             };
@@ -900,7 +900,7 @@ describe('AuthorizeHandler integration', () => {
                 model,
             });
             const request = new Request({
-                body: { clientId: 12345, responseType: 'code' },
+                body: { clientId: 12345, responseType: "code" },
                 headers: {},
                 method: {},
                 query: {},
@@ -909,23 +909,23 @@ describe('AuthorizeHandler integration', () => {
             return handler
                 .getClient(request)
                 .then(() => {
-                    should.fail('should.fail', '');
+                    should.fail("should.fail", "");
                 })
                 .catch(e => {
                     e.should.be.an.instanceOf(InvalidClientError);
                     e.message.should.equal(
-                        'Invalid client: missing client `redirectUri`',
+                        "Invalid client: missing client `redirectUri`",
                     );
                 });
         });
 
-        it('should throw an error if `client.redirectUri` is not equal to `redirectUri`', () => {
+        it("should throw an error if `client.redirectUri` is not equal to `redirectUri`", () => {
             const model = {
                 getAccessToken() { },
                 getClient() {
                     return {
-                        grants: ['authorizationCode'],
-                        redirectUris: ['https://example.com'],
+                        grants: ["authorizationCode"],
+                        redirectUris: ["https://example.com"],
                     };
                 },
                 saveAuthorizationCode() { },
@@ -937,8 +937,8 @@ describe('AuthorizeHandler integration', () => {
             const request = new Request({
                 body: {
                     clientId: 12345,
-                    responseType: 'code',
-                    redirectUri: 'https://foobar.com',
+                    responseType: "code",
+                    redirectUri: "https://foobar.com",
                 },
                 headers: {},
                 method: {},
@@ -948,23 +948,23 @@ describe('AuthorizeHandler integration', () => {
             return handler
                 .getClient(request)
                 .then(() => {
-                    should.fail('should.fail', '');
+                    should.fail("should.fail", "");
                 })
                 .catch(e => {
                     e.should.be.an.instanceOf(InvalidClientError);
                     e.message.should.equal(
-                        'Invalid client: `redirectUri` does not match client value',
+                        "Invalid client: `redirectUri` does not match client value",
                     );
                 });
         });
 
-        it('should support promises', async () => {
+        it("should support promises", async () => {
             const model = {
                 getAccessToken() { },
                 async getClient() {
                     return {
-                        grants: ['authorizationCode'],
-                        redirectUris: ['http://example.com/cb'],
+                        grants: ["authorizationCode"],
+                        redirectUris: ["http://example.com/cb"],
                     };
                 },
                 saveAuthorizationCode() { },
@@ -982,7 +982,7 @@ describe('AuthorizeHandler integration', () => {
             try {
                 handler.getClient(request).should.be.an.instanceOf(Promise);
             } catch (error) {
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             }
         });
 
@@ -1037,11 +1037,11 @@ describe('AuthorizeHandler integration', () => {
           handler.getClient(request).should.be.an.instanceOf(Promise);
         }); */
 
-        describe('with `clientId` in the request query', () => {
-            it('should return a client', () => {
+        describe("with `clientId` in the request query", () => {
+            it("should return a client", () => {
                 const client = {
-                    grants: ['authorizationCode'],
-                    redirectUris: ['http://example.com/cb'],
+                    grants: ["authorizationCode"],
+                    redirectUris: ["http://example.com/cb"],
                 };
                 const model = {
                     getAccessToken() { },
@@ -1055,7 +1055,7 @@ describe('AuthorizeHandler integration', () => {
                     model,
                 });
                 const request = new Request({
-                    body: { responseType: 'code' },
+                    body: { responseType: "code" },
                     headers: {},
                     method: {},
                     query: { clientId: 12345 },
@@ -1067,14 +1067,14 @@ describe('AuthorizeHandler integration', () => {
                         data.should.equal(client);
                     })
                     .catch(() => {
-                        should.fail('should.fail', '');
+                        should.fail("should.fail", "");
                     });
             });
         });
     });
 
-    describe('getScope()', () => {
-        it('should throw an error if `scope` is invalid', () => {
+    describe("getScope()", () => {
+        it("should throw an error if `scope` is invalid", () => {
             const model = {
                 getAccessToken() { },
                 getClient() { },
@@ -1085,7 +1085,7 @@ describe('AuthorizeHandler integration', () => {
                 model,
             });
             const request = new Request({
-                body: { scope: 'øå€£‰' },
+                body: { scope: "øå€£‰" },
                 headers: {},
                 method: {},
                 query: {},
@@ -1094,15 +1094,15 @@ describe('AuthorizeHandler integration', () => {
             try {
                 handler.getScope(request);
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidScopeError);
-                e.message.should.equal('Invalid parameter: `scope`');
+                e.message.should.equal("Invalid parameter: `scope`");
             }
         });
 
-        describe('with `scope` in the request body', () => {
-            it('should return the scope', () => {
+        describe("with `scope` in the request body", () => {
+            it("should return the scope", () => {
                 const model = {
                     getAccessToken() { },
                     getClient() { },
@@ -1113,18 +1113,18 @@ describe('AuthorizeHandler integration', () => {
                     model,
                 });
                 const request = new Request({
-                    body: { scope: 'foo' },
+                    body: { scope: "foo" },
                     headers: {},
                     method: {},
                     query: {},
                 });
 
-                handler.getScope(request).should.equal('foo');
+                handler.getScope(request).should.equal("foo");
             });
         });
 
-        describe('with `scope` in the request query', () => {
-            it('should return the scope', () => {
+        describe("with `scope` in the request query", () => {
+            it("should return the scope", () => {
                 const model = {
                     getAccessToken() { },
                     getClient() { },
@@ -1138,16 +1138,16 @@ describe('AuthorizeHandler integration', () => {
                     body: {},
                     headers: {},
                     method: {},
-                    query: { scope: 'foo' },
+                    query: { scope: "foo" },
                 });
 
-                handler.getScope(request).should.equal('foo');
+                handler.getScope(request).should.equal("foo");
             });
         });
     });
 
-    describe('getState()', () => {
-        it('should throw an error if `allowEmptyState` is false and `state` is missing', () => {
+    describe("getState()", () => {
+        it("should throw an error if `allowEmptyState` is false and `state` is missing", () => {
             const model = {
                 getAccessToken() { },
                 getClient() { },
@@ -1168,14 +1168,14 @@ describe('AuthorizeHandler integration', () => {
             try {
                 handler.getState(request);
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidRequestError);
-                e.message.should.equal('Missing parameter: `state`');
+                e.message.should.equal("Missing parameter: `state`");
             }
         });
 
-        it('should throw an error if `state` is invalid', () => {
+        it("should throw an error if `state` is invalid", () => {
             const model = {
                 getAccessToken() { },
                 getClient() { },
@@ -1189,21 +1189,21 @@ describe('AuthorizeHandler integration', () => {
                 body: {},
                 headers: {},
                 method: {},
-                query: { state: 'øå€£‰' },
+                query: { state: "øå€£‰" },
             });
 
             try {
                 handler.getState(request);
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidRequestError);
-                e.message.should.equal('Invalid parameter: `state`');
+                e.message.should.equal("Invalid parameter: `state`");
             }
         });
 
-        describe('with `state` in the request body', () => {
-            it('should return the state', () => {
+        describe("with `state` in the request body", () => {
+            it("should return the state", () => {
                 const model = {
                     getAccessToken() { },
                     getClient() { },
@@ -1214,18 +1214,18 @@ describe('AuthorizeHandler integration', () => {
                     model,
                 });
                 const request = new Request({
-                    body: { state: 'foobar' },
+                    body: { state: "foobar" },
                     headers: {},
                     method: {},
                     query: {},
                 });
 
-                handler.getState(request).should.equal('foobar');
+                handler.getState(request).should.equal("foobar");
             });
         });
 
-        describe('with `state` in the request query', () => {
-            it('should return the state', () => {
+        describe("with `state` in the request query", () => {
+            it("should return the state", () => {
                 const model = {
                     getAccessToken() { },
                     getClient() { },
@@ -1239,16 +1239,16 @@ describe('AuthorizeHandler integration', () => {
                     body: {},
                     headers: {},
                     method: {},
-                    query: { state: 'foobar' },
+                    query: { state: "foobar" },
                 });
 
-                handler.getState(request).should.equal('foobar');
+                handler.getState(request).should.equal("foobar");
             });
         });
     });
 
-    describe('getUser()', () => {
-        it('should throw an error if `user` is missing', () => {
+    describe("getUser()", () => {
+        it("should throw an error if `user` is missing", () => {
             const authenticateHandler = { handle() { } };
             const model = {
                 getClient() { },
@@ -1270,17 +1270,17 @@ describe('AuthorizeHandler integration', () => {
             return handler
                 .getUser(request, response)
                 .then(() => {
-                    should.fail('should.fail', '');
+                    should.fail("should.fail", "");
                 })
                 .catch(e => {
                     e.should.be.an.instanceOf(ServerError);
                     e.message.should.equal(
-                        'Server error: `handle()` did not return a `user` object',
+                        "Server error: `handle()` did not return a `user` object",
                     );
                 });
         });
 
-        it('should return a user', () => {
+        it("should return a user", () => {
             const user = {};
             const model = {
                 getAccessToken() {
@@ -1298,7 +1298,7 @@ describe('AuthorizeHandler integration', () => {
             });
             const request = new Request({
                 body: {},
-                headers: { Authorization: 'Bearer foo' },
+                headers: { Authorization: "Bearer foo" },
                 method: {},
                 query: {},
             });
@@ -1310,7 +1310,7 @@ describe('AuthorizeHandler integration', () => {
                     data.should.equal(user);
                 })
                 .catch(() => {
-                    should.fail('should.fail', '');
+                    should.fail("should.fail", "");
                 });
         });
     });
@@ -1511,8 +1511,8 @@ describe('AuthorizeHandler integration', () => {
     //   });
     // });
 
-    describe('buildSuccessRedirectUri()', () => {
-        it('should return a redirect uri', () => {
+    describe("buildSuccessRedirectUri()", () => {
+        it("should return a redirect uri", () => {
             const model = {
                 getAccessToken() { },
                 getClient() { },
@@ -1528,17 +1528,17 @@ describe('AuthorizeHandler integration', () => {
             });
             responseType.code = 12345;
             const redirectUri = handler.buildSuccessRedirectUri(
-                'http://example.com/cb',
+                "http://example.com/cb",
                 responseType,
             );
 
-            url.format(redirectUri).should.equal('http://example.com/cb?code=12345');
+            url.format(redirectUri).should.equal("http://example.com/cb?code=12345");
         });
     });
 
-    describe('buildErrorRedirectUri()', () => {
-        it('should set `error_description` if available', () => {
-            const error = new InvalidClientError('foo bar');
+    describe("buildErrorRedirectUri()", () => {
+        it("should set `error_description` if available", () => {
+            const error = new InvalidClientError("foo bar");
             const model = {
                 getAccessToken() { },
                 getClient() { },
@@ -1553,7 +1553,7 @@ describe('AuthorizeHandler integration', () => {
                 model: { saveAuthorizationCode: () => { } },
             });
             const redirectUri = handler.buildErrorRedirectUri(
-                'http://example.com/cb',
+                "http://example.com/cb",
                 responseType,
                 error,
             );
@@ -1561,11 +1561,11 @@ describe('AuthorizeHandler integration', () => {
             url
                 .format(redirectUri)
                 .should.equal(
-                    'http://example.com/cb?error=invalid_client&error_description=foo%20bar',
+                    "http://example.com/cb?error=invalid_client&error_description=foo%20bar",
                 );
         });
 
-        it('should return a redirect uri', () => {
+        it("should return a redirect uri", () => {
             const error = new InvalidClientError();
             const model = {
                 async getAccessToken() { },
@@ -1581,7 +1581,7 @@ describe('AuthorizeHandler integration', () => {
                 model: { saveAuthorizationCode: () => { } },
             });
             const redirectUri = handler.buildErrorRedirectUri(
-                'http://example.com/cb',
+                "http://example.com/cb",
                 responseType,
                 error,
             );
@@ -1589,13 +1589,13 @@ describe('AuthorizeHandler integration', () => {
             url
                 .format(redirectUri)
                 .should.equal(
-                    'http://example.com/cb?error=invalid_client&error_description=Bad%20Request',
+                    "http://example.com/cb?error=invalid_client&error_description=Bad%20Request",
                 );
         });
     });
 
-    describe('updateResponse()', () => {
-        it('should set the `location` header', () => {
+    describe("updateResponse()", () => {
+        it("should set the `location` header", () => {
             const model = {
                 getAccessToken() { },
                 getClient() { },
@@ -1610,13 +1610,13 @@ describe('AuthorizeHandler integration', () => {
                 model: { saveAuthorizationCode: () => { } },
             });
             const response = new Response({ body: {}, headers: {} });
-            const uri = url.parse('http://example.com/cb', true);
+            const uri = url.parse("http://example.com/cb", true);
 
-            handler.updateResponse(response, uri, responseType, 'foobar');
+            handler.updateResponse(response, uri, responseType, "foobar");
 
             response
-                .get('location')
-                .should.equal('http://example.com/cb?state=foobar');
+                .get("location")
+                .should.equal("http://example.com/cb?state=foobar");
         });
     });
 });

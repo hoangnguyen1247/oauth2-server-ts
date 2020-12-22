@@ -1,24 +1,24 @@
-import { AbstractGrantType } from '.';
-import { InvalidArgumentError, InvalidGrantError } from '../errors';
-import { Client, Token, User } from '../interfaces';
-import { Request } from '../request';
+import { AbstractGrantType } from ".";
+import { InvalidArgumentError, InvalidGrantError } from "../errors";
+import { Client, Token, User } from "../interfaces";
+import { Request } from "../request";
 
 export class ClientCredentialsGrantType extends AbstractGrantType {
     constructor(options: any = {}) {
         super(options);
         if (!options.model) {
-            throw new InvalidArgumentError('Missing parameter: `model`');
+            throw new InvalidArgumentError("Missing parameter: `model`");
         }
 
         if (!options.model.getUserFromClient) {
             throw new InvalidArgumentError(
-                'Invalid argument: model does not implement `getUserFromClient()`',
+                "Invalid argument: model does not implement `getUserFromClient()`",
             );
         }
 
         if (!options.model.saveToken) {
             throw new InvalidArgumentError(
-                'Invalid argument: model does not implement `saveToken()`',
+                "Invalid argument: model does not implement `saveToken()`",
             );
         }
     }
@@ -31,11 +31,11 @@ export class ClientCredentialsGrantType extends AbstractGrantType {
 
     async handle(request: Request, client: Client) {
         if (!request) {
-            throw new InvalidArgumentError('Missing parameter: `request`');
+            throw new InvalidArgumentError("Missing parameter: `request`");
         }
 
         if (!client) {
-            throw new InvalidArgumentError('Missing parameter: `client`');
+            throw new InvalidArgumentError("Missing parameter: `client`");
         }
 
         const scope = this.getScope(request);
@@ -52,7 +52,7 @@ export class ClientCredentialsGrantType extends AbstractGrantType {
         const user = await this.model.getUserFromClient(client);
         if (!user) {
             throw new InvalidGrantError(
-                'Invalid grant: user credentials are invalid',
+                "Invalid grant: user credentials are invalid",
             );
         }
 

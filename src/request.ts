@@ -1,6 +1,6 @@
-import typeIs from 'type-is';
-import { InvalidArgumentError } from './errors';
-import { hasOwnProperty } from './utils/fn';
+import typeIs from "type-is";
+import { InvalidArgumentError } from "./errors";
+import { hasOwnProperty } from "./utils/fn";
 
 export class Request {
     body: any;
@@ -9,15 +9,15 @@ export class Request {
     query: any;
     constructor(options: any = {}) {
         if (!options.headers) {
-            throw new InvalidArgumentError('Missing parameter: `headers`');
+            throw new InvalidArgumentError("Missing parameter: `headers`");
         }
 
         if (!options.method) {
-            throw new InvalidArgumentError('Missing parameter: `method`');
+            throw new InvalidArgumentError("Missing parameter: `method`");
         }
 
         if (!options.query) {
-            throw new InvalidArgumentError('Missing parameter: `query`');
+            throw new InvalidArgumentError("Missing parameter: `query`");
         }
 
         this.body = options.body || {};

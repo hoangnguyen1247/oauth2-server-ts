@@ -1,36 +1,36 @@
-import { AbstractGrantType } from '.';
+import { AbstractGrantType } from ".";
 import {
     InvalidArgumentError,
     InvalidGrantError,
     InvalidRequestError,
     ServerError,
-} from '../errors';
-import { AuthorizationCode, Client, Token, User } from '../interfaces';
-import { Request } from '../request';
-import * as is from '../validator/is';
+} from "../errors";
+import { AuthorizationCode, Client, Token, User } from "../interfaces";
+import { Request } from "../request";
+import * as is from "../validator/is";
 
 export class AuthorizationCodeGrantType extends AbstractGrantType {
     constructor(options: any = {}) {
         super(options);
         if (!options.model) {
-            throw new InvalidArgumentError('Missing parameter: `model`');
+            throw new InvalidArgumentError("Missing parameter: `model`");
         }
 
         if (!options.model.getAuthorizationCode) {
             throw new InvalidArgumentError(
-                'Invalid argument: model does not implement `getAuthorizationCode()`',
+                "Invalid argument: model does not implement `getAuthorizationCode()`",
             );
         }
 
         if (!options.model.revokeAuthorizationCode) {
             throw new InvalidArgumentError(
-                'Invalid argument: model does not implement `revokeAuthorizationCode()`',
+                "Invalid argument: model does not implement `revokeAuthorizationCode()`",
             );
         }
 
         if (!options.model.saveToken) {
             throw new InvalidArgumentError(
-                'Invalid argument: model does not implement `saveToken()`',
+                "Invalid argument: model does not implement `saveToken()`",
             );
         }
     }
@@ -43,11 +43,11 @@ export class AuthorizationCodeGrantType extends AbstractGrantType {
 
     async handle(request: Request, client: Client) {
         if (!request) {
-            throw new InvalidArgumentError('Missing parameter: `request`');
+            throw new InvalidArgumentError("Missing parameter: `request`");
         }
 
         if (!client) {
-            throw new InvalidArgumentError('Missing parameter: `client`');
+            throw new InvalidArgumentError("Missing parameter: `client`");
         }
         const code = await this.getAuthorizationCode(request, client);
         this.validateRedirectUri(request, code);
@@ -67,53 +67,53 @@ export class AuthorizationCodeGrantType extends AbstractGrantType {
 
     async getAuthorizationCode(request: Request, client: Client) {
         if (!request.body.code) {
-            throw new InvalidRequestError('Missing parameter: `code`');
+            throw new InvalidRequestError("Missing parameter: `code`");
         }
 
         if (!is.vschar(request.body.code)) {
-            throw new InvalidRequestError('Invalid parameter: `code`');
+            throw new InvalidRequestError("Invalid parameter: `code`");
         }
 
         const code = await this.model.getAuthorizationCode(request.body.code);
         if (!code) {
             throw new InvalidGrantError(
-                'Invalid grant: authorization code is invalid',
+                "Invalid grant: authorization code is invalid",
             );
         }
 
         if (!code.client) {
             throw new ServerError(
-                'Server error: `getAuthorizationCode()` did not return a `client` object',
+                "Server error: `getAuthorizationCode()` did not return a `client` object",
             );
         }
 
         if (!code.user) {
             throw new ServerError(
-                'Server error: `getAuthorizationCode()` did not return a `user` object',
+                "Server error: `getAuthorizationCode()` did not return a `user` object",
             );
         }
 
         if (code.client.id !== client.id) {
             throw new InvalidGrantError(
-                'Invalid grant: authorization code is invalid',
+                "Invalid grant: authorization code is invalid",
             );
         }
 
         if (!(code.expiresAt instanceof Date)) {
             throw new ServerError(
-                'Server error: `expiresAt` must be a Date instance',
+                "Server error: `expiresAt` must be a Date instance",
             );
         }
 
         if (code.expiresAt < new Date()) {
             throw new InvalidGrantError(
-                'Invalid grant: authorization code has expired',
+                "Invalid grant: authorization code has expired",
             );
         }
 
         if (code.redirectUri && !is.uri(code.redirectUri)) {
             throw new InvalidGrantError(
-                'Invalid grant: `redirectUri` is not a valid URI',
+                "Invalid grant: `redirectUri` is not a valid URI",
             );
         }
 
@@ -140,13 +140,13 @@ export class AuthorizationCodeGrantType extends AbstractGrantType {
 
         if (!is.uri(redirectUri)) {
             throw new InvalidRequestError(
-                'Invalid request: `redirectUri` is not a valid URI',
+                "Invalid request: `redirectUri` is not a valid URI",
             );
         }
 
         if (redirectUri !== code.redirectUri) {
             throw new InvalidRequestError(
-                'Invalid request: `redirectUri` is invalid',
+                "Invalid request: `redirectUri` is invalid",
             );
         }
     }
@@ -165,7 +165,7 @@ export class AuthorizationCodeGrantType extends AbstractGrantType {
         const status = await this.model.revokeAuthorizationCode(code);
         if (!status) {
             throw new InvalidGrantError(
-                'Invalid grant: authorization code is invalid',
+                "Invalid grant: authorization code is invalid",
             );
         }
 

@@ -1,43 +1,43 @@
-import * as should from 'should';
+import * as should from "should";
 import {
     InvalidArgumentError,
     InvalidGrantError,
     InvalidRequestError,
-} from '../../../src/errors';
-import { PasswordGrantType } from '../../../src/grant-types';
-import { Request } from '../../../src/request';
+} from "../../../src/errors";
+import { PasswordGrantType } from "../../../src/grant-types";
+import { Request } from "../../../src/request";
 
 /**
  * Test `PasswordGrantType` integration.
  */
 
-describe('PasswordGrantType integration', () => {
-    describe('constructor()', () => {
-        it('should throw an error if `model` is missing', () => {
+describe("PasswordGrantType integration", () => {
+    describe("constructor()", () => {
+        it("should throw an error if `model` is missing", () => {
             try {
                 new PasswordGrantType({ accessTokenLifetime: 3600 });
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidArgumentError);
-                e.message.should.equal('Missing parameter: `model`');
+                e.message.should.equal("Missing parameter: `model`");
             }
         });
 
-        it('should throw an error if the model does not implement `getUser()`', () => {
+        it("should throw an error if the model does not implement `getUser()`", () => {
             try {
                 new PasswordGrantType({ accessTokenLifetime: 3600, model: {} });
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidArgumentError);
                 e.message.should.equal(
-                    'Invalid argument: model does not implement `getUser()`',
+                    "Invalid argument: model does not implement `getUser()`",
                 );
             }
         });
 
-        it('should throw an error if the model does not implement `saveToken()`', () => {
+        it("should throw an error if the model does not implement `saveToken()`", () => {
             try {
                 const model = {
                     getUser: () => { },
@@ -45,18 +45,18 @@ describe('PasswordGrantType integration', () => {
 
                 new PasswordGrantType({ accessTokenLifetime: 3600, model });
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidArgumentError);
                 e.message.should.equal(
-                    'Invalid argument: model does not implement `saveToken()`',
+                    "Invalid argument: model does not implement `saveToken()`",
                 );
             }
         });
     });
 
-    describe('handle()', () => {
-        it('should throw an error if `request` is missing', async () => {
+    describe("handle()", () => {
+        it("should throw an error if `request` is missing", async () => {
             const model = {
                 getUser: () => { },
                 saveToken: () => { },
@@ -69,14 +69,14 @@ describe('PasswordGrantType integration', () => {
             try {
                 await grantType.handle(undefined, undefined);
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidArgumentError);
-                e.message.should.equal('Missing parameter: `request`');
+                e.message.should.equal("Missing parameter: `request`");
             }
         });
 
-        it('should throw an error if `client` is missing', async () => {
+        it("should throw an error if `client` is missing", async () => {
             const model = {
                 getUser: () => { },
                 saveToken: () => { },
@@ -89,15 +89,15 @@ describe('PasswordGrantType integration', () => {
             try {
                 await grantType.handle({}, undefined);
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidArgumentError);
-                e.message.should.equal('Missing parameter: `client`');
+                e.message.should.equal("Missing parameter: `client`");
             }
         });
 
-        it('should return a token', () => {
-            const client = { id: 'foobar' };
+        it("should return a token", () => {
+            const client = { id: "foobar" };
             const token = {};
             const model = {
                 getUser: () => {
@@ -107,7 +107,7 @@ describe('PasswordGrantType integration', () => {
                     return token;
                 },
                 validateScope: () => {
-                    return 'baz';
+                    return "baz";
                 },
             };
             const grantType = new PasswordGrantType({
@@ -115,7 +115,7 @@ describe('PasswordGrantType integration', () => {
                 model,
             });
             const request = new Request({
-                body: { username: 'foo', password: 'bar', scope: 'baz' },
+                body: { username: "foo", password: "bar", scope: "baz" },
                 headers: {},
                 method: {},
                 query: {},
@@ -127,12 +127,12 @@ describe('PasswordGrantType integration', () => {
                     data.should.equal(token);
                 })
                 .catch(() => {
-                    should.fail('should.fail', '');
+                    should.fail("should.fail", "");
                 });
         });
 
-        it('should support promises', () => {
-            const client = { id: 'foobar' };
+        it("should support promises", () => {
+            const client = { id: "foobar" };
             const token = {};
             const model = {
                 getUser() {
@@ -147,7 +147,7 @@ describe('PasswordGrantType integration', () => {
                 model,
             });
             const request = new Request({
-                body: { username: 'foo', password: 'bar' },
+                body: { username: "foo", password: "bar" },
                 headers: {},
                 method: {},
                 query: {},
@@ -156,8 +156,8 @@ describe('PasswordGrantType integration', () => {
             grantType.handle(request, client).should.be.an.instanceOf(Promise);
         });
 
-        it('should support non-promises', () => {
-            const client = { id: 'foobar' };
+        it("should support non-promises", () => {
+            const client = { id: "foobar" };
             const token = {};
             const model = {
                 getUser() {
@@ -172,7 +172,7 @@ describe('PasswordGrantType integration', () => {
                 model,
             });
             const request = new Request({
-                body: { username: 'foo', password: 'bar' },
+                body: { username: "foo", password: "bar" },
                 headers: {},
                 method: {},
                 query: {},
@@ -207,8 +207,8 @@ describe('PasswordGrantType integration', () => {
         }); */
     });
 
-    describe('getUser()', () => {
-        it('should throw an error if the request body does not contain `username`', async () => {
+    describe("getUser()", () => {
+        it("should throw an error if the request body does not contain `username`", async () => {
             const model = {
                 getUser() { },
                 saveToken() { },
@@ -227,14 +227,14 @@ describe('PasswordGrantType integration', () => {
             try {
                 await grantType.getUser(request);
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidRequestError);
-                e.message.should.equal('Missing parameter: `username`');
+                e.message.should.equal("Missing parameter: `username`");
             }
         });
 
-        it('should throw an error if the request body does not contain `password`', async () => {
+        it("should throw an error if the request body does not contain `password`", async () => {
             const model = {
                 getUser() { },
                 saveToken() { },
@@ -244,7 +244,7 @@ describe('PasswordGrantType integration', () => {
                 model,
             });
             const request = new Request({
-                body: { username: 'foo' },
+                body: { username: "foo" },
                 headers: {},
                 method: {},
                 query: {},
@@ -253,14 +253,14 @@ describe('PasswordGrantType integration', () => {
             try {
                 await grantType.getUser(request);
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidRequestError);
-                e.message.should.equal('Missing parameter: `password`');
+                e.message.should.equal("Missing parameter: `password`");
             }
         });
 
-        it('should throw an error if `username` is invalid', async () => {
+        it("should throw an error if `username` is invalid", async () => {
             const model = {
                 getUser() { },
                 saveToken() { },
@@ -270,7 +270,7 @@ describe('PasswordGrantType integration', () => {
                 model,
             });
             const request = new Request({
-                body: { username: '\r\n', password: 'foobar' },
+                body: { username: "\r\n", password: "foobar" },
                 headers: {},
                 method: {},
                 query: {},
@@ -279,14 +279,14 @@ describe('PasswordGrantType integration', () => {
             try {
                 await grantType.getUser(request);
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidRequestError);
-                e.message.should.equal('Invalid parameter: `username`');
+                e.message.should.equal("Invalid parameter: `username`");
             }
         });
 
-        it('should throw an error if `password` is invalid', async () => {
+        it("should throw an error if `password` is invalid", async () => {
             const model = {
                 getUser() { },
                 saveToken() { },
@@ -296,7 +296,7 @@ describe('PasswordGrantType integration', () => {
                 model,
             });
             const request = new Request({
-                body: { username: 'foobar', password: '\r\n' },
+                body: { username: "foobar", password: "\r\n" },
                 headers: {},
                 method: {},
                 query: {},
@@ -305,14 +305,14 @@ describe('PasswordGrantType integration', () => {
             try {
                 await grantType.getUser(request);
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidRequestError);
-                e.message.should.equal('Invalid parameter: `password`');
+                e.message.should.equal("Invalid parameter: `password`");
             }
         });
 
-        it('should throw an error if `user` is missing', async () => {
+        it("should throw an error if `user` is missing", async () => {
             const model = {
                 getUser() { },
                 saveToken() { },
@@ -322,22 +322,22 @@ describe('PasswordGrantType integration', () => {
                 model,
             });
             const request = new Request({
-                body: { username: 'foo', password: 'bar' },
+                body: { username: "foo", password: "bar" },
                 headers: {},
                 method: {},
                 query: {},
             });
             try {
                 await grantType.getUser(request);
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidGrantError);
-                e.message.should.equal('Invalid grant: user credentials are invalid');
+                e.message.should.equal("Invalid grant: user credentials are invalid");
             }
         });
 
-        it('should return a user', async () => {
-            const user = { email: 'foo@bar.com' };
+        it("should return a user", async () => {
+            const user = { email: "foo@bar.com" };
             const model = {
                 getUser() {
                     return user;
@@ -349,7 +349,7 @@ describe('PasswordGrantType integration', () => {
                 model,
             });
             const request = new Request({
-                body: { username: 'foo', password: 'bar' },
+                body: { username: "foo", password: "bar" },
                 headers: {},
                 method: {},
                 query: {},
@@ -358,12 +358,12 @@ describe('PasswordGrantType integration', () => {
                 const data = await grantType.getUser(request);
                 data.should.equal(user);
             } catch (error) {
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             }
         });
 
-        it('should support promises', () => {
-            const user = { email: 'foo@bar.com' };
+        it("should support promises", () => {
+            const user = { email: "foo@bar.com" };
             const model = {
                 getUser() {
                     return Promise.resolve(user);
@@ -375,7 +375,7 @@ describe('PasswordGrantType integration', () => {
                 model,
             });
             const request = new Request({
-                body: { username: 'foo', password: 'bar' },
+                body: { username: "foo", password: "bar" },
                 headers: {},
                 method: {},
                 query: {},
@@ -384,8 +384,8 @@ describe('PasswordGrantType integration', () => {
             grantType.getUser(request).should.be.an.instanceOf(Promise);
         });
 
-        it('should support non-promises', () => {
-            const user = { email: 'foo@bar.com' };
+        it("should support non-promises", () => {
+            const user = { email: "foo@bar.com" };
             const model = {
                 getUser() {
                     return user;
@@ -397,7 +397,7 @@ describe('PasswordGrantType integration', () => {
                 model,
             });
             const request = new Request({
-                body: { username: 'foo', password: 'bar' },
+                body: { username: "foo", password: "bar" },
                 headers: {},
                 method: {},
                 query: {},
@@ -429,8 +429,8 @@ describe('PasswordGrantType integration', () => {
         }); */
     });
 
-    describe('saveToken()', () => {
-        it('should save the token', async () => {
+    describe("saveToken()", () => {
+        it("should save the token", async () => {
             const token: any = {};
             const model = {
                 getUser() { },
@@ -438,7 +438,7 @@ describe('PasswordGrantType integration', () => {
                     return token;
                 },
                 validateScope() {
-                    return 'foo';
+                    return "foo";
                 },
             };
             const grantType = new PasswordGrantType({
@@ -449,11 +449,11 @@ describe('PasswordGrantType integration', () => {
                 const data = await grantType.saveToken({}, {} as any, token);
                 data.should.equal(token);
             } catch (error) {
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             }
         });
 
-        it('should support promises', () => {
+        it("should support promises", () => {
             const token: any = {};
             const model = {
                 getUser() { },

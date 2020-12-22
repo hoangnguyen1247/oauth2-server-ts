@@ -1,18 +1,18 @@
-import { InvalidArgumentError } from './errors';
+import { InvalidArgumentError } from "./errors";
 import {
     AuthenticateHandler,
     AuthorizeHandler,
     RevokeHandler,
     TokenHandler,
-} from './handlers';
-import { Request } from './request';
-import { Response } from './response';
+} from "./handlers";
+import { Request } from "./request";
+import { Response } from "./response";
 
 export class OAuth2Server {
     options: any;
     constructor(options: any = {}) {
         if (!options.model) {
-            throw new InvalidArgumentError('Missing parameter: `model`');
+            throw new InvalidArgumentError("Missing parameter: `model`");
         }
 
         this.options = options;
@@ -39,7 +39,7 @@ export class OAuth2Server {
         options?: string | any,
     ) {
         let opt = options;
-        if (typeof opt === 'string') {
+        if (typeof opt === "string") {
             opt = { scope: opt };
         }
 

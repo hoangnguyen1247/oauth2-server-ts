@@ -1,8 +1,8 @@
-import { MS_IN_S } from '../constants';
-import { InvalidArgumentError } from '../errors';
-import { AuthorizationCode, Client, Model, User } from '../interfaces';
-import { Request } from '../request';
-import * as tokenUtil from '../utils/token-util';
+import { MS_IN_S } from "../constants";
+import { InvalidArgumentError } from "../errors";
+import { AuthorizationCode, Client, Model, User } from "../interfaces";
+import { Request } from "../request";
+import * as tokenUtil from "../utils/token-util";
 export class CodeResponseType {
     code: any;
     authorizationCodeLifetime: number;
@@ -10,17 +10,17 @@ export class CodeResponseType {
     constructor(options: any = {}) {
         if (!options.authorizationCodeLifetime) {
             throw new InvalidArgumentError(
-                'Missing parameter: `authorizationCodeLifetime`',
+                "Missing parameter: `authorizationCodeLifetime`",
             );
         }
 
         if (!options.model) {
-            throw new InvalidArgumentError('Missing parameter: `model`');
+            throw new InvalidArgumentError("Missing parameter: `model`");
         }
 
         if (!options.model.saveAuthorizationCode) {
             throw new InvalidArgumentError(
-                'Invalid argument: model does not implement `saveAuthorizationCode()`',
+                "Invalid argument: model does not implement `saveAuthorizationCode()`",
             );
         }
 
@@ -41,19 +41,19 @@ export class CodeResponseType {
         scope: string,
     ) {
         if (!request) {
-            throw new InvalidArgumentError('Missing parameter: `request`');
+            throw new InvalidArgumentError("Missing parameter: `request`");
         }
 
         if (!client) {
-            throw new InvalidArgumentError('Missing parameter: `client`');
+            throw new InvalidArgumentError("Missing parameter: `client`");
         }
 
         if (!user) {
-            throw new InvalidArgumentError('Missing parameter: `user`');
+            throw new InvalidArgumentError("Missing parameter: `user`");
         }
 
         if (!uri) {
-            throw new InvalidArgumentError('Missing parameter: `uri`');
+            throw new InvalidArgumentError("Missing parameter: `uri`");
         }
 
         const authorizationCode = await this.generateAuthorizationCode(
@@ -134,12 +134,12 @@ export class CodeResponseType {
 
     buildRedirectUri(redirectUri: any) {
         if (!redirectUri) {
-            throw new InvalidArgumentError('Missing parameter: `redirectUri`');
+            throw new InvalidArgumentError("Missing parameter: `redirectUri`");
         }
 
         redirectUri.search = undefined;
 
-        return this.setRedirectUriParam(redirectUri, 'code', this.code);
+        return this.setRedirectUriParam(redirectUri, "code", this.code);
     }
 
     /**
@@ -148,11 +148,11 @@ export class CodeResponseType {
 
     setRedirectUriParam(redirectUri: any, key: string, value: string) {
         if (!redirectUri) {
-            throw new InvalidArgumentError('Missing parameter: `redirectUri`');
+            throw new InvalidArgumentError("Missing parameter: `redirectUri`");
         }
 
         if (!key) {
-            throw new InvalidArgumentError('Missing parameter: `key`');
+            throw new InvalidArgumentError("Missing parameter: `key`");
         }
 
         redirectUri.query = redirectUri.query || {};

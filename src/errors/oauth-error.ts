@@ -1,5 +1,5 @@
-import { defaults, isEmpty } from 'lodash';
-import * as statuses from 'statuses';
+import { defaults, isEmpty } from "lodash";
+import * as statuses from "statuses";
 
 export class OAuthError extends Error {
     code: any;
@@ -28,7 +28,7 @@ export class OAuthError extends Error {
         this.code = this.status = this.statusCode = props.code;
         this.message = message;
         for (const key in props) {
-            if (key !== 'code') {
+            if (key !== "code") {
                 this[key] = props[key];
             }
         }

@@ -1,33 +1,33 @@
-import * as should from 'should';
-import * as sinon from 'sinon';
-import { InvalidArgumentError } from '../../src/errors';
+import * as should from "should";
+import * as sinon from "sinon";
+import { InvalidArgumentError } from "../../src/errors";
 import {
     AuthenticateHandler,
     AuthorizeHandler,
     TokenHandler,
-} from '../../src/handlers';
-import { Request } from '../../src/request';
-import { Response } from '../../src/response';
-import { OAuth2Server as Server } from '../../src/server';
+} from "../../src/handlers";
+import { Request } from "../../src/request";
+import { Response } from "../../src/response";
+import { OAuth2Server as Server } from "../../src/server";
 
 /**
  * Test `Server` integration.
  */
 
-describe('Server integration', () => {
-    describe('constructor()', () => {
-        it('should throw an error if `model` is missing', () => {
+describe("Server integration", () => {
+    describe("constructor()", () => {
+        it("should throw an error if `model` is missing", () => {
             try {
                 new Server({});
 
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             } catch (e) {
                 e.should.be.an.instanceOf(InvalidArgumentError);
-                e.message.should.equal('Missing parameter: `model`');
+                e.message.should.equal("Missing parameter: `model`");
             }
         });
 
-        it('should set the `model`', () => {
+        it("should set the `model`", () => {
             const model = {};
             const server = new Server({ model });
 
@@ -35,8 +35,8 @@ describe('Server integration', () => {
         });
     });
 
-    describe('authenticate()', () => {
-        it('should set the default `options`', async () => {
+    describe("authenticate()", () => {
+        it("should set the default `options`", async () => {
             const model = {
                 getAccessToken() {
                     return {
@@ -48,14 +48,14 @@ describe('Server integration', () => {
             const server = new Server({ model });
             const request = new Request({
                 body: {},
-                headers: { Authorization: 'Bearer foo' },
+                headers: { Authorization: "Bearer foo" },
                 method: {},
                 query: {},
             });
             const response = new Response({ body: {}, headers: {} });
             try {
                 const stub = sinon
-                    .stub(AuthenticateHandler.prototype, 'handle')
+                    .stub(AuthenticateHandler.prototype, "handle")
                     .returnsThis();
                 const token = await server.authenticate(request, response);
                 token.addAcceptedScopesHeader.should.be.true();
@@ -63,11 +63,11 @@ describe('Server integration', () => {
                 token.allowBearerTokensInQueryString.should.be.false();
                 stub.restore();
             } catch (error) {
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             }
         });
 
-        it('should return a promise', () => {
+        it("should return a promise", () => {
             const model = {
                 async getAccessToken(token) {
                     return {
@@ -79,7 +79,7 @@ describe('Server integration', () => {
             const server = new Server({ model });
             const request = new Request({
                 body: {},
-                headers: { Authorization: 'Bearer foo' },
+                headers: { Authorization: "Bearer foo" },
                 method: {},
                 query: {},
             });
@@ -111,8 +111,8 @@ describe('Server integration', () => {
         }); */
     });
 
-    describe('authorize()', () => {
-        it('should set the default `options`', async () => {
+    describe("authorize()", () => {
+        it("should set the default `options`", async () => {
             const model = {
                 async getAccessToken() {
                     return {
@@ -122,8 +122,8 @@ describe('Server integration', () => {
                 },
                 async getClient() {
                     return {
-                        grants: ['authorizationCode'],
-                        redirectUris: ['http://example.com/cb'],
+                        grants: ["authorizationCode"],
+                        redirectUris: ["http://example.com/cb"],
                     };
                 },
                 async saveAuthorizationCode() {
@@ -134,17 +134,17 @@ describe('Server integration', () => {
             const request = new Request({
                 body: {
                     clientId: 1234,
-                    clientSecret: 'secret',
-                    responseType: 'code',
+                    clientSecret: "secret",
+                    responseType: "code",
                 },
-                headers: { Authorization: 'Bearer foo' },
+                headers: { Authorization: "Bearer foo" },
                 method: {},
-                query: { state: 'foobar' },
+                query: { state: "foobar" },
             });
             const response = new Response({ body: {}, headers: {} });
             // try {
             const stub = sinon
-                .stub(AuthorizeHandler.prototype, 'handle')
+                .stub(AuthorizeHandler.prototype, "handle")
                 .returnsThis();
             const code = await server.authorize(request, response);
             const options = code.options;
@@ -156,7 +156,7 @@ describe('Server integration', () => {
             // }
         });
 
-        it('should return a promise', () => {
+        it("should return a promise", () => {
             const model = {
                 getAccessToken() {
                     return {
@@ -166,8 +166,8 @@ describe('Server integration', () => {
                 },
                 getClient() {
                     return {
-                        grants: ['authorizationCode'],
-                        redirectUris: ['http://example.com/cb'],
+                        grants: ["authorizationCode"],
+                        redirectUris: ["http://example.com/cb"],
                     };
                 },
                 saveAuthorizationCode() {
@@ -178,12 +178,12 @@ describe('Server integration', () => {
             const request = new Request({
                 body: {
                     clientId: 1234,
-                    clientSecret: 'secret',
-                    responseType: 'code',
+                    clientSecret: "secret",
+                    responseType: "code",
                 },
-                headers: { Authorization: 'Bearer foo' },
+                headers: { Authorization: "Bearer foo" },
                 method: {},
-                query: { state: 'foobar' },
+                query: { state: "foobar" },
             });
 
             const response = new Response({ body: {}, headers: {} });
@@ -191,7 +191,7 @@ describe('Server integration', () => {
                 const handler = server.authorize(request, response);
                 handler.should.be.an.instanceOf(Promise);
             } catch (error) {
-                should.fail('should.fail', '');
+                should.fail("should.fail", "");
             }
         });
 
@@ -231,11 +231,11 @@ describe('Server integration', () => {
         }); */
     });
 
-    describe('token()', () => {
-        it('should set the default `options`', async () => {
+    describe("token()", () => {
+        it("should set the default `options`", async () => {
             const model = {
                 async getClient() {
-                    return { grants: ['password'] };
+                    return { grants: ["password"] };
                 },
                 async getUser() {
                     return {};
@@ -244,28 +244,28 @@ describe('Server integration', () => {
                     return { accessToken: 1234, client: {}, user: {} };
                 },
                 async validateScope() {
-                    return 'foo';
+                    return "foo";
                 },
             };
             const server = new Server({ model });
             const request = new Request({
                 body: {
                     clientId: 1234,
-                    clientSecret: 'secret',
-                    grantType: 'password',
-                    username: 'foo',
-                    password: 'pass',
-                    scope: 'foo',
+                    clientSecret: "secret",
+                    grantType: "password",
+                    username: "foo",
+                    password: "pass",
+                    scope: "foo",
                 },
                 headers: {
-                    'content-type': 'application/x-www-form-urlencoded',
-                    'transfer-encoding': 'chunked',
+                    "content-type": "application/x-www-form-urlencoded",
+                    "transfer-encoding": "chunked",
                 },
-                method: 'POST',
+                method: "POST",
                 query: {},
             });
             const response = new Response({ body: {}, headers: {} });
-            const stub = sinon.stub(TokenHandler.prototype, 'handle').returnsThis();
+            const stub = sinon.stub(TokenHandler.prototype, "handle").returnsThis();
             // try {
             const token = await server.token(request, response);
             token.accessTokenLifetime.should.equal(3600);
@@ -276,10 +276,10 @@ describe('Server integration', () => {
             // }
         });
 
-        it('should return a promise', () => {
+        it("should return a promise", () => {
             const model = {
                 async getClient() {
-                    return { grants: ['password'] };
+                    return { grants: ["password"] };
                 },
                 async getUser() {
                     return {};
@@ -292,16 +292,16 @@ describe('Server integration', () => {
             const request = new Request({
                 body: {
                     clientId: 1234,
-                    clientSecret: 'secret',
-                    grantType: 'password',
-                    username: 'foo',
-                    password: 'pass',
+                    clientSecret: "secret",
+                    grantType: "password",
+                    username: "foo",
+                    password: "pass",
                 },
                 headers: {
-                    'content-type': 'application/x-www-form-urlencoded',
-                    'transfer-encoding': 'chunked',
+                    "content-type": "application/x-www-form-urlencoded",
+                    "transfer-encoding": "chunked",
                 },
-                method: 'POST',
+                method: "POST",
                 query: {},
             });
             const response = new Response({ body: {}, headers: {} });
