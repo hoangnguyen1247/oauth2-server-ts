@@ -1,3 +1,33 @@
+## 1.2.16 (2020-12-22)
+
+
+### Bug Fixes
+
+* **package:** change repo location ([bcfa532](https://github.com/hoangnguyen1247/oauth2-server-ts/commit/bcfa5320aeb4492127069c038ddd442d649a82fc))
+* **types:** add model types ([13c7c7b](https://github.com/hoangnguyen1247/oauth2-server-ts/commit/13c7c7b7d68123f1baab777004b748470abe6c3e))
+
+
+### Features
+
+* using typescript-eslint for lint ([9245299](https://github.com/hoangnguyen1247/oauth2-server-ts/commit/9245299c1d4d3d40e0b9b8a67bc8f60037548f6a))
+
+
+
+## 1.2.16 (2020-12-22)
+
+
+### Bug Fixes
+
+* **package:** change repo location ([bcfa532](https://github.com/hoangnguyen1247/oauth2-server-ts/commit/bcfa5320aeb4492127069c038ddd442d649a82fc))
+* **types:** add model types ([13c7c7b](https://github.com/hoangnguyen1247/oauth2-server-ts/commit/13c7c7b7d68123f1baab777004b748470abe6c3e))
+
+
+### Features
+
+* using typescript-eslint for lint ([9245299](https://github.com/hoangnguyen1247/oauth2-server-ts/commit/9245299c1d4d3d40e0b9b8a67bc8f60037548f6a))
+
+
+
 ## Changelog
 
 ### 5.0.0
