@@ -57,7 +57,6 @@ export class OAuth2Server {
     /**
      * Authorize a request.
      */
-
     async authorize(request: Request, response: Response, options?: any) {
         const opts = {
             allowEmptyState: false,
@@ -73,7 +72,6 @@ export class OAuth2Server {
     /**
      * Create a token.
      */
-
     async token(request: Request, response: Response, options?: any) {
         const opts = {
             accessTokenLifetime: 60 * 60, // 1 hour.
@@ -90,7 +88,6 @@ export class OAuth2Server {
     /**
      * Revoke a token.
      */
-
     async revoke(request: Request, response: Response, options: any) {
         const opt = { ...this.options, ...options };
 
