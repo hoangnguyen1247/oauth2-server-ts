@@ -1,4 +1,4 @@
-# oauth2-server
+# oauth2-server-ts
 
 [![npm Version][npm-image]][npm-url]
 [![npm Downloads][downloads-image]][downloads-url]
