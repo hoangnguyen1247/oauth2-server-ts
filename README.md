@@ -1,12 +1,14 @@
 # oauth2-server-ts
 
+Base on [oauth2-server](https://github.com/oauthjs/node-oauth2-server)
+
 [![npm Version][npm-image]][npm-url]
 [![npm Downloads][downloads-image]][downloads-url]
 [![Test Status][travis-image]][travis-url]
 [![MIT Licensed][license-image]][license-url]
 [![oauthjs Slack][slack-image]][slack-url]
 
-Complete, compliant and well tested module for implementing an OAuth2 server in [Node.js](https://nodejs.org).
+Prefer use this package on your Typescript project with [oauth2-server-ts-express](https://github.com/hoangnguyen1247/oauth2-server-ts-express)
 
 
 ## Installation
@@ -32,11 +34,9 @@ The *oauth2-server* module is framework-agnostic but there are several officiall
 [Documentation](https://oauth2-server.readthedocs.io) is hosted on Read the Docs.
 
 
-## Examples
+## Usage
 
-Most users should refer to our [Express](https://github.com/oauthjs/express-oauth-server/tree/master/examples) or [Koa](https://github.com/oauthjs/koa-oauth-server/tree/master/examples) examples.
-
-Examples for v3 are yet to be made. 
+Most users should refer to our [Express](https://github.com/hoangnguyen1247/oauth2-server-ts-express) examples.
 
 ## Tests
 
